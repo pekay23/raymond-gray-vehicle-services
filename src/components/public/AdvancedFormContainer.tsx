@@ -1,0 +1,121 @@
+"use client";
+
+import { ReactNode } from "react";
+import { Reveal, DisplayHeading } from "@/components/public";
+import { Loader2, CheckCircle } from "lucide-react";
+
+type AdvancedFormContainerProps = {
+  title: string;
+  eyebrow?: string;
+  subtitle?: string;
+  status: "idle" | "loading" | "success" | "error";
+  onSubmit: (e: React.FormEvent) => void;
+  resetStatus: () => void;
+  children: ReactNode;
+  submitLabel?: string;
+  submitDisabled?: boolean;
+  successTitle?: string;
+  successMessage?: string;
+  errorText?: string;
+};
+
+export function AdvancedFormContainer({
+  title,
+  eyebrow = "Direct Booking",
+  subtitle,
+  status,
+  onSubmit,
+  resetStatus,
+  children,
+  submitLabel = "Proceed & Submit",
+  submitDisabled = false,
+  successTitle = "Request Confirmed!",
+  successMessage = "Your details have been received. A technician or dispatcher will be in touch.",
+  errorText = "Something went wrong with the transmission. Please verify all fields and try again.",
+}: AdvancedFormContainerProps) {
+  return (
+    <Reveal delay={300}>
+      <div className="bg-white p-[clamp(24px,4vw,60px)] shadow-soft border border-rg-line relative overflow-hidden">
+        
+        {/* Success Overlay with same styles */}
+        {status === "success" ? (
+          <div className="text-center py-20 min-h-[400px] flex flex-col items-center justify-center animate-in fade-in duration-500">
+            <div className="w-20 h-20 bg-rg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
+              <CheckCircle className="w-10 h-10 text-rg-success" />
+            </div>
+            <span className="rg-eyebrow"><span className="num">Logged</span>Success</span>
+            <DisplayHeading as="h3" size="md" className="mt-4 mb-4 text-rg-ink">
+              {successTitle}
+            </DisplayHeading>
+            <p className="text-rg-ink-soft text-sm max-w-sm mb-8 font-medium">
+              {successMessage}
+            </p>
+            <button 
+              type="button" 
+              className="rg-btn rg-btn-outline mt-4 mx-auto flex items-center gap-2" 
+              onClick={resetStatus}
+            >
+              Book Another
+            </button>
+          </div>
+        ) : (
+          <form className="rg-contact-form flex flex-col gap-8" onSubmit={onSubmit}>
+            {/* Local Heading within Form Card */}
+            <div>
+              <div className="flex items-center gap-3 mb-2">
+                <span className="w-2 h-2 rounded-full bg-rg-accent animate-pulse" />
+                <span className="font-mono text-[10px] tracking-widest uppercase text-rg-accent font-bold">
+                  {eyebrow}
+                </span>
+              </div>
+              <DisplayHeading as="h2" size="lg" className="text-rg-ink leading-tight text-2xl md:text-3xl">
+                {title}
+              </DisplayHeading>
+              {subtitle && (
+                <p className="text-rg-ink-soft text-sm mt-3 leading-relaxed font-medium">
+                  {subtitle}
+                </p>
+              )}
+            </div>
+
+            <hr className="border-rg-line-soft" />
+
+            {/* The Injected Custom Inputs */}
+            <div className="flex flex-col gap-6">
+              {children}
+            </div>
+
+            <hr className="border-rg-line-soft mt-4" />
+
+            {/* Dynamic Footer Bar */}
+            <div className="flex flex-col gap-4">
+              {status === "error" && (
+                <div className="p-3 bg-rg-destructive/5 border border-rg-destructive/10 text-rg-destructive text-xs font-medium rounded flex items-start gap-2">
+                  <span>⚠️</span> {errorText}
+                </div>
+              )}
+
+              <button 
+                type="submit" 
+                disabled={status === "loading" || submitDisabled}
+                className="rg-btn rg-btn-filled w-full justify-center py-4 text-base transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+              >
+                {status === "loading" ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                    Processing Securely...
+                  </>
+                ) : (
+                  <>
+                    {submitLabel} <span className="group-hover:translate-x-1 transition-transform">→</span>
+                  </>
+                )}
+              </button>
+              
+            </div>
+          </form>
+        )}
+      </div>
+    </Reveal>
+  );
+}
