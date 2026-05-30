@@ -8,7 +8,7 @@ import { FinalCtaSection } from "@/components/public/FinalCtaSection";
 export const metadata: Metadata = {
   title: "EV & Automotive Services | Raymond Gray",
   description:
-    "Every vehicle, one team, professional standards. Independent EV sales advice, scheduled EV and ICE maintenance, fleet management, and charging infrastructure ΓÇö built on Raymond Gray's engineering discipline.",
+    "Every vehicle, one team, professional standards. Independent EV sales advice, scheduled EV and ICE maintenance, fleet management, and charging infrastructure — built on Raymond Gray's engineering discipline.",
 };
 
 const FLEET_LINES: Pillar[] = [
@@ -16,13 +16,13 @@ const FLEET_LINES: Pillar[] = [
     label: "ICE & Traditional",
     title: <>Heavy and light-duty <em>servicing</em>.</>,
     points: [
-      "Scheduled servicing ΓÇö oil, filters, belts, plugs",
+      "Scheduled servicing — oil, filters, belts, plugs",
       "Computerised and mechanical diagnostics",
       "Brake, suspension, steering & drivetrain",
       "Exhaust and emissions system servicing",
       "Electrical and battery diagnostics",
       "Pre-purchase / pre-lease inspection with report",
-      "Heavy duty ΓÇö commercial vehicles, vans, trucks",
+      "Heavy duty — commercial vehicles, vans, trucks",
     ],
   },
   {
@@ -33,7 +33,7 @@ const FLEET_LINES: Pillar[] = [
       "Dispatch and logistics optimisation",
       "Maintenance scheduling and PPM calendar",
       "Charging infrastructure management for EV fleet",
-      "Fuel and energy cost reporting ΓÇö ICE & EV",
+      "Fuel and energy cost reporting — ICE & EV",
       "Driver behaviour monitoring where applicable",
       "Monthly fleet management report",
     ],
@@ -42,9 +42,9 @@ const FLEET_LINES: Pillar[] = [
     label: "Charging Infrastructure",
     title: <>Charging, <em>specified</em> and managed.</>,
     points: [
-      "Site assessment ΓÇö power, layout, vehicle count",
-      "Charger specification ΓÇö AC standard or DC rapid",
-      "Smart charging ΓÇö load management & off-peak",
+      "Site assessment — power, layout, vehicle count",
+      "Charger specification — AC standard or DC rapid",
+      "Smart charging — load management & off-peak",
       "Installation via accredited charger partners",
       "Ongoing maintenance and fault management",
     ],
@@ -59,23 +59,23 @@ export default function VehicleRepairsPage() {
         image={{ src: "/images/heros/hero-ev.webp", alt: "Raymond Gray EV and automotive services" }}
         eyebrow="EV & Automotive Services"
         title={<>Every vehicle. One team. <em>Professional</em> standards.</>}
-        lede="This isn't a commercial garage. It's an automotive programme built on the same engineering discipline and preventive-maintenance infrastructure that manages our clients' building systems ΓÇö for mixed ICE and EV fleets, and for private owners who want expert advice, not a sales pitch."
+        lede="This isn't a commercial garage. It's an automotive programme built on the same engineering discipline and preventive-maintenance infrastructure that manages our clients' building systems — for mixed ICE and EV fleets, and for private owners who want expert advice, not a sales pitch."
         ctas={[
-          { label: "Request a Fleet Assessment", href: "/discovery?service=ev", variant: "filled" },
-          { label: "Book a Service", href: "/services/vehicle-repairs/book", variant: "outline" },
+          { label: "Request a Fleet Assessment", href: "/book", variant: "filled" },
+          { label: "Book a Service", href: "/book", variant: "outline" },
         ]}
       />
 
       <SplitFeature
         screenLabel="EV Sales"
-        eyebrow="EV Sales ΓÇö Independent Advice"
-        title={<>The right vehicle ΓÇö <em>not</em> the one we&apos;re paid to sell.</>}
-        body="We're not tied to any manufacturer or dealer. We assess your real usage, compare honestly, and project the true cost of ownership ΓÇö then coordinate procurement, delivery, and charging setup."
+        eyebrow="EV Sales — Independent Advice"
+        title={<>The right vehicle — <em>not</em> the one we&apos;re paid to sell.</>}
+        body="We're not tied to any manufacturer or dealer. We assess your real usage, compare honestly, and project the true cost of ownership — then coordinate procurement, delivery, and charging setup."
         image={{ src: "/images/services/ev-portrait.webp", alt: "Independent EV sales advice" }}
         points={[
           "Fleet or personal needs assessment",
           "Curated, honest side-by-side comparison",
-          "Real-world range ΓÇö not manufacturer claims",
+          "Real-world range — not manufacturer claims",
           "Total cost of ownership projection",
           "Procurement via authorised dealers & OEMs",
           "Delivery, orientation and charging setup",
@@ -86,9 +86,9 @@ export default function VehicleRepairsPage() {
         reverse
         screenLabel="EV Maintenance"
         variant="muted"
-        eyebrow="EV Maintenance ΓÇö Scheduled & Documented"
+        eyebrow="EV Maintenance — Scheduled & Documented"
         title={<>A named team, a <em>documented</em> service history.</>}
-        body="Structured, manufacturer-aligned preventive maintenance with battery health recorded at every visit ΓÇö plus responsive fault diagnosis and a monthly fleet health summary for corporate clients."
+        body="Structured, manufacturer-aligned preventive maintenance with battery health recorded at every visit — plus responsive fault diagnosis and a monthly fleet health summary for corporate clients."
         image={{ src: "/images/services/ev-charging-bay.webp", alt: "EV maintenance and charging bay" }}
         points={[
           "Manufacturer-aligned service intervals",
@@ -110,9 +110,9 @@ export default function VehicleRepairsPage() {
       <CalloutSlab
         screenLabel="Integrated"
         eyebrow="Integrated with IFM"
-        title={<>One call ΓÇö a building fault <em>or</em> a fleet issue.</>}
-        body="For organisations using our IFM services, EV & Automotive folds into the same account management, reporting pack, and helpdesk ΓÇö with fleet KPIs included in your monthly building report."
-        ctas={[{ label: "Request a Fleet Assessment", href: "/discovery?service=ev", variant: "accent" }]}
+        title={<>One call — a building fault <em>or</em> a fleet issue.</>}
+        body="For organisations using our IFM services, EV & Automotive folds into the same account management, reporting pack, and helpdesk — with fleet KPIs included in your monthly building report."
+        ctas={[{ label: "Request a Fleet Assessment", href: "/book", variant: "accent" }]}
         checklist={{
           label: "Built For",
           tag: "Corporate & Private",
@@ -127,8 +127,8 @@ export default function VehicleRepairsPage() {
 
       <FinalCtaSection
         title={<>Put your whole fleet under one <em>standard</em>.</>}
-        primaryBtn={{ label: "Request a Fleet Assessment", href: "/discovery?service=ev" }}
-        secondaryBtn={{ label: "Book a Service", href: "/services/vehicle-repairs/book" }}
+        primaryBtn={{ label: "Request a Fleet Assessment", href: "/book" }}
+        secondaryBtn={{ label: "Book a Service", href: "/book" }}
       />
     </main>
   );
