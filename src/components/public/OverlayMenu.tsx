@@ -9,21 +9,16 @@ interface OverlayMenuProps {
   onClose: () => void;
 }
 
+// Page-to-page navigation only. In-page section jumping is handled by SectionNav.
 const NAV_LINKS = [
   { href: "/", label: "Home", num: "01" },
-  { href: "/#ev-sales", label: "EV Sales", num: "02" },
-  { href: "/#ev-maintenance", label: "Maintenance", num: "03" },
-  { href: "/#fleet", label: "Fleet & Charging", num: "04" },
-  { href: "/faqs", label: "FAQs", num: "05" },
-  { href: "/book", label: "Book a Service", num: "06" },
+  { href: "/book", label: "Book a Service", num: "02" },
+  { href: "/faqs", label: "FAQs", num: "03" },
 ];
 
-const SERVICE_LINKS = [
-  { href: "/#ev-sales", label: "EV Sales" },
-  { href: "/#ev-maintenance", label: "EV Maintenance" },
-  { href: "/#fleet", label: "ICE Servicing" },
-  { href: "/#fleet", label: "Fleet Management" },
-  { href: "/#fleet", label: "Charging Infrastructure" },
+const SECONDARY_LINKS = [
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms of Service" },
 ];
 
 export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => {
@@ -122,10 +117,10 @@ export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => 
 
         <aside className="rg-overlay-side hidden lg:flex">
           <div>
-            <p className="rg-label">Services</p>
+            <p className="rg-label">More</p>
             <ul className="space-y-2.5 list-none p-0 m-0">
-              {SERVICE_LINKS.map((s) => (
-                <li key={s.href + s.label}>
+              {SECONDARY_LINKS.map((s) => (
+                <li key={s.href}>
                   <Link href={s.href} onClick={onClose} className="hover:text-rg-accent-light transition-colors">
                     {s.label}
                   </Link>
@@ -137,7 +132,7 @@ export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => 
           <div className="space-y-8">
             <div>
               <p className="rg-label">Enquiries</p>
-              <a href="tel:+233551010108" className="hover:text-rg-accent-light transition-colors">+233 551 010 108</a>
+              <a href="mailto:automechanic@raymond-gray.org" className="hover:text-rg-accent-light transition-colors break-all">automechanic@raymond-gray.org</a>
               <p>We acknowledge every enquiry within one working day.</p>
             </div>
             <div>

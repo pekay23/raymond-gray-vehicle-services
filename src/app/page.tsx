@@ -4,6 +4,8 @@ import { SplitFeature } from "@/components/public/sections/SplitFeature";
 import { PillarRows, type Pillar } from "@/components/public/sections/PillarRows";
 import { CalloutSlab } from "@/components/public/sections/CalloutSlab";
 import { FinalCtaSection } from "@/components/public/FinalCtaSection";
+import { QuoteSlabSection } from "@/components/public/QuoteSlabSection";
+import { SectionNav } from "@/components/public/SectionNav";
 import { CarouselSection } from "@/components/public/sections/CarouselSection";
 import { CapabilityIndex } from "@/components/public/sections/CapabilityIndex";
 import { StatStrip } from "@/components/public/sections/StatStrip";
@@ -93,6 +95,7 @@ const CAROUSEL_ITEMS = [
 export default function VehicleRepairsPage() {
   return (
     <main className="rg-public relative">
+      <SectionNav />
       <PageHero
         screenLabel="Overview"
         image={{ src: "/images/redesign/hero.png", alt: "Raymond Gray EV and automotive services" }}
@@ -143,10 +146,12 @@ export default function VehicleRepairsPage() {
         ]}
       />
 
+      <QuoteSlabSection />
+
       <StatStrip variant="light" stats={STATS} />
 
       <CarouselSection
-        screenLabel="Capabilities"
+        screenLabel="In Action"
         eyebrow="In Action"
         title={<>See the <em>standards</em> we set.</>}
         items={CAROUSEL_ITEMS}

@@ -18,7 +18,7 @@ const CAPABILITIES = [
  * disciplines that reveals with a GSAP/ScrollTrigger stagger. Uses gsap.from so
  * rows stay visible without JS and under reduced-motion.
  */
-export function CapabilityIndex({ screenLabel = "Capabilities" }: { screenLabel?: string }) {
+export function CapabilityIndex({ screenLabel = "What We Do" }: { screenLabel?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {

@@ -87,9 +87,9 @@ Current order: Hero → Marquee → SplitFeature ×2 → CarouselSection → Pil
 - Logo: `RaymondgraylogoNoBG.png` (now present), inverted on the dark footer.
 - Bottom row: "Raymond Gray Limited · Accra, Ghana", Privacy/Terms links, dynamic © year.
 
-### 4.6 Navigation (`TopNav` / `OverlayMenu`)
-- Menu items: section anchors (EV Sales, Maintenance, ICE, Fleet, Charging) + FAQs + Book a Service.
-- Ensure overlay menu lists the new routes; keep the in-view section tracker.
+### 4.6 Navigation (`TopNav` / `OverlayMenu` / `SectionNav`)
+- ✅ **Overlay menu = page navigation only** — Home, Book a Service, FAQs (+ Privacy/Terms in the aside, enquiries email). No more in-page `#section` jumps.
+- ✅ **In-page section navigation = `SectionNav`** — a fixed scroll-spy rail (xl+) that auto-discovers `data-screen-label` sections, highlights the active one (IntersectionObserver), and smooth-scrolls on click. `mix-blend-difference` keeps it legible over light and dark sections; respects reduced-motion. Section labels de-duplicated ("What We Do" / "In Action").
 
 ---
 
