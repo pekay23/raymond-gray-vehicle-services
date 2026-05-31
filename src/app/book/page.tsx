@@ -12,10 +12,10 @@ import { LocationPicker, type LocationData } from "@/components/location/Locatio
 import { DatePicker } from "@/components/ui/date-picker";
 
 const SERVICE_TYPES = [
-  { value: "A1", label: "A1 ΓÇô Minor Service", desc: "Oil change & basic inspection" },
-  { value: "A2", label: "A2 ΓÇô Intermediate", desc: "A1 + brakes, fluids & belts" },
-  { value: "B1", label: "B1 ΓÇô Major Service", desc: "Full system overhaul" },
-  { value: "B2", label: "B2 ΓÇô Complete Plan", desc: "Maximum longevity suite" },
+  { value: "A1", label: "A1 - Minor Service", desc: "Oil change & basic inspection" },
+  { value: "A2", label: "A2 - Intermediate", desc: "A1 + brakes, fluids & belts" },
+  { value: "B1", label: "B1 - Major Service", desc: "Full system overhaul" },
+  { value: "B2", label: "B2 - Complete Plan", desc: "Maximum longevity suite" },
   { value: "Repairs", label: "General Repairs", desc: "Fault breakdown fixation" },
   { value: "Diagnostics", label: "Computer Scan", desc: "Electronic fault analysis" },
 ];

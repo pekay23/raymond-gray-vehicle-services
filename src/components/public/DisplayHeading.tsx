@@ -1,5 +1,8 @@
+"use client";
+
 import React from "react";
 import { cn } from "@/lib/utils";
+import { motion } from "framer-motion";
 
 interface DisplayHeadingProps {
   children: React.ReactNode;
@@ -12,7 +15,7 @@ interface DisplayHeadingProps {
 
 export const DisplayHeading: React.FC<DisplayHeadingProps> = ({
   children,
-  as: Component = "h2",
+  as = "h2",
   size = "lg",
   className,
   italic = false,
@@ -26,14 +29,23 @@ export const DisplayHeading: React.FC<DisplayHeadingProps> = ({
     xs: "rg-display-xs",
   };
 
+  const Component = motion.create(as as keyof typeof motion);
+
   return (
     <Component
       className={cn(
         sizeClasses[size],
         italic && "italic font-light italic-font",
-        animate && "r-fade",
         className
       )}
+      {...(animate
+        ? {
+            initial: { opacity: 0, y: 40 },
+            whileInView: { opacity: 1, y: 0 },
+            viewport: { once: true, margin: "-10%" },
+            transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] },
+          }
+        : {})}
     >
       {children}
     </Component>

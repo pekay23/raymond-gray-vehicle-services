@@ -4,32 +4,27 @@ const footerLinks = [
   {
     title: "Services",
     links: [
-      { href: "/services/ifm", label: "Integrated Facility Management" },
-      { href: "/services/engineering", label: "Technical Services" },
-      { href: "/services/workplace", label: "Workplace Support" },
-      { href: "/services/hospitality", label: "Hospitality & Housekeeping" },
-      { href: "/services/residential", label: "Residential Facility Management" },
-      { href: "/services/specialist", label: "Specialist & Bespoke" },
+      { href: "/#ev-sales", label: "EV Sales" },
+      { href: "/#ev-maintenance", label: "EV Maintenance" },
+      { href: "/#fleet", label: "ICE Servicing" },
+      { href: "/#fleet", label: "Fleet Management" },
+      { href: "/#fleet", label: "Charging Infrastructure" },
     ],
   },
   {
     title: "Company",
     links: [
-      { href: "/about", label: "About" },
-      { href: "/services", label: "All Services" },
-      { href: "/industries", label: "Industries We Serve" },
-      { href: "/portfolio", label: "Portfolio" },
-      { href: "/updates", label: "Updates" },
       { href: "/faqs", label: "FAQs" },
-      { href: "/contact", label: "Contact" },
+      { href: "/book", label: "Book a Service" },
+      { href: "/privacy", label: "Privacy Policy" },
+      { href: "/terms", label: "Terms of Service" },
     ],
   },
   {
-    title: "Portals",
+    title: "Contact",
     links: [
-      { href: "/client/dashboard", label: "Client Portal" },
-      { href: "/technician/dashboard", label: "Technician Access" },
-      { href: "/admin/dashboard", label: "Admin Dashboard" },
+      { href: "mailto:automechanic@raymond-gray.org", label: "automechanic@raymond-gray.org" },
+      { href: "https://raymond-gray.org", label: "Main Raymond Gray site" },
     ],
   },
 ];
@@ -38,25 +33,26 @@ export function Footer() {
   return (
     <footer className="rg-foot relative z-20">
       <div className="rg-foot-grid">
-        <div>
-          <div className="flex items-center mb-8" style={{ height: '48px' }}>
+        <div className="pl-3 sm:pl-5 lg:pl-6">
+          <div className="flex items-center mb-8" style={{ height: "48px" }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src="/images/logos/RaymondgraylogoNoBG.png" 
-              alt="Raymond Gray" 
+            <img
+              src="/images/logos/RaymondgraylogoNoBG.png"
+              alt="Raymond Gray"
               className="object-contain brightness-0 invert opacity-80"
               style={{
-                height: '100%',
-                width: 'auto',
-                transform: 'scale(2.2)', /* ADJUSTMENT: Increase or decrease this value (e.g. 1.5, 2.5) to change the visual size of the logo */
-                transformOrigin: 'left center',
-                padding: '8px 0',
+                height: "100%",
+                width: "auto",
+                transform: "scale(2.2)",
+                transformOrigin: "left center",
+                padding: "8px 0",
               }}
             />
           </div>
-          <p className="rg-foot-big">The difference is in the <em>detail</em>.</p>
+          <p className="rg-foot-big">Every vehicle. One <em>team</em>.</p>
           <p className="rg-body">
-            Integrated facility management, technical engineering, hospitality, and bespoke estate support for Ghana and beyond.
+            Independent EV sales, scheduled EV &amp; ICE maintenance, fleet management, and charging
+            infrastructure — built on Raymond Gray&rsquo;s engineering discipline. Accra, Ghana.
           </p>
         </div>
 
@@ -65,8 +61,14 @@ export function Footer() {
             <h3>{section.title}</h3>
             <ul>
               {section.links.map((link) => (
-                <li key={link.href}>
-                  <Link href={link.href}>{link.label}</Link>
+                <li key={link.href + link.label}>
+                  {link.href.startsWith("http") || link.href.startsWith("mailto:") ? (
+                    <a href={link.href} target={link.href.startsWith("http") ? "_blank" : undefined} rel={link.href.startsWith("http") ? "noreferrer" : undefined}>
+                      {link.label}
+                    </a>
+                  ) : (
+                    <Link href={link.href}>{link.label}</Link>
+                  )}
                 </li>
               ))}
             </ul>
@@ -80,7 +82,7 @@ export function Footer() {
           <span className="hidden md:inline text-white/20">|</span>
           <span>Accra, Ghana</span>
         </div>
-        
+
         <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
           <div className="flex items-center gap-3">
             <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>

@@ -1,8 +1,10 @@
 "use client";
 
 import { ReactNode } from "react";
+import React from "react";
 import { Reveal, DisplayHeading } from "@/components/public";
 import { Loader2, CheckCircle } from "lucide-react";
+import { motion } from "framer-motion";
 
 type AdvancedFormContainerProps = {
   title: string;
@@ -81,9 +83,31 @@ export function AdvancedFormContainer({
             <hr className="border-rg-line-soft" />
 
             {/* The Injected Custom Inputs */}
-            <div className="flex flex-col gap-6">
-              {children}
-            </div>
+            <motion.div 
+              className="flex flex-col gap-6"
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-50px" }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.15 }
+                }
+              }}
+            >
+              {React.Children.map(children, (child, index) => (
+                <motion.div
+                  key={index}
+                  variants={{
+                    hidden: { opacity: 0, y: 20 },
+                    visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } }
+                  }}
+                >
+                  {child}
+                </motion.div>
+              ))}
+            </motion.div>
 
             <hr className="border-rg-line-soft mt-4" />
 

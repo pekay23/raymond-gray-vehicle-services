@@ -1,66 +1,145 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import { cn } from "@/lib/utils";
 
-// Simple, shared label wrapper ensuring matching alignment
-export const FormLabel = ({ children, label, required = false }: { children: React.ReactNode, label: string, required?: boolean }) => (
-  <div className="flex flex-col gap-2 w-full group">
-    <label 
-      className="font-mono text-[11px] tracking-widest uppercase text-rg-ink-mute group-focus-within:text-rg-accent transition-colors font-bold gap-x-1.5 leading-none min-h-[12px]"
-      style={{ display: 'flex', alignItems: 'center', whiteSpace: 'nowrap' }}
-    >
-      <span>{label}</span>
-      {required && <span className="text-rg-accent font-bold leading-none">*</span>}
-    </label>
-    {children}
-  </div>
+interface FormLabelProps {
+  children: React.ReactNode;
+  label: string;
+  required?: boolean;
+}
+
+export const FormLabel = ({ children, label, required = false }: FormLabelProps) => {
+  return (
+    <div className="relative w-full group">
+      {/* We intercept the children to inject state-aware floating label logic */}
+      {React.Children.map(children, child => {
+        if (React.isValidElement(child)) {
+          // Pass the label down to the child component so it can handle the floating logic internally
+          return React.cloneElement(child as React.ReactElement<{ _label?: string; _required?: boolean }>, { _label: label, _required: required });
+        }
+        return child;
+      })}
+    </div>
+  );
+};
+
+// Generic Floating Label
+const FloatingLabel = ({ 
+  label, 
+  required, 
+  isActive 
+}: { 
+  label: string; 
+  required?: boolean; 
+  isActive: boolean 
+}) => (
+  <label
+    className={cn(
+      "absolute left-4 px-1 bg-rg-bg-2 transition-all duration-200 pointer-events-none z-10 font-bold",
+      isActive 
+        ? "-top-2.5 text-[10px] text-rg-accent uppercase tracking-widest" 
+        : "top-4 text-base text-rg-ink-mute/70 font-medium"
+    )}
+  >
+    {label}
+    {required && <span className="text-rg-accent ml-1">*</span>}
+  </label>
 );
 
-// Modernized styled generic text input
-export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement>>(
-  ({ className = "", ...props }, ref) => {
+// Modernized styled generic text input with floating label support
+export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement> & { _label?: string, _required?: boolean }>(
+  ({ className = "", value, onChange, _label, _required, ...props }, ref) => {
+    const [isFocused, setIsFocused] = useState(false);
+    const hasValue = value !== undefined && value !== null && value.toString().length > 0;
+    const isActive = isFocused || hasValue;
+
     return (
-      <input
-        ref={ref}
-        className={`bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium placeholder:text-rg-ink-mute/50 focus:border-rg-accent outline-none transition-all duration-300 ${className}`}
-        {...props}
-      />
+      <div className="relative w-full group">
+        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} />}
+        <input
+          ref={ref}
+          value={value}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className={cn(
+            "w-full bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium",
+            "outline-none transition-all duration-300",
+            "placeholder-transparent focus:placeholder-rg-ink-mute/50",
+            "focus:border-rg-accent focus:ring-1 focus:ring-rg-accent/20 rounded-md",
+            className
+          )}
+          {...props}
+        />
+      </div>
     );
   }
 );
 Input.displayName = "Input";
 
-// Textarea variation
-export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement>>(
-  ({ className = "", ...props }, ref) => {
+// Textarea variation with floating label
+export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement> & { _label?: string, _required?: boolean }>(
+  ({ className = "", value, onChange, _label, _required, ...props }, ref) => {
+    const [isFocused, setIsFocused] = useState(false);
+    const hasValue = value !== undefined && value !== null && value.toString().length > 0;
+    const isActive = isFocused || hasValue;
+
     return (
-      <textarea
-        ref={ref}
-        className={`bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium placeholder:text-rg-ink-mute/50 focus:border-rg-accent outline-none transition-all duration-300 resize-none min-h-[110px] ${className}`}
-        {...props}
-      />
+      <div className="relative w-full group">
+        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} />}
+        <textarea
+          ref={ref}
+          value={value}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className={cn(
+            "w-full bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium",
+            "outline-none transition-all duration-300 resize-none min-h-[110px]",
+            "placeholder-transparent focus:placeholder-rg-ink-mute/50",
+            "focus:border-rg-accent focus:ring-1 focus:ring-rg-accent/20 rounded-md",
+            className
+          )}
+          {...props}
+        />
+      </div>
     );
   }
 );
 Textarea.displayName = "Textarea";
 
 // Modern styled select box drop component
-export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement> & { options: {label: string, value: string}[] }>(
-  ({ className = "", options, ...props }, ref) => {
+export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement> & { options: {label: string, value: string}[], _label?: string, _required?: boolean }>(
+  ({ className = "", options, value, onChange, _label, _required, ...props }, ref) => {
+    const [isFocused, setIsFocused] = useState(false);
+    const hasValue = value !== undefined && value !== null && value.toString().length > 0;
+    const isActive = isFocused || hasValue;
+
     return (
-      <div className="relative">
+      <div className="relative w-full group">
+        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} />}
         <select
           ref={ref}
-          className={`w-full appearance-none bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium placeholder:text-rg-ink-mute/50 focus:border-rg-accent outline-none transition-all duration-300 cursor-pointer ${className}`}
+          value={value}
+          onChange={onChange}
+          onFocus={() => setIsFocused(true)}
+          onBlur={() => setIsFocused(false)}
+          className={cn(
+            "w-full appearance-none bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium",
+            "outline-none transition-all duration-300 cursor-pointer",
+            "focus:border-rg-accent focus:ring-1 focus:ring-rg-accent/20 rounded-md",
+            className
+          )}
           {...props}
         >
-          <option value="" disabled className="text-rg-ink-mute bg-white">Select an Option...</option>
+          <option value="" disabled className="text-rg-ink-mute bg-rg-bg-2"></option>
           {options.map(opt => (
-            <option key={opt.value} value={opt.value} className="text-rg-ink bg-white">{opt.label}</option>
+            <option key={opt.value} value={opt.value} className="text-rg-ink bg-rg-bg-2">{opt.label}</option>
           ))}
         </select>
-        <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none text-rg-ink-mute opacity-60 group-focus-within:text-rg-accent">
-          <svg viewBox="0 0 24 24" className="w-3.5 h-3.5 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+        <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-rg-ink-mute opacity-60 group-focus-within:text-rg-accent transition-colors">
+          <svg viewBox="0 0 24 24" className="w-4 h-4 fill-none stroke-current stroke-2" strokeLinecap="round" strokeLinejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
         </div>
       </div>
     );

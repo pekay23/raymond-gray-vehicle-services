@@ -11,20 +11,19 @@ interface OverlayMenuProps {
 
 const NAV_LINKS = [
   { href: "/", label: "Home", num: "01" },
-  { href: "/services", label: "Services", num: "02" },
-  { href: "/industries", label: "Industries", num: "03" },
-  { href: "/about", label: "About", num: "04" },
-  { href: "/updates", label: "Updates", num: "05" },
-  { href: "/contact", label: "Contact", num: "06" },
+  { href: "/#ev-sales", label: "EV Sales", num: "02" },
+  { href: "/#ev-maintenance", label: "Maintenance", num: "03" },
+  { href: "/#fleet", label: "Fleet & Charging", num: "04" },
+  { href: "/faqs", label: "FAQs", num: "05" },
+  { href: "/book", label: "Book a Service", num: "06" },
 ];
 
 const SERVICE_LINKS = [
-  { href: "/services/ifm", label: "Integrated Facility Management" },
-  { href: "/services/engineering", label: "Technical Services" },
-  { href: "/services/workplace", label: "Workplace Support" },
-  { href: "/services/hospitality", label: "Hospitality & Housekeeping" },
-  { href: "/services/residential", label: "Residential Facility Management" },
-  { href: "/services/specialist", label: "Specialist & Bespoke" },
+  { href: "/#ev-sales", label: "EV Sales" },
+  { href: "/#ev-maintenance", label: "EV Maintenance" },
+  { href: "/#fleet", label: "ICE Servicing" },
+  { href: "/#fleet", label: "Fleet Management" },
+  { href: "/#fleet", label: "Charging Infrastructure" },
 ];
 
 export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => {
@@ -77,7 +76,7 @@ export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => 
         </Link>
         <div className="rg-nav-actions">
           <Link
-            href="/signin"
+            href="/book"
             onClick={onClose}
             className="rg-nav-login"
             style={{
@@ -89,7 +88,7 @@ export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => 
               fontWeight: 500,
             }}
           >
-            Portal
+            Book
           </Link>
           <button
             onClick={onClose}
@@ -126,7 +125,7 @@ export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => 
             <p className="rg-label">Services</p>
             <ul className="space-y-2.5 list-none p-0 m-0">
               {SERVICE_LINKS.map((s) => (
-                <li key={s.href}>
+                <li key={s.href + s.label}>
                   <Link href={s.href} onClick={onClose} className="hover:text-rg-accent-light transition-colors">
                     {s.label}
                   </Link>

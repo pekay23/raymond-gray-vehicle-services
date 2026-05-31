@@ -1,0 +1,106 @@
+"use client";
+
+import { useRef, useEffect } from "react";
+import Image from "next/image";
+import { SectionShell } from "../SectionShell";
+import { DisplayHeading } from "../DisplayHeading";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
+
+interface CarouselItem {
+  id: string;
+  image: string;
+  title: string;
+  description: string;
+}
+
+interface CarouselSectionProps {
+  screenLabel?: string;
+  eyebrow?: string;
+  title: React.ReactNode;
+  items: CarouselItem[];
+  variant?: "light" | "dark" | "muted";
+}
+
+export function CarouselSection({
+  screenLabel,
+  eyebrow,
+  title,
+  items,
+  variant = "light"
+}: CarouselSectionProps) {
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const trackRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const ctx = gsap.context(() => {
+      if (!trackRef.current || !sectionRef.current) return;
+      
+      const trackWidth = trackRef.current.scrollWidth;
+      
+      gsap.to(trackRef.current, {
+        x: () => -(trackWidth - window.innerWidth),
+        ease: "none",
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          pin: true,
+          scrub: 1, // Smoothly scrubs 1 second behind the scrollbar
+          start: "center center",
+          end: () => "+=" + trackWidth,
+          invalidateOnRefresh: true,
+        }
+      });
+    }, sectionRef);
+
+    return () => ctx.revert();
+  }, [items]);
+
+  return (
+    <div ref={sectionRef} className="w-full overflow-hidden relative" data-screen-label={screenLabel}>
+      <SectionShell variant={variant} className="w-full min-h-screen flex flex-col justify-center py-(--rg-section-y)" padded={false}>
+        <div className="mb-12 lg:mb-20 px-(--rg-pad-x)">
+          {eyebrow && (
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-rg-ink/50 block mb-4">
+              {eyebrow}
+            </span>
+          )}
+          <DisplayHeading as="h2" size="xl" className="leading-[1.1]">
+            {title}
+          </DisplayHeading>
+        </div>
+
+        <div className="overflow-visible pl-(--rg-pad-x)">
+          <div 
+            ref={trackRef}
+            className="flex gap-8 lg:gap-12 w-max pr-(--rg-pad-x)"
+          >
+            {items.map((item) => (
+              <div 
+                key={item.id} 
+                className="w-[85vw] md:w-[60vw] lg:w-[40vw] max-w-[600px] flex flex-col gap-6 shrink-0"
+              >
+                <div className="relative aspect-4/3 w-full rounded-2xl overflow-hidden bg-rg-bg-3 shadow-xl pointer-events-none">
+                  <Image 
+                    src={item.image} 
+                    alt={item.title} 
+                    fill 
+                    className="object-cover" 
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                  />
+                </div>
+                <div>
+                  <h3 className="font-display text-2xl lg:text-3xl font-medium mb-3">{item.title}</h3>
+                  <p className="text-rg-ink/70 leading-relaxed">{item.description}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </SectionShell>
+    </div>
+  );
+}

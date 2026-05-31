@@ -160,7 +160,7 @@ export const TopNav: React.FC = () => {
         <div className="rg-nav-actions" style={{ display: 'flex', alignItems: 'center', gap: '32px', pointerEvents: 'auto' }}>
           {/* Portal login link - visible on desktop, hidden on mobile (handled by Tailwind) */}
           <Link
-            href="/signin"
+            href="/book"
             className="rg-nav-login hidden md:inline-block"
             style={{
               color: 'inherit',
@@ -172,7 +172,7 @@ export const TopNav: React.FC = () => {
               transition: 'color 400ms',
             }}
           >
-            Portal
+            Book
           </Link>
 
           {/* Menu button — handoff: mono 11px, tracking 0.12em, gap 12px */}

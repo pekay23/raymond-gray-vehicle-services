@@ -2,6 +2,9 @@ import type { Metadata, Viewport } from "next";
 import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
+import { TopNav } from "@/components/public/TopNav";
+import { Footer } from "@/components/Footer";
+import { ScrollProgress } from "@/components/public/ScrollProgress";
 
 const gothamDisplay = localFont({
   src: [
@@ -45,7 +48,12 @@ export default function RootLayout({
       lang="en"
       className={`${gothamDisplay.variable} ${montserrat.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col font-sans text-[var(--rg-ink)] bg-[var(--rg-bg)]">{children}</body>
+      <body className="min-h-full flex flex-col font-sans text-(--rg-ink) bg-(--rg-bg)">
+        <ScrollProgress />
+        <TopNav />
+        {children}
+        <Footer />
+      </body>
     </html>
   );
 }

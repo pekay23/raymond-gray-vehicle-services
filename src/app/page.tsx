@@ -4,6 +4,11 @@ import { SplitFeature } from "@/components/public/sections/SplitFeature";
 import { PillarRows, type Pillar } from "@/components/public/sections/PillarRows";
 import { CalloutSlab } from "@/components/public/sections/CalloutSlab";
 import { FinalCtaSection } from "@/components/public/FinalCtaSection";
+import { CarouselSection } from "@/components/public/sections/CarouselSection";
+import { CapabilityIndex } from "@/components/public/sections/CapabilityIndex";
+import { StatStrip } from "@/components/public/sections/StatStrip";
+import { ProcessTimeline, type TimelineStep } from "@/components/public/sections/ProcessTimeline";
+import { FaqTeaser } from "@/components/public/sections/FaqTeaser";
 
 export const metadata: Metadata = {
   title: "EV & Automotive Services | Raymond Gray",
@@ -51,12 +56,46 @@ const FLEET_LINES: Pillar[] = [
   },
 ];
 
+const STATS = [
+  { value: "ICE + EV", label: "One accountable team for every vehicle" },
+  { value: "PPM", label: "Manufacturer-aligned preventive maintenance" },
+  { value: "IFM", label: "Integrated with your building services" },
+];
+
+const PROCESS: TimelineStep[] = [
+  { phase: "01 · Assess", title: "Understand the fleet", desc: "We confirm your vehicles, usage, and goals — ICE, EV, or mixed — and how you actually drive." },
+  { phase: "02 · Source / Service", title: "Right vehicle, right work", desc: "Independent sourcing for new vehicles; manufacturer-aligned PPM and repair for the ones you run." },
+  { phase: "03 · Document", title: "Record everything", desc: "Every service, battery-health check, and repair is logged against each vehicle." },
+  { phase: "04 · Report", title: "Monthly visibility", desc: "A monthly fleet-health summary — costs, utilisation, and maintenance status at a glance." },
+];
+
+const CAROUSEL_ITEMS = [
+  {
+    id: "1",
+    image: "/images/redesign/carousel_charging.png",
+    title: "Infrastructure Setup",
+    description: "From site assessment to installation of rapid DC chargers, we manage the entire lifecycle of your charging infrastructure."
+  },
+  {
+    id: "2",
+    image: "/images/redesign/carousel_workshop.png",
+    title: "Preventive Maintenance",
+    description: "Our state-of-the-art facilities ensure your mixed fleet is maintained to the highest manufacturer standards."
+  },
+  {
+    id: "3",
+    image: "/images/redesign/carousel_van.png",
+    title: "Fleet Logistics",
+    description: "Optimize your operations with GPS-enabled tracking, routing, and comprehensive journey logging."
+  }
+];
+
 export default function VehicleRepairsPage() {
   return (
     <main className="rg-public relative">
       <PageHero
         screenLabel="Overview"
-        image={{ src: "/images/heros/hero-ev.webp", alt: "Raymond Gray EV and automotive services" }}
+        image={{ src: "/images/redesign/hero.png", alt: "Raymond Gray EV and automotive services" }}
         eyebrow="EV & Automotive Services"
         title={<>Every vehicle. One team. <em>Professional</em> standards.</>}
         lede="This isn't a commercial garage. It's an automotive programme built on the same engineering discipline and preventive-maintenance infrastructure that manages our clients' building systems — for mixed ICE and EV fleets, and for private owners who want expert advice, not a sales pitch."
@@ -66,12 +105,15 @@ export default function VehicleRepairsPage() {
         ]}
       />
 
+      <CapabilityIndex />
+
+      <div id="ev-sales" aria-hidden />
       <SplitFeature
         screenLabel="EV Sales"
         eyebrow="EV Sales — Independent Advice"
         title={<>The right vehicle — <em>not</em> the one we&apos;re paid to sell.</>}
         body="We're not tied to any manufacturer or dealer. We assess your real usage, compare honestly, and project the true cost of ownership — then coordinate procurement, delivery, and charging setup."
-        image={{ src: "/images/services/ev-portrait.webp", alt: "Independent EV sales advice" }}
+        image={{ src: "/images/redesign/abstract.png", alt: "Independent EV sales advice" }}
         points={[
           "Fleet or personal needs assessment",
           "Curated, honest side-by-side comparison",
@@ -82,6 +124,7 @@ export default function VehicleRepairsPage() {
         ]}
       />
 
+      <div id="ev-maintenance" aria-hidden />
       <SplitFeature
         reverse
         screenLabel="EV Maintenance"
@@ -89,7 +132,7 @@ export default function VehicleRepairsPage() {
         eyebrow="EV Maintenance — Scheduled & Documented"
         title={<>A named team, a <em>documented</em> service history.</>}
         body="Structured, manufacturer-aligned preventive maintenance with battery health recorded at every visit — plus responsive fault diagnosis and a monthly fleet health summary for corporate clients."
-        image={{ src: "/images/services/ev-charging-bay.webp", alt: "EV maintenance and charging bay" }}
+        image={{ src: "/images/redesign/bento.png", alt: "EV maintenance and charging bay" }}
         points={[
           "Manufacturer-aligned service intervals",
           "Battery health check and capacity diagnostic",
@@ -100,11 +143,28 @@ export default function VehicleRepairsPage() {
         ]}
       />
 
+      <StatStrip variant="light" stats={STATS} />
+
+      <CarouselSection
+        screenLabel="Capabilities"
+        eyebrow="In Action"
+        title={<>See the <em>standards</em> we set.</>}
+        items={CAROUSEL_ITEMS}
+      />
+
+      <div id="fleet" aria-hidden />
       <PillarRows
         screenLabel="Fleet & Charging"
         eyebrow="The Full Programme"
         title={<>One team for <em>every</em> vehicle in your fleet.</>}
         pillars={FLEET_LINES}
+      />
+
+      <ProcessTimeline
+        screenLabel="How we work"
+        eyebrow="How we work"
+        title={<>From first call to <em>monthly</em> report.</>}
+        steps={PROCESS}
       />
 
       <CalloutSlab
@@ -124,6 +184,8 @@ export default function VehicleRepairsPage() {
           ],
         }}
       />
+
+      <FaqTeaser />
 
       <FinalCtaSection
         title={<>Put your whole fleet under one <em>standard</em>.</>}
