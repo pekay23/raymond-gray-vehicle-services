@@ -76,21 +76,21 @@ export function Footer() {
         ))}
       </div>
 
-      <div className="rg-foot-bottom flex-col md:flex-row items-center md:items-end justify-center md:justify-between text-center md:text-left gap-4 md:gap-0">
-        <div className="flex flex-col md:flex-row items-center gap-2 md:gap-4">
+      <div className="rg-foot-bottom flex flex-col md:flex-row items-center justify-between text-center md:text-left gap-4 md:gap-0 w-full">
+        <div className="flex flex-col md:flex-row items-center justify-start gap-2 md:gap-4 flex-1">
           <span>Raymond Gray Limited</span>
           <span className="hidden md:inline text-white/20">|</span>
           <span>Accra, Ghana</span>
         </div>
 
-        <div className="flex flex-col md:flex-row items-center gap-3 md:gap-6">
-          <div className="flex items-center gap-3">
-            <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <span className="text-white/20">|</span>
-            <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
-          </div>
-          <span className="hidden md:inline text-white/20">|</span>
+        <div className="flex justify-center items-center flex-1">
           <span>© {new Date().getFullYear()} · All rights reserved</span>
+        </div>
+
+        <div className="flex flex-col md:flex-row items-center justify-end gap-3 md:gap-4 flex-1">
+          <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
+          <span className="hidden md:inline text-white/20">|</span>
+          <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>
         </div>
       </div>
     </footer>

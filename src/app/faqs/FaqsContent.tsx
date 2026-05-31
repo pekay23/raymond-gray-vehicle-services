@@ -92,7 +92,7 @@ export function FaqsContent() {
 
   return (
     <main className="rg-public relative">
-      <section className="rg-page-hero" data-screen-label="FAQs">
+      <section className="rg-page-hero min-h-[75vh]! flex! flex-col justify-end!" data-screen-label="FAQs">
         <div className="rg-hero-media" aria-hidden="true">
           <Reveal variant="img" className="h-full w-full">
             <Image
@@ -101,9 +101,8 @@ export function FaqsContent() {
               fill
               priority
               sizes="100vw"
-              className="object-cover opacity-35 saturate-[0.85]"
+              className="object-cover saturate-[0.85]"
             />
-            <div className="absolute inset-0 bg-linear-to-b from-black/30 via-black/50 to-rg-invert-bg" />
           </Reveal>
         </div>
         <Reveal variant="line" delay={300}>
