@@ -52,11 +52,11 @@ export function PageHero({
           fill
           priority
           sizes="100vw"
-          className="object-cover opacity-60 mix-blend-overlay"
+          className="object-cover"
         />
-        {/* Base darken for legibility across the whole image, plus a stronger bottom gradient. */}
-        <div className="absolute inset-0 bg-rg-invert-bg/45" />
-        <div className="absolute inset-0 bg-linear-to-t from-rg-invert-bg/95 via-rg-invert-bg/55 to-rg-invert-bg/25" />
+        {/* Bottom-weighted scrim only: keeps the branded image + logo crisp up top
+            while keeping the headline/lede legible over the lower area. */}
+        <div className="absolute inset-0 bg-linear-to-t from-rg-invert-bg/90 via-rg-invert-bg/35 to-transparent" />
       </motion.div>
 
       <div className="rg-hero-inner relative z-10 w-full px-(--rg-pad-x) pt-32 pb-20 mx-auto max-w-[1800px]">
