@@ -209,9 +209,21 @@ export default function VehicleBookingPage() {
                   <h4 className="text-sm font-bold text-rg-ink mb-1">Quotes &amp; Authorization</h4>
                   <p className="text-xs text-rg-ink-soft leading-relaxed m-0">
                     Submitting this form initiates a work order draft. A fully costed quote itemising parts
-                    and labor is dispatched via WhatsApp/Email before any wrenches hit the steel.
+                    and labour is dispatched via WhatsApp/Email before any work begins.
                   </p>
                 </div>
+              </div>
+            </Reveal>
+
+            <Reveal delay={400}>
+              <div className="bg-rg-bg border border-rg-line p-6">
+                <h4 className="text-sm font-bold text-rg-ink mb-3">Good to know</h4>
+                <ul className="list-disc pl-4 space-y-1.5 text-xs text-rg-ink-soft leading-relaxed m-0">
+                  <li>Quotes are valid for 7 days</li>
+                  <li>Parts pricing may vary based on availability</li>
+                  <li>Major repairs may require an in-person assessment</li>
+                  <li>Emergency breakdowns: WhatsApp us directly for priority response</li>
+                </ul>
               </div>
             </Reveal>
           </div>
@@ -474,18 +486,27 @@ export default function VehicleBookingPage() {
                     </dl>
                   </div>
 
-                  <div className="mt-6 p-5 bg-rg-bg-2 border border-rg-line rounded-sm flex items-start gap-4 hover:bg-white hover:border-rg-ink/30 transition-all duration-300 select-none">
-                    <input
-                      type="checkbox"
-                      id="agreed"
-                      name="agreed"
-                      className="mt-1.5 w-4 h-4 cursor-pointer accent-rg-ink"
-                      checked={formData.agreed}
-                      onChange={handleChange}
-                      required
-                    />
-                    <label htmlFor="agreed" className="text-xs text-rg-ink-soft leading-relaxed cursor-pointer font-medium">
-                      I acknowledge authorization dictates flow. Work only activates after static quote acceptance. Diagnostics carry isolated access fees if repair directive is subsequently declined.
+                  <div className="mt-6 p-5 bg-rg-bg-2 border border-rg-line rounded-sm">
+                    <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-rg-ink font-bold mb-3">
+                      I understand and agree that:
+                    </p>
+                    <ul className="list-disc pl-5 space-y-1.5 text-sm text-rg-ink-soft leading-relaxed">
+                      <li>A detailed quote will be provided before any work begins</li>
+                      <li>Parts and labour will be itemised in the quote</li>
+                      <li>Work only proceeds after my written or WhatsApp approval</li>
+                      <li>Diagnostics fees apply if no repair is authorised</li>
+                    </ul>
+                    <label htmlFor="agreed" className="flex items-center gap-3 mt-4 pt-4 border-t border-rg-line cursor-pointer select-none">
+                      <input
+                        type="checkbox"
+                        id="agreed"
+                        name="agreed"
+                        className="w-5 h-5 shrink-0 cursor-pointer accent-rg-ink"
+                        checked={formData.agreed}
+                        onChange={handleChange}
+                        required
+                      />
+                      <span className="text-sm font-bold text-rg-ink">I agree to these terms</span>
                     </label>
                   </div>
                 </div>
