@@ -2028,7 +2028,7 @@
 }
 
 .rg-foot {
-  padding: clamp(16px, 2vw, 32px) var(--rg-pad-x) 24px;
+  padding: clamp(32px, 3vw, 56px) var(--rg-pad-x) 24px;
   background: var(--rg-invert-bg);
   color: var(--rg-invert-ink);
 }
