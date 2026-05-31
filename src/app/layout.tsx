@@ -5,6 +5,7 @@ import "./globals.css";
 import { TopNav } from "@/components/public/TopNav";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/public/ScrollProgress";
+import { MotionProvider } from "@/components/public/MotionProvider";
 
 const gothamDisplay = localFont({
   src: [
@@ -26,13 +27,35 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "Vehicle Services | Raymond Gray",
-  description: "Specialist EV & Automotive services by Raymond Gray.",
+  metadataBase: new URL("https://vehicleservices.raymond-gray.org"),
+  title: {
+    default: "EV & Automotive Services | Raymond Gray",
+    template: "%s | Raymond Gray Vehicle Services",
+  },
+  description:
+    "Every vehicle, one team, professional standards. Independent EV sales, scheduled EV & ICE maintenance, fleet management, and charging infrastructure — built on Raymond Gray's engineering discipline.",
+  openGraph: {
+    type: "website",
+    siteName: "Raymond Gray Vehicle Services",
+    title: "EV & Automotive Services | Raymond Gray",
+    description:
+      "Independent EV sales, scheduled EV & ICE maintenance, fleet management, and charging infrastructure — one accountable team.",
+    url: "https://vehicleservices.raymond-gray.org",
+    images: [{ url: "/images/redesign/hero.png", width: 1200, height: 630, alt: "Raymond Gray EV & Automotive Services" }],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "EV & Automotive Services | Raymond Gray",
+    description: "One team for every vehicle — EV sales, EV & ICE maintenance, fleet, and charging.",
+    images: ["/images/redesign/hero.png"],
+  },
   icons: {
     icon: [
+      { url: "/favicon.ico", sizes: "any" },
       { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
       { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
     ],
+    shortcut: ["/favicon.ico"],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/site.webmanifest",
@@ -49,10 +72,12 @@ export default function RootLayout({
       className={`${gothamDisplay.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans text-(--rg-ink) bg-(--rg-bg)">
-        <ScrollProgress />
-        <TopNav />
-        {children}
-        <Footer />
+        <MotionProvider>
+          <ScrollProgress />
+          <TopNav />
+          {children}
+          <Footer />
+        </MotionProvider>
       </body>
     </html>
   );

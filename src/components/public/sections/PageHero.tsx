@@ -39,7 +39,7 @@ export function PageHero({
   return (
     <section
       ref={containerRef}
-      className="relative min-h-[90vh] flex items-center overflow-hidden bg-rg-invert-bg text-rg-invert-ink"
+      className="rg-immersive-hero relative min-h-[90vh] flex items-center overflow-hidden bg-rg-invert-bg text-rg-invert-ink"
       data-screen-label={screenLabel}
     >
       <motion.div
@@ -59,7 +59,7 @@ export function PageHero({
         <div className="absolute inset-0 bg-linear-to-t from-rg-invert-bg/95 via-rg-invert-bg/55 to-rg-invert-bg/25" />
       </motion.div>
 
-      <div className="relative z-10 w-full px-(--rg-pad-x) pt-32 pb-20 mx-auto max-w-[1800px]">
+      <div className="rg-hero-inner relative z-10 w-full px-(--rg-pad-x) pt-32 pb-20 mx-auto max-w-[1800px]">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end">
           {/* Main Title Column */}
           <div className="lg:col-span-8 flex flex-col gap-6">

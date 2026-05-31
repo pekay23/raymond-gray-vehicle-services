@@ -2043,7 +2043,7 @@
 }
 
 .rg-foot {
-  padding: clamp(16px, 2vw, 32px) var(--rg-pad-x) 24px;
+  padding: clamp(56px, 6vw, 104px) var(--rg-pad-x) 24px;
   background: var(--rg-invert-bg);
   color: var(--rg-invert-ink);
 }
@@ -2267,4 +2267,28 @@ input.bg-rg-bg-3:-webkit-autofill:active {
 
 /* Anchor offset so fixed TopNav doesn't cover section tops on hash navigation. */
 .rg-public [id] { scroll-margin-top: 96px; }
+
+/* Reduced-motion fallback for the pinned horizontal carousel: no pin/scrub,
+   just a native horizontally-scrollable strip so every card stays reachable. */
+@media (prefers-reduced-motion: reduce) {
+  .rg-carousel-shell { min-height: auto !important; }
+  .rg-carousel-track { overflow-x: auto; }
+}
+
+/* Short, wide viewports (e.g. 1280x720 laptops/projectors): display type is
+   sized by viewport WIDTH, so on a short screen it overflows the fold. Scale
+   oversized headings, section padding, and the pinned-carousel card height by
+   viewport HEIGHT so full-height/pinned sections fit without clipping text. */
+@media (max-height: 820px) and (min-width: 1024px) {
+  .rg-public { --rg-section-y: clamp(48px, 9vh, 110px); }
+  .rg-public .rg-display-xl { font-size: clamp(30px, 4.2vw, 58px); line-height: 0.98; }
+  .rg-public .rg-display-lg { font-size: clamp(26px, 3.4vw, 46px); }
+  .rg-public .rg-page-hero h1 { font-size: clamp(34px, 6vw, 72px); }
+  /* Immersive hero: trim the generous top/bottom padding so copy + CTAs fit. */
+  .rg-immersive-hero { min-height: 100svh; }
+  .rg-immersive-hero .rg-hero-inner { padding-top: 88px; padding-bottom: 40px; }
+  /* Pinned carousel: shrink heading gap + card media so card text stays on-screen. */
+  .rg-carousel .rg-carousel-head { margin-bottom: 1.5rem; }
+  .rg-carousel-media { height: clamp(150px, 30vh, 320px) !important; }
+}
 

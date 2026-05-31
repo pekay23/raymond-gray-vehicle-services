@@ -65,7 +65,7 @@ export function CalloutSlab({ eyebrow, title, body, ctas, checklist, screenLabel
                   {checklist.label ?? "Key Features"}
                 </span>
                 {checklist.tag && (
-                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-rg-accent">{checklist.tag}</span>
+                  <span className="font-mono text-xs uppercase tracking-[0.2em] text-rg-accent-light">{checklist.tag}</span>
                 )}
               </div>
               <ul className="relative z-10 flex flex-col gap-6 list-none p-0 m-0">
@@ -78,8 +78,8 @@ export function CalloutSlab({ eyebrow, title, body, ctas, checklist, screenLabel
                     viewport={{ once: true }}
                     className="flex gap-6 items-center text-white/90 text-lg hover:text-white transition-colors"
                   >
-                    <div className="w-8 h-8 rounded-full bg-rg-accent/20 flex items-center justify-center shrink-0">
-                      <span className="text-rg-accent font-mono text-sm leading-none pt-0.5">✓</span>
+                    <div className="w-8 h-8 rounded-full bg-rg-accent-light/25 ring-1 ring-rg-accent-light/40 flex items-center justify-center shrink-0">
+                      <span className="text-rg-accent-light font-mono text-sm leading-none pt-0.5">✓</span>
                     </div>
                     <span>{item}</span>
                   </motion.li>

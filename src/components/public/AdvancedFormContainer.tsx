@@ -19,6 +19,10 @@ type AdvancedFormContainerProps = {
   successTitle?: string;
   successMessage?: string;
   errorText?: string;
+  /** Optional progress indicator rendered above the fields (e.g. wizard steps). */
+  progress?: ReactNode;
+  /** Optional footer that replaces the default submit button (e.g. wizard Back/Next). */
+  footer?: ReactNode;
 };
 
 export function AdvancedFormContainer({
@@ -34,6 +38,8 @@ export function AdvancedFormContainer({
   successTitle = "Request Confirmed!",
   successMessage = "Your details have been received. A technician or dispatcher will be in touch.",
   errorText = "Something went wrong with the transmission. Please verify all fields and try again.",
+  progress,
+  footer,
 }: AdvancedFormContainerProps) {
   return (
     <Reveal delay={300}>
@@ -82,6 +88,8 @@ export function AdvancedFormContainer({
 
             <hr className="border-rg-line-soft" />
 
+            {progress}
+
             {/* The Injected Custom Inputs */}
             <motion.div 
               className="flex flex-col gap-6"
@@ -119,22 +127,24 @@ export function AdvancedFormContainer({
                 </div>
               )}
 
-              <button 
-                type="submit" 
-                disabled={status === "loading" || submitDisabled}
-                className="rg-btn rg-btn-filled w-full justify-center py-4 text-base transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                {status === "loading" ? (
-                  <>
-                    <Loader2 className="w-4 h-4 animate-spin mr-2" />
-                    Processing Securely...
-                  </>
-                ) : (
-                  <>
-                    {submitLabel} <span className="group-hover:translate-x-1 transition-transform">→</span>
-                  </>
-                )}
-              </button>
+              {footer ?? (
+                <button
+                  type="submit"
+                  disabled={status === "loading" || submitDisabled}
+                  className="rg-btn rg-btn-filled w-full justify-center py-4 text-base transition-all group disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {status === "loading" ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin mr-2" />
+                      Processing Securely...
+                    </>
+                  ) : (
+                    <>
+                      {submitLabel} <span className="group-hover:translate-x-1 transition-transform">→</span>
+                    </>
+                  )}
+                </button>
+              )}
               
             </div>
           </form>
