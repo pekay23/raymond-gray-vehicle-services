@@ -31,7 +31,7 @@ const footerLinks = [
 
 export function Footer() {
   return (
-    <footer className="rg-foot relative z-20">
+    <footer className="rg-public rg-foot relative z-20">
       <div className="rg-foot-grid">
         <div className="pl-3 sm:pl-5 lg:pl-6">
           <div className="flex items-center mb-8" style={{ height: "48px" }}>

@@ -12,6 +12,10 @@ export const TopNav: React.FC = () => {
   const [currentSection, setCurrentSection] = useState("");
   const pathname = usePathname();
   const isLegalPage = pathname === '/privacy' || pathname === '/terms';
+  const isHome = pathname === "/";
+  // The home hero's building signage already shows the wordmark, so hide the nav
+  // wordmark while the transparent header sits over the hero; reveal it once scrolled.
+  const hideWordmark = isHome && !isScrolled && !isMenuOpen;
 
   const handleScroll = useCallback(() => {
     const scrollY = window.scrollY;
@@ -93,9 +97,12 @@ export const TopNav: React.FC = () => {
 
         <Link
           href="/"
+          aria-hidden={hideWordmark}
+          tabIndex={hideWordmark ? -1 : 0}
           style={{
-            pointerEvents: 'auto',
-            transition: 'color 400ms',
+            pointerEvents: hideWordmark ? 'none' : 'auto',
+            opacity: hideWordmark ? 0 : 1,
+            transition: 'opacity 500ms cubic-bezier(0.16, 1, 0.3, 1), color 400ms',
             display: 'flex',
             alignItems: 'center',
           }}

@@ -141,7 +141,7 @@ If you'd prefer, I can generate any of these now via an available image tool (di
 
 ## 8. Execution order
 1. ✅ Logos copied, stray script removed.
-2. Footer: wire into layout + customize for microsite. *(P0)*
+2. ✅ **Footer: wired into layout + customized.** Added `.rg-public` to fix variable resolution and align aesthetic exactly with the corporate platform. *(P0)*
 3. Legal pages `/privacy`, `/terms` (ported + adapted). *(P0)*
 4. `/faqs` (ported accordion + vehicle Q&A). *(P0)*
 5. Nav links to FAQs/Book/legal. *(P0)*
@@ -150,12 +150,14 @@ If you'd prefer, I can generate any of these now via an available image tool (di
    - ✅ **Font wiring fixed** — `globals.css` now points at the loaded `--font-gotham` (display) / `--font-montserrat` (body) vars; removes the self-referential `--font-display: var(--font-display)` cycle so Gotham + Montserrat actually apply.
    - ✅ **Hero legibility fixed** — added a base darken layer + stronger gradient over the hero image and raised eyebrow/lede opacity (`white/75`, `white/90`) so right-column copy is readable over bright image areas.
    - ✅ Footer logo left-padding added.
-8. Booking multi-step + success state. *(P1)*
-9. a11y + reduced-motion + performance pass. *(P1)*
-10. SEO/OG/sitemap. *(P2)*
-11. Build + screenshot verification of every public route.
+8. ✅ **Booking page (`/book`) hero & form fixes.** Removed the hero bottom white gradient overlay, forced bottom-left text alignment with flexbox utilities, and resolved `FormLabel` React DOM prop warnings (e.g., `_required`) by utilizing `endAdornment` in inputs. *(P1)*
+9. Booking multi-step + success state. *(P1)*
+10. a11y + reduced-motion + performance pass. *(P1)*
+11. SEO/OG/sitemap. *(P2)*
+12. Build + screenshot verification of every public route.
 
 ## 9. Verification
 - `next build` green; every route prerenders.
 - Screenshot `/`, `/book`, `/privacy`, `/terms`, `/faqs` at desktop + mobile widths.
 - Confirm 0 broken images (logo, redesign, hero), 0 mojibake, AA contrast, reduced-motion honored.
+
