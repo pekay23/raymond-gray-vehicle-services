@@ -41,13 +41,13 @@ export const metadata: Metadata = {
     description:
       "Independent EV sales, scheduled EV & ICE maintenance, fleet management, and charging infrastructure — one accountable team.",
     url: "https://vehicleservices.raymond-gray.org",
-    images: [{ url: "/images/redesign/hero.png", width: 1200, height: 630, alt: "Raymond Gray EV & Automotive Services" }],
+    images: [{ url: "/images/redesign/og-default.png", width: 1200, height: 630, alt: "Raymond Gray EV & Automotive Services" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "EV & Automotive Services | Raymond Gray",
     description: "One team for every vehicle — EV sales, EV & ICE maintenance, fleet, and charging.",
-    images: ["/images/redesign/hero.png"],
+    images: ["/images/redesign/og-default.png"],
   },
   icons: {
     icon: [

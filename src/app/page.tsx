@@ -9,6 +9,7 @@ import { SectionNav } from "@/components/public/SectionNav";
 import { CarouselSection } from "@/components/public/sections/CarouselSection";
 import { CapabilityIndex } from "@/components/public/sections/CapabilityIndex";
 import { StatStrip } from "@/components/public/sections/StatStrip";
+import { ImageBand } from "@/components/public/sections/ImageBand";
 import { ProcessTimeline, type TimelineStep } from "@/components/public/sections/ProcessTimeline";
 import { FaqTeaser } from "@/components/public/sections/FaqTeaser";
 
@@ -148,7 +149,7 @@ export default function VehicleRepairsPage() {
 
       <QuoteSlabSection />
 
-      <StatStrip variant="light" stats={STATS} />
+      <StatStrip variant="dark" bgImage="/images/redesign/stat-texture.png" stats={STATS} />
 
       <CarouselSection
         screenLabel="In Action"
@@ -163,6 +164,12 @@ export default function VehicleRepairsPage() {
         eyebrow="The Full Programme"
         title={<>One team for <em>every</em> vehicle in your fleet.</>}
         pillars={FLEET_LINES}
+      />
+
+      <ImageBand
+        src="/images/redesign/process-aerial.png"
+        alt="Raymond Gray vehicle depot at dusk — mixed EV and commercial fleet"
+        caption="Fleet operations, coordinated"
       />
 
       <ProcessTimeline

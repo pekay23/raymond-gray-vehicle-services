@@ -21,10 +21,17 @@ export default function TermsPage() {
           className="max-w-[80vw] object-contain"
         />
       </div>
-      <section className="relative z-10 mx-auto max-w-3xl px-6 py-28 md:py-36">
-        <p className="font-mono text-[11px] uppercase tracking-widest text-rg-ink-mute">Legal</p>
-        <h1 className="mt-3 text-4xl font-semibold tracking-tight text-rg-ink">Terms of Service</h1>
-        <p className="mt-3 text-sm text-rg-ink-mute">Last updated: {UPDATED}</p>
+      <section className="relative h-[42vh] min-h-[280px] w-full overflow-hidden flex items-end">
+        <Image src="/images/redesign/legal-hero.png" alt="" fill priority sizes="100vw" className="object-cover" />
+        <div className="absolute inset-0 bg-linear-to-t from-rg-invert-bg via-rg-invert-bg/70 to-rg-invert-bg/30" />
+        <div className="relative z-10 mx-auto max-w-3xl w-full px-6 pb-12">
+          <p className="font-mono text-[11px] uppercase tracking-widest text-white/70">Legal</p>
+          <h1 className="mt-3 text-4xl md:text-5xl font-semibold tracking-tight text-white">Terms of Service</h1>
+          <p className="mt-3 text-sm text-white/60">Last updated: {UPDATED}</p>
+        </div>
+      </section>
+
+      <section className="relative z-10 mx-auto max-w-3xl px-6 py-16 md:py-24">
 
         <div className="rg-legal mt-10 space-y-8 text-rg-ink-soft">
           <p>

@@ -10,8 +10,8 @@ export function QuoteSlabSection() {
       {/* Background Image: Relative on mobile, Absolute on desktop */}
       <div className="relative h-[40vh] w-full lg:absolute lg:inset-0 lg:z-0">
         <Image
-          src="/images/sections/home/connect.webp"
-          alt="Premium architectural detail"
+          src="/images/redesign/quote-bg.png"
+          alt="EV charging connector locking into a port"
           fill
           sizes="100vw"
           className="object-cover brightness-[0.7]"

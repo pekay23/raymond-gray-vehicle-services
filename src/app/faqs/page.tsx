@@ -96,7 +96,7 @@ export default function FAQ() {
         <div className="rg-hero-media" aria-hidden="true">
           <Reveal variant="img" className="h-full w-full">
             <Image
-              src="/images/heros/hero-ev.webp"
+              src="/images/redesign/faq-hero.png"
               alt=""
               fill
               priority

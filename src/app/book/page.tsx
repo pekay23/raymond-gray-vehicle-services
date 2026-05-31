@@ -149,7 +149,7 @@ export default function VehicleBookingPage() {
       <section className="rg-page-hero min-h-[50vh]!">
         <div className="rg-hero-media" aria-hidden="true">
           <Image
-            src="/images/sections/automotive/disciplines-2.webp"
+            src="/images/redesign/book-hero.png"
             alt="Vehicle Servicing"
             fill
             priority
