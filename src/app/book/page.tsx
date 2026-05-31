@@ -146,24 +146,24 @@ export default function VehicleBookingPage() {
   return (
     <main className="rg-public relative">
       {/* SLIM BANNER HERO */}
-      <section className="rg-page-hero min-h-[50vh]!">
+      <section className="rg-page-hero min-h-[75vh]! flex! flex-col justify-end!">
         <div className="rg-hero-media" aria-hidden="true">
           <Image
             src="/images/redesign/book-hero.png"
             alt="Vehicle Servicing"
             fill
             priority
-            className="object-cover opacity-50 saturate-0"
+            className="object-cover opacity-70 saturate-0"
           />
-          <div className="absolute inset-0 bg-linear-to-t from-[#0a0f14] via-[#0a0f14]/80 to-transparent" />
+          <div className="absolute inset-0 bg-linear-to-t from-[#0a0f14]/70 via-[#0a0f14]/40 to-transparent" />
         </div>
 
-        <div className="relative z-10">
+        <div className="relative z-10 w-full">
           <Reveal delay={100}>
-            <span className="rg-eyebrow text-white/50 mb-4"><span className="num">Book</span>Automotive Programme</span>
+            <span className="rg-eyebrow text-white/70 mb-4"><span className="num">Book</span>Automotive Programme</span>
           </Reveal>
           <Reveal variant="line" delay={300}>
-            <DisplayHeading as="h1" size="xl" className="text-white font-light tracking-tight">
+            <DisplayHeading as="h1" size="xl" className="text-white font-light tracking-tight drop-shadow-md">
               Secure a <em>Servicing</em> Slot.
             </DisplayHeading>
           </Reveal>
@@ -331,10 +331,15 @@ export default function VehicleBookingPage() {
                       <Input name="regNumber" value={formData.regNumber} onChange={handleChange} placeholder="e.g. GR-XXXX-25" required />
                     </FormLabel>
                     <FormLabel label="Current Odometer">
-                      <div className="relative">
-                        <Input name="odometer" value={formData.odometer} onChange={handleChange} placeholder="e.g. 45,000" />
-                        <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[9px] uppercase tracking-widest text-rg-ink-mute">KM / MILES</span>
-                      </div>
+                      <Input 
+                        name="odometer" 
+                        value={formData.odometer} 
+                        onChange={handleChange} 
+                        placeholder="e.g. 45,000" 
+                        endAdornment={
+                          <span className="absolute right-4 top-1/2 -translate-y-1/2 font-mono text-[9px] uppercase tracking-widest text-rg-ink-mute">KM / MILES</span>
+                        }
+                      />
                     </FormLabel>
                   </div>
                 </div>

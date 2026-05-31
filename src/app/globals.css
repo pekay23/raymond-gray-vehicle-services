@@ -1173,21 +1173,6 @@
   overflow: hidden;
 }
 
-/* Smooth fade at the bottom edge of hero sections instead of a hard border - Desktop only to prevent mobile haze overlays */
-@media (min-width: 1024px) {
-  .rg-hero::after,
-  .rg-page-hero::after {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 80px;
-    background: linear-gradient(to bottom, transparent, var(--rg-bg));
-    z-index: 2;
-    pointer-events: none;
-  }
-}
 
 .rg-page-hero {
   position: relative;
@@ -2043,7 +2028,7 @@
 }
 
 .rg-foot {
-  padding: clamp(56px, 6vw, 104px) var(--rg-pad-x) 24px;
+  padding: clamp(16px, 2vw, 32px) var(--rg-pad-x) 24px;
   background: var(--rg-invert-bg);
   color: var(--rg-invert-ink);
 }

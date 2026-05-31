@@ -48,8 +48,8 @@ const FloatingLabel = ({
 );
 
 // Modernized styled generic text input with floating label support
-export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement> & { _label?: string, _required?: boolean }>(
-  ({ className = "", value, onChange, _label, _required, ...props }, ref) => {
+export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement> & { _label?: string, _required?: boolean, endAdornment?: React.ReactNode }>(
+  ({ className = "", value, onChange, _label, _required, endAdornment, ...props }, ref) => {
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value !== undefined && value !== null && value.toString().length > 0;
     const isActive = isFocused || hasValue;
@@ -72,6 +72,7 @@ export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttribute
           )}
           {...props}
         />
+        {endAdornment}
       </div>
     );
   }
