@@ -36,9 +36,9 @@ const FloatingLabel = ({
 }) => (
   <label
     className={cn(
-      "absolute left-4 px-1 bg-rg-bg-2 transition-all duration-200 pointer-events-none z-10 font-bold",
-      isActive 
-        ? "-top-2.5 text-[10px] text-rg-accent uppercase tracking-widest" 
+      "absolute left-4 px-1.5 bg-white transition-all duration-200 pointer-events-none z-10 font-bold rounded",
+      isActive
+        ? "-top-2.5 text-[10px] text-rg-accent uppercase tracking-widest"
         : "top-4 text-base text-rg-ink-mute/70 font-medium"
     )}
   >
@@ -64,10 +64,11 @@ export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttribute
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={cn(
-            "w-full bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium",
+            "w-full bg-white border border-rg-line p-4 text-base text-rg-ink font-medium shadow-xs",
             "outline-none transition-all duration-300",
             "placeholder-transparent focus:placeholder-rg-ink-mute/50",
-            "focus:border-rg-accent focus:ring-1 focus:ring-rg-accent/20 rounded-md",
+            "hover:border-rg-ink-mute/40",
+            "focus:border-rg-accent focus:ring-4 focus:ring-rg-accent/12 focus:bg-rg-accent-subtle/30 rounded-lg",
             className
           )}
           {...props}
@@ -96,10 +97,11 @@ export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTML
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={cn(
-            "w-full bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium",
+            "w-full bg-white border border-rg-line p-4 text-base text-rg-ink font-medium shadow-xs",
             "outline-none transition-all duration-300 resize-none min-h-[110px]",
             "placeholder-transparent focus:placeholder-rg-ink-mute/50",
-            "focus:border-rg-accent focus:ring-1 focus:ring-rg-accent/20 rounded-md",
+            "hover:border-rg-ink-mute/40",
+            "focus:border-rg-accent focus:ring-4 focus:ring-rg-accent/12 focus:bg-rg-accent-subtle/30 rounded-lg",
             className
           )}
           {...props}
@@ -127,16 +129,17 @@ export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttrib
           onFocus={() => setIsFocused(true)}
           onBlur={() => setIsFocused(false)}
           className={cn(
-            "w-full appearance-none bg-rg-bg-2 border border-rg-line p-4 text-base text-rg-ink font-medium",
+            "w-full appearance-none bg-white border border-rg-line p-4 text-base text-rg-ink font-medium shadow-xs",
             "outline-none transition-all duration-300 cursor-pointer",
-            "focus:border-rg-accent focus:ring-1 focus:ring-rg-accent/20 rounded-md",
+            "hover:border-rg-ink-mute/40",
+            "focus:border-rg-accent focus:ring-4 focus:ring-rg-accent/12 rounded-lg",
             className
           )}
           {...props}
         >
-          <option value="" disabled className="text-rg-ink-mute bg-rg-bg-2"></option>
+          <option value="" disabled className="text-rg-ink-mute bg-white"></option>
           {options.map(opt => (
-            <option key={opt.value} value={opt.value} className="text-rg-ink bg-rg-bg-2">{opt.label}</option>
+            <option key={opt.value} value={opt.value} className="text-rg-ink bg-white">{opt.label}</option>
           ))}
         </select>
         <div className="absolute right-4 top-1/2 -translate-y-1/2 pointer-events-none text-rg-ink-mute opacity-60 group-focus-within:text-rg-accent transition-colors">

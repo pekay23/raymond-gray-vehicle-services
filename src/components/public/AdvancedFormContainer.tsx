@@ -3,7 +3,7 @@
 import { ReactNode } from "react";
 import React from "react";
 import { Reveal, DisplayHeading } from "@/components/public";
-import { Loader2, CheckCircle } from "lucide-react";
+import { Loader2, CheckCircle, AlertTriangle } from "lucide-react";
 import { motion } from "framer-motion";
 
 type AdvancedFormContainerProps = {
@@ -43,13 +43,15 @@ export function AdvancedFormContainer({
 }: AdvancedFormContainerProps) {
   return (
     <Reveal delay={300}>
-      <div className="bg-white p-[clamp(24px,4vw,60px)] shadow-soft border border-rg-line relative overflow-hidden">
-        
+      <div className="bg-white p-[clamp(24px,4vw,60px)] shadow-[0_20px_60px_-25px_hsl(215_25%_27%/0.25)] border border-rg-line rounded-xl relative overflow-hidden">
+        {/* Brand accent top-rail */}
+        <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-rg-accent via-rg-accent-light to-rg-accent" />
+
         {/* Success Overlay with same styles */}
         {status === "success" ? (
-          <div className="text-center py-20 min-h-[400px] flex flex-col items-center justify-center animate-in fade-in duration-500">
-            <div className="w-20 h-20 bg-rg-success/10 rounded-full flex items-center justify-center mx-auto mb-6">
-              <CheckCircle className="w-10 h-10 text-rg-success" />
+          <div className="text-center py-20 min-h-[400px] flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-500">
+            <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 bg-linear-to-br from-rg-accent-subtle to-rg-accent/10 ring-1 ring-rg-accent/20 shadow-[0_12px_30px_-12px_var(--rg-accent)]">
+              <CheckCircle className="w-11 h-11 text-rg-accent" />
             </div>
             <span className="rg-eyebrow"><span className="num">Logged</span>Success</span>
             <DisplayHeading as="h3" size="md" className="mt-4 mb-4 text-rg-ink">
@@ -122,8 +124,8 @@ export function AdvancedFormContainer({
             {/* Dynamic Footer Bar */}
             <div className="flex flex-col gap-4">
               {status === "error" && (
-                <div className="p-3 bg-rg-destructive/5 border border-rg-destructive/10 text-rg-destructive text-xs font-medium rounded flex items-start gap-2">
-                  <span>⚠️</span> {errorText}
+                <div className="p-4 bg-rg-destructive/5 border border-rg-destructive/20 text-rg-destructive text-xs font-medium rounded-lg flex items-start gap-2.5">
+                  <AlertTriangle className="w-4 h-4 shrink-0 mt-px" /> <span>{errorText}</span>
                 </div>
               )}
 
