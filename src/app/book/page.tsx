@@ -110,20 +110,35 @@ export default function VehicleBookingPage() {
         }),
       });
 
-      const data = await res.json();
+      // The booking API may be unavailable in this standalone deployment (no /api
+      // route here). Guard against non-JSON (e.g. a 404 HTML page) so we degrade
+      // to the WhatsApp path instead of throwing a JSON parse error.
+      const contentType = res.headers.get("content-type") || "";
+      const data = contentType.includes("application/json") ? await res.json() : null;
 
-      if (res.ok && data.success) {
+      if (res.ok && data?.success) {
         setAssignedJobId(data.jobId);
         setStatus("success");
         if (viaWhatsApp) {
           window.open(generateWhatsAppLink(data.jobId), "_blank");
         }
+      } else if (viaWhatsApp) {
+        // No backend persisted the booking, but the user explicitly chose WhatsApp —
+        // still hand them off so the lead isn't lost.
+        setStatus("success");
+        window.open(generateWhatsAppLink(), "_blank");
       } else {
         setStatus("error");
       }
     } catch (err) {
       console.error(err);
-      setStatus("error");
+      // Network/parse failure: if they chose WhatsApp, let them through anyway.
+      if (viaWhatsApp) {
+        setStatus("success");
+        window.open(generateWhatsAppLink(), "_blank");
+      } else {
+        setStatus("error");
+      }
     }
   };
 
@@ -243,7 +258,8 @@ export default function VehicleBookingPage() {
               submitLabel="Confirm Booking"
               onSubmit={handleFormSubmit}
               successTitle="Booking Received!"
-              successMessage={`Your request is being processed. Secure reference: ${assignedJobId || "Pending"}. We will contact you shortly with a cost estimate.`}
+              successMessage={`Your request is being processed${assignedJobId ? `. Secure reference: ${assignedJobId}` : ""}. We'll contact you shortly with a cost estimate — or message us on WhatsApp to confirm right away.`}
+              errorText="We couldn't submit the form right now. Please use “Book via WhatsApp” below, or email automechanic@raymond-gray.org."
               progress={
                 <ol className="flex items-center gap-2 list-none p-0 m-0" aria-label="Booking progress">
                   {STEPS.map((s, i) => {

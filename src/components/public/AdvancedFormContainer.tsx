@@ -69,7 +69,7 @@ export function AdvancedFormContainer({
             </button>
           </div>
         ) : (
-          <form className="rg-contact-form flex flex-col gap-8" onSubmit={onSubmit}>
+          <form className="flex flex-col gap-8" onSubmit={onSubmit}>
             {/* Local Heading within Form Card */}
             <div>
               <div className="flex items-center gap-3 mb-2">
