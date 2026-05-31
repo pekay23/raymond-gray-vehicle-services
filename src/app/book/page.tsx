@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import { SectionShell } from "@/components/public/SectionShell";
 import { DisplayHeading } from "@/components/public/DisplayHeading";
@@ -48,6 +48,15 @@ export default function VehicleBookingPage() {
   const [assignedJobId, setAssignedJobId] = useState<string | null>(null);
   const [step, setStep] = useState(0);
   const lastStep = STEPS.length - 1;
+
+  // Captured when the form mounts (not at submit). The booking API rejects
+  // submissions made <3s after this timestamp as bots, so it must reflect the
+  // real time the form was loaded — otherwise every genuine booking is silently
+  // dropped.
+  const formLoadedAt = useRef(0);
+  useEffect(() => {
+    formLoadedAt.current = Date.now();
+  }, []);
 
   const isFormValid =
     formData.fullName &&
@@ -106,7 +115,7 @@ export default function VehicleBookingPage() {
           location: formData.bookingOption === "callout" ? formData.location?.address || "" : "",
           latitude: formData.bookingOption === "callout" ? formData.location?.latitude : null,
           longitude: formData.bookingOption === "callout" ? formData.location?.longitude : null,
-          formLoadedAt: Date.now(),
+          formLoadedAt: formLoadedAt.current,
         }),
       });
 
@@ -168,9 +177,8 @@ export default function VehicleBookingPage() {
             alt="Vehicle Servicing"
             fill
             priority
-            className="object-cover opacity-70 saturate-0"
+            className="object-cover saturate-0"
           />
-          <div className="absolute inset-0 bg-linear-to-t from-[#0a0f14]/70 via-[#0a0f14]/40 to-transparent" />
         </div>
 
         <div className="relative z-10 w-full">
