@@ -37,11 +37,11 @@ export function SplitFeature({
       className="py-(--rg-section-y) relative"
       data-screen-label={screenLabel}
     >
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-24 items-start">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-24 items-start">
         {/* Sticky Image Column */}
         <div 
           className={cn(
-            "lg:col-span-5 sticky top-32",
+            "relative z-0 lg:col-span-5 lg:sticky lg:top-32",
             reverse ? "lg:order-2" : "lg:order-1"
           )}
         >
@@ -62,7 +62,7 @@ export function SplitFeature({
         {/* Scrolling Content Column */}
         <div 
           className={cn(
-            "lg:col-span-7 flex flex-col gap-10", 
+            "relative z-10 flex flex-col gap-8 bg-inherit pt-2 lg:col-span-7 lg:gap-10 lg:pt-0", 
             reverse ? "lg:order-1" : "lg:order-2"
           )}
         >

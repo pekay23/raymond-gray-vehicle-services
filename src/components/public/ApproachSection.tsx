@@ -69,11 +69,11 @@ export function ApproachSection() {
         </div>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      <div className="rg-approach-services grid grid-cols-1 lg:grid-cols-3 gap-6">
         {pillars.map((pillar, i) => (
           <Reveal key={pillar.title} delay={i * 150} variant="fade" className="h-full">
-            <article className="border border-rg-line p-8 flex flex-col gap-6 min-h-[420px] bg-rg-surface group hover:bg-rg-accent-subtle hover:border-rg-line-strong transition-colors duration-300 h-full">
-              <Reveal variant="img" delay={i * 150} className="aspect-4/3 bg-rg-ink/5 relative overflow-hidden block">
+            <article className="rg-approach-service-card border border-rg-line p-8 flex flex-col gap-6 min-h-[420px] bg-rg-surface group hover:bg-rg-accent-subtle hover:border-rg-line-strong transition-colors duration-300 h-full">
+              <Reveal variant="img" delay={i * 150} className="rg-approach-service-media aspect-4/3 bg-rg-ink/5 relative overflow-hidden block">
                 <Image 
                   src={pillar.img} 
                   alt={pillar.title} 

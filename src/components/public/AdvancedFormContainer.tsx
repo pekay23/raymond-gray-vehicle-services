@@ -43,7 +43,7 @@ export function AdvancedFormContainer({
 }: AdvancedFormContainerProps) {
   return (
     <Reveal delay={300}>
-      <div className="bg-white p-[clamp(24px,4vw,60px)] shadow-[0_20px_60px_-25px_hsl(215_25%_27%/0.25)] border border-rg-line rounded-xl relative overflow-hidden">
+      <div className="bg-white p-5 sm:p-[clamp(24px,4vw,60px)] shadow-[0_20px_60px_-25px_hsl(215_25%_27%/0.25)] border border-rg-line rounded-xl relative overflow-hidden">
         {/* Brand accent top-rail */}
         <div className="absolute top-0 left-0 right-0 h-1 bg-linear-to-r from-rg-accent via-rg-accent-light to-rg-accent" />
 

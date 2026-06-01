@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { cn } from "@/lib/utils";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useRef } from "react";
 
 /** A single call-to-action used across the marketing section kit. */
@@ -52,7 +52,7 @@ function MagneticWrapper({ children }: { children: React.ReactNode }) {
       style={{ x: springX, y: springY }}
       whileHover={{ scale: 1.05 }}
       whileTap={{ scale: 0.95 }}
-      className="inline-block"
+      className="inline-block max-sm:block max-sm:w-full"
     >
       {children}
     </motion.div>
@@ -76,7 +76,7 @@ export function CtaButton({ cta, className }: { cta: Cta; className?: string }) 
 export function CtaRow({ ctas, className }: { ctas?: Cta[]; className?: string }) {
   if (!ctas?.length) return null;
   return (
-    <div className={cn("flex flex-wrap gap-4", className)}>
+    <div className={cn("flex flex-wrap gap-4 max-sm:flex-col", className)}>
       {ctas.map((c) => (
         <CtaButton key={c.href + c.label} cta={c} />
       ))}

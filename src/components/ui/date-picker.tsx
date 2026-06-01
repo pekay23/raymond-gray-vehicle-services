@@ -77,20 +77,20 @@ export function DatePicker({ value, onChange, label = "Preferred Date/Time", min
         <PopoverTrigger asChild>
           <button
             type="button"
-            className={`w-full flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 bg-slate-50 text-left transition-all ${
+            className={`w-full min-w-0 flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 bg-slate-50 text-left transition-all ${
               selectedDate
                 ? "border-blue-600 focus:border-blue-600 ring-4 ring-blue-600/10"
                 : "border-slate-200 hover:border-slate-300 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
             }`}
           >
-            <CalendarIcon className={`w-5 h-5 ${selectedDate ? "text-blue-600" : "text-slate-400"}`} />
-            <span className={`font-medium ${selectedDate ? "text-slate-900" : "text-slate-400"}`}>
+            <CalendarIcon className={`w-5 h-5 shrink-0 ${selectedDate ? "text-blue-600" : "text-slate-400"}`} />
+            <span className={`min-w-0 font-medium leading-snug ${selectedDate ? "text-slate-900" : "text-slate-400"}`}>
               {displayValue || "Select preferred date & time"}
             </span>
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-auto p-0" align="start" sideOffset={8}>
-          <div className="p-4 bg-white rounded-xl shadow-xl border border-slate-200">
+        <PopoverContent className="w-[calc(100vw-2rem)] max-w-[24rem] p-0" align="start" sideOffset={8}>
+          <div className="p-3 sm:p-4 bg-white rounded-xl shadow-xl border border-slate-200">
             {/* Month Navigation */}
             <div className="flex items-center justify-between mb-4">
               <button
@@ -135,7 +135,7 @@ export function DatePicker({ value, onChange, label = "Preferred Date/Time", min
                     type="button"
                     disabled={isDisabled}
                     onClick={() => handleDateSelect(day)}
-                    className={`w-10 h-10 rounded-lg text-sm font-medium transition-all ${
+                    className={`size-9 sm:size-10 rounded-lg text-sm font-medium transition-all ${
                       !isCurrentMonth
                         ? "text-slate-300"
                         : isDisabled
@@ -162,7 +162,7 @@ export function DatePicker({ value, onChange, label = "Preferred Date/Time", min
                     Select Time Slot
                   </span>
                 </div>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
                   {TIME_SLOTS.map((time) => (
                     <button
                       key={time}

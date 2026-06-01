@@ -44,7 +44,7 @@ export function PageHero({
     >
       <motion.div
         style={{ y, opacity }}
-        className="absolute inset-0 z-0 w-full h-[120%] top-[-10%]"
+        className="rg-immersive-hero-media absolute inset-0 z-0 w-full h-[120%] top-[-10%]"
       >
         <Image
           src={image.src}

@@ -13,6 +13,25 @@ interface DisplayHeadingProps {
   animate?: boolean;
 }
 
+const headingComponents = {
+  h1: motion.h1,
+  h2: motion.h2,
+  h3: motion.h3,
+  h4: motion.h4,
+  h5: motion.h5,
+  h6: motion.h6,
+  span: motion.span,
+  div: motion.div,
+};
+
+const sizeClasses = {
+  xl: "rg-display-xl",
+  lg: "rg-display-lg",
+  md: "rg-display-md",
+  sm: "rg-display-sm",
+  xs: "rg-display-xs",
+};
+
 export const DisplayHeading: React.FC<DisplayHeadingProps> = ({
   children,
   as = "h2",
@@ -21,15 +40,7 @@ export const DisplayHeading: React.FC<DisplayHeadingProps> = ({
   italic = false,
   animate = false,
 }) => {
-  const sizeClasses = {
-    xl: "rg-display-xl",
-    lg: "rg-display-lg",
-    md: "rg-display-md",
-    sm: "rg-display-sm",
-    xs: "rg-display-xs",
-  };
-
-  const Component = motion.create(as as keyof typeof motion);
+  const Component = headingComponents[as];
 
   return (
     <Component

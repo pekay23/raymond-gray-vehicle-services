@@ -111,6 +111,7 @@ export default function VehicleRepairsPage() {
 
       <CapabilityIndex />
 
+
       <div id="ev-sales" aria-hidden />
       <SplitFeature
         screenLabel="EV Sales"
@@ -118,6 +119,7 @@ export default function VehicleRepairsPage() {
         title={<>The right vehicle — <em>not</em> the one we&apos;re paid to sell.</>}
         body="We're not tied to any manufacturer or dealer. We assess your real usage, compare honestly, and project the true cost of ownership — then coordinate procurement, delivery, and charging setup."
         image={{ src: "/images/redesign/abstract.png", alt: "Independent EV sales advice" }}
+        priority
         points={[
           "Fleet or personal needs assessment",
           "Curated, honest side-by-side comparison",

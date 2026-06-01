@@ -51,6 +51,7 @@ export function CarouselSection({
           trigger: sectionRef.current,
           pin: true,
           scrub: 1,
+          snap: 1 / (items.length - 1),
           start: "center center",
           end: () => "+=" + trackWidth,
           invalidateOnRefresh: true,
@@ -63,7 +64,7 @@ export function CarouselSection({
 
   return (
     <div ref={sectionRef} className="rg-carousel w-full overflow-hidden relative" data-screen-label={screenLabel}>
-      <SectionShell variant={variant} className="rg-carousel-shell w-full min-h-screen flex flex-col justify-center py-(--rg-section-y)" padded={false}>
+      <SectionShell variant={variant} className="rg-carousel-shell w-full min-h-dvh flex flex-col justify-center py-(--rg-section-y)" padded={false}>
         <div className="rg-carousel-head mb-12 lg:mb-20 px-(--rg-pad-x)">
           {eyebrow && (
             <span className="font-mono text-xs uppercase tracking-[0.2em] text-rg-ink/50 block mb-4">
@@ -75,11 +76,14 @@ export function CarouselSection({
           </DisplayHeading>
         </div>
 
-        <div className="rg-carousel-track overflow-visible pl-(--rg-pad-x)">
+        <div className="rg-carousel-track overflow-visible">
           <div
             ref={trackRef}
-            className="flex gap-8 lg:gap-12 w-max pr-(--rg-pad-x)"
+            className="flex gap-8 lg:gap-12 w-max"
           >
+            {/* Start spacer for perfect centering */}
+            <div className="shrink-0 w-[calc(50vw-42.5vw)] md:w-[calc(50vw-30vw)] lg:w-[calc(50vw-20vw)] min-w-[calc(50vw-300px)] -mr-8 lg:-mr-12" />
+
             {items.map((item) => (
               <div
                 key={item.id}
@@ -100,6 +104,9 @@ export function CarouselSection({
                 </div>
               </div>
             ))}
+
+            {/* End spacer for perfect centering */}
+            <div className="shrink-0 w-[calc(50vw-42.5vw)] md:w-[calc(50vw-30vw)] lg:w-[calc(50vw-20vw)] min-w-[calc(50vw-300px)] -ml-8 lg:-ml-12" />
           </div>
         </div>
       </SectionShell>

@@ -1,5 +1,4 @@
 import type { Metadata, Viewport } from "next";
-import { Montserrat } from "next/font/google";
 import localFont from "next/font/local";
 import "./globals.css";
 import { TopNav } from "@/components/public/TopNav";
@@ -20,8 +19,27 @@ const gothamDisplay = localFont({
   display: "swap",
 });
 
-const montserrat = Montserrat({
-  subsets: ["latin"],
+const montserrat = localFont({
+  src: [
+    { path: "../../fonts/fonts/Montserrat-Thin.ttf", weight: "100", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-ThinItalic.ttf", weight: "100", style: "italic" },
+    { path: "../../fonts/fonts/Montserrat-ExtraLight.ttf", weight: "200", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-ExtraLightItalic.ttf", weight: "200", style: "italic" },
+    { path: "../../fonts/fonts/Montserrat-Light.ttf", weight: "300", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-LightItalic.ttf", weight: "300", style: "italic" },
+    { path: "../../fonts/fonts/Montserrat-Regular.ttf", weight: "400", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-Italic.ttf", weight: "400", style: "italic" },
+    { path: "../../fonts/fonts/Montserrat-Medium.ttf", weight: "500", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-MediumItalic.ttf", weight: "500", style: "italic" },
+    { path: "../../fonts/fonts/Montserrat-SemiBold.ttf", weight: "600", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-SemiBoldItalic.ttf", weight: "600", style: "italic" },
+    { path: "../../fonts/fonts/Montserrat-Bold.ttf", weight: "700", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-BoldItalic.ttf", weight: "700", style: "italic" },
+    { path: "../../fonts/fonts/Montserrat-ExtraBold.ttf", weight: "800", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-ExtraBoldItalic.ttf", weight: "800", style: "italic" },
+    { path: "../../fonts/fonts/Montserrat-Black.ttf", weight: "900", style: "normal" },
+    { path: "../../fonts/fonts/Montserrat-BlackItalic.ttf", weight: "900", style: "italic" },
+  ],
   variable: "--font-montserrat",
   display: "swap",
 });
@@ -59,6 +77,12 @@ export const metadata: Metadata = {
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" }],
   },
   manifest: "/site.webmanifest",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 };
 
 export default function RootLayout({

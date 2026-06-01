@@ -150,7 +150,7 @@ export function LocationPicker({ value, onChange, required }: LocationPickerProp
       </label>
 
       {/* Search + Use My Location */}
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2 sm:flex-row">
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
           <input
@@ -199,7 +199,7 @@ export function LocationPicker({ value, onChange, required }: LocationPickerProp
           type="button"
           onClick={handleUseMyLocation}
           disabled={isLocating}
-          className="shrink-0 px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:bg-primary/5 hover:border-primary/30 transition-all flex items-center gap-2 text-sm font-semibold text-foreground disabled:opacity-50"
+          className="shrink-0 px-4 py-3 rounded-xl border-2 border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50 hover:bg-primary/5 hover:border-primary/30 transition-all flex items-center justify-center gap-2 text-sm font-semibold text-foreground disabled:opacity-50"
           title="Use my current location"
         >
           {isLocating ? (
@@ -207,7 +207,7 @@ export function LocationPicker({ value, onChange, required }: LocationPickerProp
           ) : (
             <Crosshair className="w-4 h-4" />
           )}
-          <span className="hidden sm:inline">My Location</span>
+          <span>My Location</span>
         </button>
       </div>
 

@@ -83,7 +83,7 @@ export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => 
               fontWeight: 500,
             }}
           >
-            Book
+            Book a service
           </Link>
           <button
             onClick={onClose}

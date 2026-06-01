@@ -9,8 +9,8 @@ import { cn } from "@/lib/utils";
  * smooth-scrolls on click. This is the home page's section-jumping mechanism —
  * the overlay menu is reserved for page-to-page navigation.
  *
- * Fixed to the right edge on wide screens only. Uses mix-blend-difference so the
- * monochrome ticks/labels stay legible over both light and dark sections.
+ * Fixed to the right edge on mobile/tablet screens only. Uses mix-blend-difference
+ * so the monochrome ticks stay legible over both light and dark sections.
  */
 export function SectionNav() {
   const [labels, setLabels] = useState<string[]>([]);
@@ -22,7 +22,9 @@ export function SectionNav() {
       document.querySelectorAll<HTMLElement>("main [data-screen-label]")
     );
     elsRef.current = els;
-    setLabels(els.map((e) => e.getAttribute("data-screen-label") || ""));
+    const frame = requestAnimationFrame(() => {
+      setLabels(els.map((e) => e.getAttribute("data-screen-label") || ""));
+    });
 
     const io = new IntersectionObserver(
       (entries) => {
@@ -37,11 +39,14 @@ export function SectionNav() {
     );
 
     els.forEach((e) => io.observe(e));
-    return () => io.disconnect();
+    return () => {
+      cancelAnimationFrame(frame);
+      io.disconnect();
+    };
   }, []);
 
   const go = useCallback((i: number) => {
-    const el = elsRef.current[i];
+    const el = elsRef.current.at(i);
     if (!el) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const y = el.getBoundingClientRect().top + window.scrollY - 80;
@@ -53,7 +58,7 @@ export function SectionNav() {
   return (
     <nav
       aria-label="Section navigation"
-      className="hidden xl:flex fixed right-6 top-1/2 -translate-y-1/2 z-[90] flex-col items-end gap-3 mix-blend-difference text-white"
+      className="fixed right-3 top-1/2 z-90 flex -translate-y-1/2 flex-col items-end gap-2 text-white mix-blend-difference lg:hidden sm:right-4 sm:gap-3"
     >
       {labels.map((label, i) => {
         const isActive = active === i;
@@ -67,7 +72,7 @@ export function SectionNav() {
           >
             <span
               className={cn(
-                "font-mono text-[10px] uppercase tracking-[0.15em] whitespace-nowrap transition-all duration-300",
+                "max-w-[46vw] truncate text-right font-mono text-[10px] uppercase tracking-[0.15em] whitespace-nowrap transition-all duration-300",
                 isActive ? "opacity-100" : "opacity-0 group-hover:opacity-70"
               )}
             >
@@ -76,7 +81,7 @@ export function SectionNav() {
             <span
               className={cn(
                 "h-px transition-all duration-300",
-                isActive ? "w-9 bg-white" : "w-4 bg-white/40 group-hover:w-6 group-hover:bg-white/80"
+                isActive ? "w-7 bg-white sm:w-9" : "w-3 bg-white/40 group-hover:w-5 group-hover:bg-white/80 sm:w-4 sm:group-hover:w-6"
               )}
             />
           </button>

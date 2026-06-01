@@ -5,6 +5,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { OverlayMenu } from "./OverlayMenu";
 
+const SOLID_NAV_SCROLL_Y = 12;
+
 export const TopNav: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -19,7 +21,7 @@ export const TopNav: React.FC = () => {
 
   const handleScroll = useCallback(() => {
     const scrollY = window.scrollY;
-    setIsScrolled(scrollY > 50);
+    setIsScrolled(scrollY > SOLID_NAV_SCROLL_Y);
 
     // Hide when footer is in view
     const footer = document.querySelector(".rg-foot");
@@ -53,48 +55,67 @@ export const TopNav: React.FC = () => {
 
   return (
     <>
+      <Link
+        href="/book"
+        className="rg-mobile-top-action fixed right-[5.75rem] top-3 z-100 inline-flex min-h-11 appearance-none items-center justify-center border-0 bg-transparent px-3 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)] lg:hidden"
+        style={{
+          top: 'calc(12px + env(safe-area-inset-top, 0px))',
+        }}
+      >
+        Book a Service
+      </Link>
+      <button
+        onClick={() => setIsMenuOpen(true)}
+        className="rg-mobile-top-action fixed right-4 top-3 z-100 inline-flex min-h-11 appearance-none items-center justify-center gap-2 border-0 bg-transparent px-3 font-mono text-[10px] font-medium uppercase tracking-[0.12em] text-white drop-shadow-[0_1px_2px_rgba(0,0,0,0.55)] lg:hidden"
+        style={{
+          top: 'calc(12px + env(safe-area-inset-top, 0px))',
+          visibility: isMenuOpen ? 'hidden' : 'visible',
+        }}
+        aria-label="Open Menu"
+      >
+        <span>Menu</span>
+        <span className="relative block h-3 w-6" aria-hidden="true">
+          <span className="absolute right-0 top-[2px] h-px w-full bg-current" />
+          <span className="absolute bottom-[2px] right-0 h-px w-3/4 bg-current" />
+        </span>
+      </button>
+
+      {/* iOS Safe Area Fill: Extracted OUTSIDE the header so it never hides.
+          This ensures that even when the TopNav translates out of view on scroll down,
+          the physical notch area remains opaque and the page content doesn't leak behind it. */}
+      <div
+        aria-hidden="true"
+        className="rg-safe-fill rg-desktop-safe-fill hidden lg:block"
+        data-scrolled={isScrolled}
+        data-legal={isLegalPage}
+        data-menu-open={isMenuOpen}
+      />
       <header
-        className="rg-public"
+        className={`rg-public rg-topnav-safe rg-desktop-topnav hidden lg:flex ${isScrolled ? 'is-scrolled' : ''}`}
+        data-scrolled={isScrolled}
         style={{
           position: 'fixed',
-          top: 0, left: 0, right: 0,
+          top: 0,
+          left: 0,
+          right: 0,
           zIndex: 100,
-          display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
-          paddingTop: isScrolled ? 'calc(12px + env(safe-area-inset-top, 0px))' : 'calc(20px + env(safe-area-inset-top, 0px))',
-          paddingBottom: isScrolled ? '12px' : '20px',
           paddingLeft: 'var(--rg-pad-x)',
           paddingRight: 'var(--rg-pad-x)',
           marginTop: 0,
           transition: 'all 500ms cubic-bezier(0.16, 1, 0.3, 1)',
-          background: isMenuOpen ? 'transparent' : (isScrolled ? 'var(--rg-bg)' : (isLegalPage ? 'transparent' : 'linear-gradient(to bottom, rgba(0,0,0,0.3) 0%, rgba(0,0,0,0) 100%)')),
-          borderBottom: (isScrolled && !isMenuOpen) ? '1px solid var(--rg-line)' : 'none',
+          // Solid background when scrolled, gradient when not
+          background: isMenuOpen ? 'transparent' : (isScrolled ? 'var(--rg-bg)' : (isLegalPage ? 'transparent' : 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%)')),
+          borderBottom: (isScrolled && !isMenuOpen) ? '1px solid color-mix(in oklch, var(--rg-line), transparent 60%)' : '1px solid transparent',
           backdropFilter: 'none',
           WebkitBackdropFilter: 'none',
           color: isMenuOpen ? '#ffffff' : ((isScrolled || isLegalPage) ? 'var(--rg-ink)' : '#ffffff'),
           pointerEvents: 'none' as const,
-          transform: isHidden ? 'translateY(-100%)' : 'translateY(0)',
+          transform: isHidden ? 'translateY(-100%)' : 'none',
           opacity: isHidden ? 0 : 1,
         }}
       >
-        {/* iOS Safe Area Fill: With viewport-fit=cover, fixed top:0 is at the physical screen top.
-             This div fills the notch/safe-area gap between the physical screen top and the visible header content,
-             preventing page content from bleeding into the notch area. */}
-        <div 
-          aria-hidden="true"
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            height: 'calc(env(safe-area-inset-top, 0px) + 4px)',
-            backgroundColor: isMenuOpen ? 'transparent' : (isScrolled ? 'var(--rg-bg)' : 'var(--rg-invert-bg)'),
-            pointerEvents: 'none',
-            zIndex: 2,
-          }}
-        />
-
         <Link
           href="/"
           aria-hidden={hideWordmark}
@@ -114,7 +135,7 @@ export const TopNav: React.FC = () => {
                 src="/images/logos/Raymondgraylogo169WhiteNoBG.png" 
                 alt="Raymond Gray" 
                 className={`object-contain transition-all duration-500 ease-out transform ${
-                  isScrolled ? "scale-[1.5] md:scale-[1.8]" : "scale-[1.8] md:scale-[2.2]"
+                  isScrolled ? "scale-[1.25] sm:scale-[1.5] md:scale-[1.8]" : "scale-[1.4] sm:scale-[1.8] md:scale-[2.2]"
                 }`}
                 style={{
                   height: '100%',
@@ -131,7 +152,7 @@ export const TopNav: React.FC = () => {
                 src={isScrolled || isLegalPage ? "/images/logos/RaymondgraylogoNoBG.png" : "/images/logos/Raymondgraylogo169WhiteNoBG.png"}
                 alt="Raymond Gray" 
                 className={`object-contain transition-all duration-500 ease-out transform ${
-                  isScrolled ? "scale-[1.5] md:scale-[1.8]" : "scale-[1.8] md:scale-[2.2]"
+                  isScrolled ? "scale-[1.25] sm:scale-[1.5] md:scale-[1.8]" : "scale-[1.4] sm:scale-[1.8] md:scale-[2.2]"
                 }`}
                 style={{
                   height: '100%',
@@ -168,7 +189,7 @@ export const TopNav: React.FC = () => {
           {/* Portal login link - visible on desktop, hidden on mobile (handled by Tailwind) */}
           <Link
             href="/book"
-            className="rg-nav-login hidden md:inline-block"
+            className="rg-nav-login inline-block"
             style={{
               color: 'inherit',
               fontFamily: 'var(--rg-mono)',
@@ -179,7 +200,7 @@ export const TopNav: React.FC = () => {
               transition: 'color 400ms',
             }}
           >
-            Book
+            Book a Service
           </Link>
 
           {/* Menu button — handoff: mono 11px, tracking 0.12em, gap 12px */}

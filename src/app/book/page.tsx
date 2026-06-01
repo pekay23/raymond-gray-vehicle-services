@@ -387,7 +387,7 @@ export default function VehicleBookingPage() {
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-rg-ink font-bold mb-4 block">
                     Maintenance Type
                   </span>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
                     {SERVICE_TYPES.map((tier) => (
                       <label
                         key={tier.value}
@@ -500,7 +500,7 @@ export default function VehicleBookingPage() {
                   {/* Review summary */}
                   <div className="mt-6 p-5 bg-rg-bg-2 border border-rg-line rounded-sm text-sm">
                     <span className="font-mono text-[10px] uppercase tracking-widest text-rg-ink-mute block mb-3">Review</span>
-                    <dl className="grid grid-cols-2 gap-y-2 gap-x-4 m-0">
+                    <dl className="grid grid-cols-1 sm:grid-cols-2 gap-y-2 gap-x-4 m-0">
                       <dt className="text-rg-ink-mute">Vehicle</dt>
                       <dd className="text-rg-ink font-medium m-0">{formData.vehicleMake} {formData.vehicleModel} {formData.regNumber && `(${formData.regNumber})`}</dd>
                       <dt className="text-rg-ink-mute">Service</dt>
