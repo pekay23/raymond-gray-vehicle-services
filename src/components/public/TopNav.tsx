@@ -85,13 +85,14 @@ export const TopNav: React.FC = () => {
           the physical notch area remains opaque and the page content doesn't leak behind it. */}
       <div
         aria-hidden="true"
-        className="rg-safe-fill rg-desktop-safe-fill hidden lg:block"
+        className="rg-safe-fill rg-desktop-safe-fill hidden lg:block border-none! shadow-none!"
         data-scrolled={isScrolled}
         data-legal={isLegalPage}
         data-menu-open={isMenuOpen}
+        style={{ borderBottom: 'none', boxShadow: 'none' }}
       />
       <header
-        className={`rg-public rg-topnav-safe rg-desktop-topnav hidden lg:flex ${isScrolled ? 'is-scrolled' : ''}`}
+        className={`rg-public rg-topnav-safe rg-desktop-topnav hidden lg:flex ${isScrolled ? 'is-scrolled' : ''} border-none! border-b-0! shadow-none! ring-0 outline-none`}
         data-scrolled={isScrolled}
         style={{
           position: 'fixed',
@@ -107,7 +108,9 @@ export const TopNav: React.FC = () => {
           transition: 'all 500ms cubic-bezier(0.16, 1, 0.3, 1)',
           // Solid background when scrolled, gradient when not
           background: isMenuOpen ? 'transparent' : (isScrolled ? 'var(--rg-bg)' : (isLegalPage ? 'transparent' : 'linear-gradient(to bottom, rgba(0,0,0,0.4) 0%, rgba(0,0,0,0) 100%)')),
-          borderBottom: (isScrolled && !isMenuOpen) ? '1px solid color-mix(in oklch, var(--rg-line), transparent 60%)' : '1px solid transparent',
+          borderBottom: 'none',
+          border: 'none',
+          boxShadow: 'none',
           backdropFilter: 'none',
           WebkitBackdropFilter: 'none',
           color: isMenuOpen ? '#ffffff' : ((isScrolled || isLegalPage) ? 'var(--rg-ink)' : '#ffffff'),
