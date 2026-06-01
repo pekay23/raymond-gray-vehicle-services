@@ -138,8 +138,8 @@ export const TopNav: React.FC = () => {
               alt="Raymond Gray" 
               className={`w-8 h-8 object-contain transition-all duration-500 ${(!isScrolled && !isLegalPage) || isMenuOpen ? "brightness-0 invert opacity-90" : ""}`}
             />
-            <span className={`font-display font-bold text-lg tracking-tight hidden sm:block ${(!isScrolled && !isLegalPage) || isMenuOpen ? "text-white" : "text-[var(--rg-ink)]"}`}>
-              Raymond Gray <span className={`font-normal ${(!isScrolled && !isLegalPage) || isMenuOpen ? "text-white/70" : "text-[var(--rg-ink-subtle)]"}`}>| Vehicle Services</span>
+            <span className={`font-display font-bold text-lg tracking-tight hidden sm:block ${(!isScrolled && !isLegalPage) || isMenuOpen ? "text-white" : "text-(--rg-ink)"}`}>
+              Raymond Gray <span className={`font-normal ${(!isScrolled && !isLegalPage) || isMenuOpen ? "text-white/70" : "text-(--rg-ink-subtle)"}`}>| Vehicle Services</span>
             </span>
           </div>
         </Link>

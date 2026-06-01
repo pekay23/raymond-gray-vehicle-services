@@ -16,43 +16,26 @@ const NAV_LINKS = [
   { href: "/faqs", label: "FAQs", num: "03" },
 ];
 
+import { Dialog, DialogPortal, DialogOverlay, DialogContent, DialogTitle } from "@radix-ui/react-dialog";
+
 const SECONDARY_LINKS = [
   { href: "/privacy", label: "Privacy Policy" },
   { href: "/terms", label: "Terms of Service" },
 ];
 
 export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => {
-  const overlayRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    if (isOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "unset";
-    }
-    return () => {
-      document.body.style.overflow = "unset";
-    };
-  }, [isOpen]);
-
-  // Close on Escape key
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) onClose();
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, [isOpen, onClose]);
-
   return (
-    <div
-      ref={overlayRef}
-      className={cn(
-        "rg-overlay rg-public",
-        isOpen && "is-open"
-      )}
-      aria-hidden={!isOpen}
-    >
+    <Dialog open={isOpen} onOpenChange={(open) => !open && onClose()}>
+      <DialogPortal>
+        <DialogOverlay className="fixed inset-0 z-50 bg-black/80" />
+        <DialogContent
+          className={cn(
+            "rg-overlay rg-public is-open",
+            "fixed inset-0 z-50 outline-none"
+          )}
+          aria-describedby={undefined}
+        >
+          <DialogTitle className="sr-only">Navigation Menu</DialogTitle>
       {/* Header — matches handoff .overlay-head */}
       <div className="rg-overlay-head">
         <Link href="/" onClick={onClose} className="rg-wordmark flex items-center" style={{ height: '40px', overflow: 'visible' }}>
@@ -142,6 +125,8 @@ export const OverlayMenu: React.FC<OverlayMenuProps> = ({ isOpen, onClose }) => 
           </div>
         </aside>
       </div>
-    </div>
+        </DialogContent>
+      </DialogPortal>
+    </Dialog>
   );
 };

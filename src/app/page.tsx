@@ -6,7 +6,9 @@ import { CalloutSlab } from "@/components/public/sections/CalloutSlab";
 import { FinalCtaSection } from "@/components/public/FinalCtaSection";
 import { QuoteSlabSection } from "@/components/public/QuoteSlabSection";
 import { SectionNav } from "@/components/public/SectionNav";
-import { CarouselSection } from "@/components/public/sections/CarouselSection";
+import dynamic from "next/dynamic";
+
+const CarouselSection = dynamic(() => import("@/components/public/sections/CarouselSection").then(mod => mod.CarouselSection));
 import { CapabilityIndex } from "@/components/public/sections/CapabilityIndex";
 import { StatStrip } from "@/components/public/sections/StatStrip";
 import { ImageBand } from "@/components/public/sections/ImageBand";
