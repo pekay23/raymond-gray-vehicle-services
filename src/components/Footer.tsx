@@ -33,21 +33,17 @@ export function Footer() {
   return (
     <footer className="rg-public rg-foot relative z-20">
       <div className="rg-foot-grid">
-        <div className="pl-3 sm:pl-5 lg:pl-6">
-          <div className="flex items-center mb-8" style={{ height: "48px" }}>
+        <div>
+          <div className="flex items-center gap-3 mb-8">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src="/images/logos/RaymondgraylogoNoBG.png"
+              src="/images/logos/RaymondgraylogoNoTextNoBG.png"
               alt="Raymond Gray"
-              className="object-contain brightness-0 invert opacity-80"
-              style={{
-                height: "100%",
-                width: "auto",
-                transform: "scale(2.2)",
-                transformOrigin: "left center",
-                padding: "8px 0",
-              }}
+              className="w-10 h-10 object-contain brightness-0 invert opacity-90"
             />
+            <span className="font-display font-bold text-xl text-white tracking-tight whitespace-nowrap">
+              Raymond Gray <span className="font-normal text-white/60">| Vehicle Services</span>
+            </span>
           </div>
           <p className="rg-foot-big">Every vehicle. One <em>team</em>.</p>
           <p className="rg-body">

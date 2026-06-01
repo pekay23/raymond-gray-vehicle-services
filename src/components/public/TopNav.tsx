@@ -131,41 +131,17 @@ export const TopNav: React.FC = () => {
             alignItems: 'center',
           }}
         >
-          {isMenuOpen ? (
-            <div className="flex items-center" style={{ height: '32px', overflow: 'visible' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src="/images/logos/Raymondgraylogo169WhiteNoBG.png" 
-                alt="Raymond Gray" 
-                className={`object-contain transition-all duration-500 ease-out transform ${
-                  isScrolled ? "scale-[1.25] sm:scale-[1.5] md:scale-[1.8]" : "scale-[1.4] sm:scale-[1.8] md:scale-[2.2]"
-                }`}
-                style={{
-                  height: '100%',
-                  width: 'auto',
-                  transformOrigin: 'left center',
-                  padding: '4px 0',
-                }}
-              />
-            </div>
-          ) : (
-            <div className="flex items-center" style={{ height: '32px', overflow: 'visible' }}>
-              {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img 
-                src={isScrolled || isLegalPage ? "/images/logos/RaymondgraylogoNoBG.png" : "/images/logos/Raymondgraylogo169WhiteNoBG.png"}
-                alt="Raymond Gray" 
-                className={`object-contain transition-all duration-500 ease-out transform ${
-                  isScrolled ? "scale-[1.25] sm:scale-[1.5] md:scale-[1.8]" : "scale-[1.4] sm:scale-[1.8] md:scale-[2.2]"
-                }`}
-                style={{
-                  height: '100%',
-                  width: 'auto',
-                  transformOrigin: 'left center',
-                  padding: '4px 0',
-                }}
-              />
-            </div>
-          )}
+          <div className="flex items-center gap-3 relative z-50">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img 
+              src="/images/logos/RaymondgraylogoNoTextNoBG.png"
+              alt="Raymond Gray" 
+              className={`w-8 h-8 object-contain transition-all duration-500 ${(!isScrolled && !isLegalPage) || isMenuOpen ? "brightness-0 invert opacity-90" : ""}`}
+            />
+            <span className={`font-display font-bold text-lg tracking-tight hidden sm:block ${(!isScrolled && !isLegalPage) || isMenuOpen ? "text-white" : "text-[var(--rg-ink)]"}`}>
+              Raymond Gray <span className={`font-normal ${(!isScrolled && !isLegalPage) || isMenuOpen ? "text-white/70" : "text-[var(--rg-ink-subtle)]"}`}>| Vehicle Services</span>
+            </span>
+          </div>
         </Link>
 
         {/* Section Title — handoff: mono 10px, tracking 0.15em, accent color — Hidden on mobile to prevent wordmark collision */}

@@ -5,6 +5,7 @@ import { TopNav } from "@/components/public/TopNav";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/public/ScrollProgress";
 import { MotionProvider } from "@/components/public/MotionProvider";
+import { BackToTop } from "@/components/public/BackToTop";
 
 const gothamDisplay = localFont({
   src: [
@@ -100,6 +101,7 @@ export default function RootLayout({
           <ScrollProgress />
           <TopNav />
           {children}
+          <BackToTop />
           <Footer />
         </MotionProvider>
       </body>
