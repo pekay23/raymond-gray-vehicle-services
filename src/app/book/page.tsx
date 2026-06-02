@@ -27,22 +27,24 @@ const STEPS = [
   { key: "contact", label: "Contact" },
 ];
 
+const initialFormData = {
+  fullName: "",
+  whatsappNumber: "",
+  email: "",
+  location: null as LocationData | null,
+  vehicleMake: "",
+  vehicleModel: "",
+  regNumber: "",
+  odometer: "",
+  serviceType: "",
+  description: "",
+  preferredDate: "",
+  bookingOption: "dropoff" as "dropoff" | "callout",
+  agreed: false,
+};
+
 export default function VehicleBookingPage() {
-  const [formData, setFormData] = useState({
-    fullName: "",
-    whatsappNumber: "",
-    email: "",
-    location: null as LocationData | null,
-    vehicleMake: "",
-    vehicleModel: "",
-    regNumber: "",
-    odometer: "",
-    serviceType: "",
-    description: "",
-    preferredDate: "",
-    bookingOption: "dropoff" as "dropoff" | "callout",
-    agreed: false,
-  });
+  const [formData, setFormData] = useState(initialFormData);
 
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">("idle");
   const [assignedJobId, setAssignedJobId] = useState<string | null>(null);
@@ -54,9 +56,26 @@ export default function VehicleBookingPage() {
   // real time the form was loaded — otherwise every genuine booking is silently
   // dropped.
   const formLoadedAt = useRef(0);
+  const isMounted = useRef(false);
+
   useEffect(() => {
     formLoadedAt.current = Date.now();
+    try {
+      const saved = sessionStorage.getItem("rg_booking_form");
+      if (saved) {
+        setFormData(JSON.parse(saved));
+      }
+    } catch (e) {
+      console.error("Failed to restore form data", e);
+    }
+    isMounted.current = true;
   }, []);
+
+  useEffect(() => {
+    if (isMounted.current) {
+      sessionStorage.setItem("rg_booking_form", JSON.stringify(formData));
+    }
+  }, [formData]);
 
   const isFormValid =
     formData.fullName &&
@@ -125,6 +144,7 @@ export default function VehicleBookingPage() {
       const data = contentType.includes("application/json") ? await res.json() : null;
 
       if (res.ok && data?.success) {
+        sessionStorage.removeItem("rg_booking_form");
         setAssignedJobId(data.jobId);
         setStatus("success");
         if (viaWhatsApp) {
@@ -133,6 +153,7 @@ export default function VehicleBookingPage() {
       } else if (viaWhatsApp) {
         // No backend persisted the booking, but the user explicitly chose WhatsApp —
         // still hand them off so the lead isn't lost.
+        sessionStorage.removeItem("rg_booking_form");
         setStatus("success");
         window.open(generateWhatsAppLink(), "_blank");
       } else {
@@ -142,6 +163,7 @@ export default function VehicleBookingPage() {
       console.error(err);
       // Network/parse failure: if they chose WhatsApp, let them through anyway.
       if (viaWhatsApp) {
+        sessionStorage.removeItem("rg_booking_form");
         setStatus("success");
         window.open(generateWhatsAppLink(), "_blank");
       } else {

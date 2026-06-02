@@ -35,7 +35,17 @@ export async function POST(request: Request) {
       body: JSON.stringify(payload),
     });
 
-    const data = await res.json();
+    const responseText = await res.text();
+    let data;
+    try {
+      data = JSON.parse(responseText);
+    } catch (e) {
+      console.error("[Booking Proxy] Invalid JSON from upstream:", responseText.substring(0, 250));
+      return NextResponse.json(
+        { error: "Upstream service returned an invalid response." },
+        { status: res.ok ? 500 : res.status }
+      );
+    }
     
     // Vehicle Services client expects { success: true, jobId: "..." }
     if (res.ok && data.success) {
