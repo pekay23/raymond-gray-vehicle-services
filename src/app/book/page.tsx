@@ -105,8 +105,7 @@ export default function VehicleBookingPage() {
     setStatus("loading");
 
     try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
-      const res = await fetch(`${apiUrl}/api/vehicle-bookings`, {
+      const res = await fetch(`/api/booking`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
