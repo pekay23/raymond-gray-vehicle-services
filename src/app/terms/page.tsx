@@ -22,7 +22,7 @@ export default function TermsPage() {
         />
       </div>
       <section className="rg-legal-hero relative h-[42vh] min-h-[280px] w-full overflow-hidden flex items-end">
-        <Image src="/images/redesign/legal-hero.png" alt="" fill priority sizes="100vw" className="object-cover" />
+        <Image src="/images/redesign/webp/legal-hero.webp" alt="" fill priority sizes="100vw" className="object-cover" />
         <div className="absolute inset-0 bg-linear-to-t from-rg-invert-bg via-rg-invert-bg/70 to-rg-invert-bg/30" />
         <div className="relative z-10 mx-auto max-w-3xl w-full px-6 pb-12">
           <p className="font-mono text-[11px] uppercase tracking-widest text-white/70">Legal</p>

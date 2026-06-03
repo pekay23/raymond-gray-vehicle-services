@@ -77,19 +77,19 @@ const PROCESS: TimelineStep[] = [
 const CAROUSEL_ITEMS = [
   {
     id: "1",
-    image: "/images/redesign/carousel_charging.png",
+    image: "/images/redesign/webp/carousel_charging.webp",
     title: "Infrastructure Setup",
     description: "From site assessment to installation of rapid DC chargers, we manage the entire lifecycle of your charging infrastructure."
   },
   {
     id: "2",
-    image: "/images/redesign/carousel_workshop.png",
+    image: "/images/redesign/webp/carousel_workshop.webp",
     title: "Preventive Maintenance",
     description: "Our state-of-the-art facilities ensure your mixed fleet is maintained to the highest manufacturer standards."
   },
   {
     id: "3",
-    image: "/images/redesign/carousel_van.png",
+    image: "/images/redesign/webp/carousel_van.webp",
     title: "Fleet Logistics",
     description: "Optimize your operations with GPS-enabled tracking, routing, and comprehensive journey logging."
   }
@@ -101,7 +101,7 @@ export default function VehicleRepairsPage() {
       <SectionNav />
       <PageHero
         screenLabel="Overview"
-        image={{ src: "/images/redesign/hero.png", alt: "Raymond Gray EV and automotive services" }}
+        image={{ src: "/images/redesign/webp/hero.webp", alt: "Raymond Gray EV and automotive services" }}
         eyebrow="EV & Automotive Services"
         title={<>Every vehicle. One team. <em>Professional</em> standards.</>}
         lede="This isn't a commercial garage. It's an automotive programme built on the same engineering discipline and preventive-maintenance infrastructure that manages our clients' building systems — for mixed ICE and EV fleets, and for private owners who want expert advice, not a sales pitch."
@@ -120,7 +120,7 @@ export default function VehicleRepairsPage() {
         eyebrow="EV Sales — Independent Advice"
         title={<>The right vehicle — <em>not</em> the one we&apos;re paid to sell.</>}
         body="We're not tied to any manufacturer or dealer. We assess your real usage, compare honestly, and project the true cost of ownership — then coordinate procurement, delivery, and charging setup."
-        image={{ src: "/images/redesign/abstract.png", alt: "Independent EV sales advice" }}
+        image={{ src: "/images/redesign/webp/abstract.webp", alt: "Independent EV sales advice" }}
         priority
         points={[
           "Fleet or personal needs assessment",
@@ -140,7 +140,7 @@ export default function VehicleRepairsPage() {
         eyebrow="EV Maintenance — Scheduled & Documented"
         title={<>A named team, a <em>documented</em> service history.</>}
         body="Structured, manufacturer-aligned preventive maintenance with battery health recorded at every visit — plus responsive fault diagnosis and a monthly fleet health summary for corporate clients."
-        image={{ src: "/images/redesign/bento.png", alt: "EV maintenance and charging bay" }}
+        image={{ src: "/images/redesign/webp/bento.webp", alt: "EV maintenance and charging bay" }}
         points={[
           "Manufacturer-aligned service intervals",
           "Battery health check and capacity diagnostic",
@@ -153,7 +153,7 @@ export default function VehicleRepairsPage() {
 
       <QuoteSlabSection />
 
-      <StatStrip variant="dark" bgImage="/images/redesign/stat-texture.png" stats={STATS} />
+      <StatStrip variant="dark" bgImage="/images/redesign/webp/stat-texture.webp" stats={STATS} />
 
       <CarouselSection
         screenLabel="In Action"
@@ -171,7 +171,7 @@ export default function VehicleRepairsPage() {
       />
 
       <ImageBand
-        src="/images/redesign/process-aerial.png"
+        src="/images/redesign/webp/process-aerial.webp"
         alt="Raymond Gray vehicle depot at dusk — mixed EV and commercial fleet"
         caption="Fleet operations, coordinated"
       />

@@ -10,6 +10,7 @@ import { FormLabel, Input, Textarea } from "@/components/public/FormElements";
 import { Wrench, Car, ClipboardList, CheckCircle2, Truck, MessageCircle, ArrowLeft, ArrowRight, Check } from "lucide-react";
 import { LocationPicker, type LocationData } from "@/components/location/LocationPicker";
 import { DatePicker } from "@/components/ui/date-picker";
+import { AnimatePresence, motion } from "framer-motion";
 
 const SERVICE_TYPES = [
   { value: "A1", label: "A1 - Minor Service", desc: "Oil change & basic inspection" },
@@ -63,7 +64,10 @@ export default function VehicleBookingPage() {
     try {
       const saved = sessionStorage.getItem("rg_booking_form");
       if (saved) {
-        setFormData(JSON.parse(saved));
+        // Merge over defaults so a restored payload from an older form schema
+        // can't leave new fields undefined.
+        // eslint-disable-next-line react-hooks/set-state-in-effect
+        setFormData({ ...initialFormData, ...JSON.parse(saved) });
       }
     } catch (e) {
       console.error("Failed to restore form data", e);
@@ -73,7 +77,10 @@ export default function VehicleBookingPage() {
 
   useEffect(() => {
     if (isMounted.current) {
-      sessionStorage.setItem("rg_booking_form", JSON.stringify(formData));
+      const timer = setTimeout(() => {
+        sessionStorage.setItem("rg_booking_form", JSON.stringify(formData));
+      }, 500);
+      return () => clearTimeout(timer);
     }
   }, [formData]);
 
@@ -84,6 +91,7 @@ export default function VehicleBookingPage() {
     formData.vehicleModel &&
     formData.regNumber &&
     formData.serviceType &&
+    (formData.bookingOption === "dropoff" || (formData.bookingOption === "callout" && formData.location)) &&
     formData.agreed;
 
   const stepValid = (s: number): boolean => {
@@ -93,7 +101,7 @@ export default function VehicleBookingPage() {
       case 1:
         return Boolean(formData.serviceType);
       case 2:
-        return true; // logistics has sensible defaults
+        return formData.bookingOption === "dropoff" || (formData.bookingOption === "callout" && Boolean(formData.location));
       case 3:
         return Boolean(formData.fullName && formData.whatsappNumber && formData.agreed);
       default:
@@ -123,6 +131,12 @@ export default function VehicleBookingPage() {
     if (!formData.agreed) return;
     setStatus("loading");
 
+    // Open WhatsApp window before any async operations to prevent Safari popup blocker
+    let waWindow: Window | null = null;
+    if (viaWhatsApp) {
+      waWindow = window.open("", "_blank");
+    }
+
     try {
       const res = await fetch(`/api/booking`, {
         method: "POST",
@@ -147,27 +161,29 @@ export default function VehicleBookingPage() {
         sessionStorage.removeItem("rg_booking_form");
         setAssignedJobId(data.jobId);
         setStatus("success");
-        if (viaWhatsApp) {
-          window.open(generateWhatsAppLink(data.jobId), "_blank");
+        if (viaWhatsApp && waWindow) {
+          waWindow.location.href = generateWhatsAppLink(data.jobId);
         }
-      } else if (viaWhatsApp) {
+      } else if (viaWhatsApp && waWindow) {
         // No backend persisted the booking, but the user explicitly chose WhatsApp —
         // still hand them off so the lead isn't lost.
         sessionStorage.removeItem("rg_booking_form");
         setStatus("success");
-        window.open(generateWhatsAppLink(), "_blank");
+        waWindow.location.href = generateWhatsAppLink();
       } else {
         setStatus("error");
+        if (waWindow) waWindow.close();
       }
     } catch (err) {
       console.error(err);
       // Network/parse failure: if they chose WhatsApp, let them through anyway.
-      if (viaWhatsApp) {
+      if (viaWhatsApp && waWindow) {
         sessionStorage.removeItem("rg_booking_form");
         setStatus("success");
-        window.open(generateWhatsAppLink(), "_blank");
+        waWindow.location.href = generateWhatsAppLink();
       } else {
         setStatus("error");
+        if (waWindow) waWindow.close();
       }
     }
   };
@@ -194,7 +210,7 @@ export default function VehicleBookingPage() {
       <section className="rg-page-hero min-h-[75vh]! flex! flex-col justify-end!">
         <div className="rg-hero-media" aria-hidden="true">
           <Image
-            src="/images/redesign/book-hero.png"
+            src="/images/redesign/webp/book-hero.webp"
             alt="Vehicle Servicing"
             fill
             priority
@@ -408,35 +424,39 @@ export default function VehicleBookingPage() {
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-rg-ink font-bold mb-4 block">
                     Maintenance Type
                   </span>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
-                    {SERVICE_TYPES.map((tier) => (
-                      <label
-                        key={tier.value}
-                        className={`flex flex-col gap-1 border cursor-pointer p-4 transition-all duration-300 select-none relative group
-                          ${formData.serviceType === tier.value
-                            ? "border-rg-ink bg-rg-ink text-white shadow-md scale-[1.02]"
-                            : "border-rg-line bg-white text-rg-ink hover:border-rg-accent/50 hover:bg-rg-accent/2"}`}
-                      >
-                        <input
-                          type="radio"
-                          name="serviceType"
-                          value={tier.value}
-                          checked={formData.serviceType === tier.value}
-                          onChange={handleChange}
-                          className="sr-only"
-                        />
-                        <span className={`font-mono text-[10px] font-bold ${formData.serviceType === tier.value ? "text-rg-accent" : "text-rg-ink-mute"}`}>
-                          {tier.value}
-                        </span>
-                        <span className="text-xs font-bold leading-tight">{tier.label}</span>
-                        {formData.serviceType === tier.value && (
-                          <div className="absolute top-2 right-2">
-                            <CheckCircle2 className="w-3 h-3 text-rg-accent" />
-                          </div>
-                        )}
-                      </label>
-                    ))}
-                  </div>
+                  <fieldset>
+                    <legend className="sr-only">Select Maintenance Type</legend>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-3 mb-6">
+                      {SERVICE_TYPES.map((tier) => (
+                        <label
+                          key={tier.value}
+                          className={`flex flex-col gap-1 border cursor-pointer p-4 transition-all duration-300 select-none relative group
+                            ${formData.serviceType === tier.value
+                              ? "border-rg-ink bg-rg-ink text-white shadow-md scale-[1.02]"
+                              : "border-rg-line bg-white text-rg-ink hover:border-rg-accent/50 hover:bg-rg-accent/2"}`}
+                        >
+                          <input
+                            type="radio"
+                            name="serviceType"
+                            value={tier.value}
+                            checked={formData.serviceType === tier.value}
+                            onChange={handleChange}
+                            className="sr-only peer"
+                          />
+                          <div className="absolute inset-0 pointer-events-none rounded peer-focus-visible:ring-2 peer-focus-visible:ring-rg-accent peer-focus-visible:ring-offset-2" aria-hidden="true" />
+                          <span className={`font-mono text-[10px] font-bold ${formData.serviceType === tier.value ? "text-rg-accent" : "text-rg-ink-mute"}`}>
+                            {tier.value}
+                          </span>
+                          <span className="text-xs font-bold leading-tight">{tier.label}</span>
+                          {formData.serviceType === tier.value && (
+                            <div className="absolute top-2 right-2">
+                              <CheckCircle2 className="w-3 h-3 text-rg-accent" />
+                            </div>
+                          )}
+                        </label>
+                      ))}
+                    </div>
+                  </fieldset>
                   <FormLabel label="Notes or Problems to fix">
                     <Textarea
                       name="description"
@@ -452,43 +472,56 @@ export default function VehicleBookingPage() {
               {step === 2 && (
                 <div>
                   <span className="font-mono text-[10px] uppercase tracking-[0.2em] text-rg-ink font-bold mb-4 block">Service Strategy</span>
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-                    <label className={`flex items-center gap-4 border p-5 cursor-pointer transition-all duration-300
-                      ${formData.bookingOption === "dropoff" ? "border-rg-ink border-2 bg-rg-accent/3" : "border-rg-line bg-white hover:border-rg-ink-mute"}`}>
-                      <input type="radio" name="bookingOption" value="dropoff" checked={formData.bookingOption === "dropoff"} onChange={handleChange} className="sr-only" />
-                      <div className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${formData.bookingOption === "dropoff" ? "bg-rg-ink text-white" : "bg-rg-bg-2 text-rg-ink-mute"}`}>
-                        <Car className="w-5 h-5" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-bold text-rg-ink">Workshop Visit</span>
-                        <span className="text-[10px] text-rg-ink-soft font-medium font-mono uppercase tracking-wider">I will drop off</span>
-                      </div>
-                    </label>
+                  <fieldset>
+                    <legend className="sr-only">Select Service Strategy</legend>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                      <label className={`relative flex items-center gap-4 border p-5 cursor-pointer transition-all duration-300
+                        ${formData.bookingOption === "dropoff" ? "border-rg-ink border-2 bg-rg-accent/3" : "border-rg-line bg-white hover:border-rg-ink-mute"}`}>
+                        <input type="radio" name="bookingOption" value="dropoff" checked={formData.bookingOption === "dropoff"} onChange={handleChange} className="sr-only peer" />
+                        <div className="absolute inset-0 pointer-events-none rounded peer-focus-visible:ring-2 peer-focus-visible:ring-rg-accent peer-focus-visible:ring-offset-2" aria-hidden="true" />
+                        <div className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${formData.bookingOption === "dropoff" ? "bg-rg-ink text-white" : "bg-rg-bg-2 text-rg-ink-mute"}`}>
+                          <Car className="w-5 h-5" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold text-rg-ink">Workshop Visit</span>
+                          <span className="text-[10px] text-rg-ink-soft font-medium font-mono uppercase tracking-wider">I will drop off</span>
+                        </div>
+                      </label>
 
-                    <label className={`flex items-center gap-4 border p-5 cursor-pointer transition-all duration-300
-                      ${formData.bookingOption === "callout" ? "border-rg-ink border-2 bg-rg-accent/3" : "border-rg-line bg-white hover:border-rg-ink-mute"}`}>
-                      <input type="radio" name="bookingOption" value="callout" checked={formData.bookingOption === "callout"} onChange={handleChange} className="sr-only" />
-                      <div className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${formData.bookingOption === "callout" ? "bg-rg-ink text-white" : "bg-rg-bg-2 text-rg-ink-mute"}`}>
-                        <Truck className="w-5 h-5" />
-                      </div>
-                      <div className="flex flex-col">
-                        <span className="text-sm font-bold text-rg-ink">Home Call / Towing</span>
-                        <span className="text-[10px] text-rg-ink-soft font-medium font-mono uppercase tracking-wider">Pick up my car</span>
-                      </div>
-                    </label>
-                  </div>
-
-                  {formData.bookingOption === "callout" && (
-                    <div className="mb-6 animate-in slide-in-from-top-2 duration-300">
-                      <div className="bg-rg-bg-2 border border-rg-line p-2">
-                        <LocationPicker
-                          value={formData.location}
-                          onChange={(loc) => setFormData({ ...formData, location: loc })}
-                          required
-                        />
-                      </div>
+                      <label className={`relative flex items-center gap-4 border p-5 cursor-pointer transition-all duration-300
+                        ${formData.bookingOption === "callout" ? "border-rg-ink border-2 bg-rg-accent/3" : "border-rg-line bg-white hover:border-rg-ink-mute"}`}>
+                        <input type="radio" name="bookingOption" value="callout" checked={formData.bookingOption === "callout"} onChange={handleChange} className="sr-only peer" />
+                        <div className="absolute inset-0 pointer-events-none rounded peer-focus-visible:ring-2 peer-focus-visible:ring-rg-accent peer-focus-visible:ring-offset-2" aria-hidden="true" />
+                        <div className={`w-10 h-10 flex items-center justify-center rounded-full transition-colors ${formData.bookingOption === "callout" ? "bg-rg-ink text-white" : "bg-rg-bg-2 text-rg-ink-mute"}`}>
+                          <Truck className="w-5 h-5" />
+                        </div>
+                        <div className="flex flex-col">
+                          <span className="text-sm font-bold text-rg-ink">Home Call / Towing</span>
+                          <span className="text-[10px] text-rg-ink-soft font-medium font-mono uppercase tracking-wider">Pick up my car</span>
+                        </div>
+                      </label>
                     </div>
-                  )}
+                  </fieldset>
+
+                  <AnimatePresence>
+                    {formData.bookingOption === "callout" && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3, ease: "easeInOut" }}
+                        className="mb-6 overflow-hidden"
+                      >
+                        <div className="bg-rg-bg-2 border border-rg-line p-2 mt-2">
+                          <LocationPicker
+                            value={formData.location}
+                            onChange={(loc) => setFormData({ ...formData, location: loc })}
+                            required
+                          />
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
                   <div className="w-full">
                     <DatePicker
@@ -497,7 +530,7 @@ export default function VehicleBookingPage() {
                       label="Preferred Booking Date"
                     />
                   </div>
-                </div>
+                 </div>
               )}
 
               {/* STEP 3 — Contact + confirm */}
@@ -528,6 +561,18 @@ export default function VehicleBookingPage() {
                       <dd className="text-rg-ink font-medium m-0">{formData.serviceType || "—"}</dd>
                       <dt className="text-rg-ink-mute">Strategy</dt>
                       <dd className="text-rg-ink font-medium m-0">{formData.bookingOption === "callout" ? "Home Call / Towing" : "Workshop Visit"}</dd>
+                      {formData.location && formData.bookingOption === "callout" && (
+                        <>
+                          <dt className="text-rg-ink-mute">Location</dt>
+                          <dd className="text-rg-ink font-medium m-0">{formData.location.address}</dd>
+                        </>
+                      )}
+                      {formData.preferredDate && (
+                        <>
+                          <dt className="text-rg-ink-mute">Preferred Date</dt>
+                          <dd className="text-rg-ink font-medium m-0">{formData.preferredDate}</dd>
+                        </>
+                      )}
                     </dl>
                   </div>
 

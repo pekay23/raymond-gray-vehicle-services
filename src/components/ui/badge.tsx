@@ -37,7 +37,6 @@ function Badge({
   const Comp = asChild ? Slot.Root : "span"
 
   return (
-    // @ts-expect-error React 19 type mismatch with radix slot
     <Comp
       data-slot="badge"
       data-variant={variant}

@@ -1,5 +1,6 @@
 import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
+import { Montserrat } from "next/font/google";
 import "./globals.css";
 import { TopNav } from "@/components/public/TopNav";
 import { Footer } from "@/components/Footer";
@@ -20,27 +21,8 @@ const gothamDisplay = localFont({
   display: "swap",
 });
 
-const montserrat = localFont({
-  src: [
-    { path: "../../fonts/fonts/Montserrat-Thin.ttf", weight: "100", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-ThinItalic.ttf", weight: "100", style: "italic" },
-    { path: "../../fonts/fonts/Montserrat-ExtraLight.ttf", weight: "200", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-ExtraLightItalic.ttf", weight: "200", style: "italic" },
-    { path: "../../fonts/fonts/Montserrat-Light.ttf", weight: "300", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-LightItalic.ttf", weight: "300", style: "italic" },
-    { path: "../../fonts/fonts/Montserrat-Regular.ttf", weight: "400", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-Italic.ttf", weight: "400", style: "italic" },
-    { path: "../../fonts/fonts/Montserrat-Medium.ttf", weight: "500", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-MediumItalic.ttf", weight: "500", style: "italic" },
-    { path: "../../fonts/fonts/Montserrat-SemiBold.ttf", weight: "600", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-SemiBoldItalic.ttf", weight: "600", style: "italic" },
-    { path: "../../fonts/fonts/Montserrat-Bold.ttf", weight: "700", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-BoldItalic.ttf", weight: "700", style: "italic" },
-    { path: "../../fonts/fonts/Montserrat-ExtraBold.ttf", weight: "800", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-ExtraBoldItalic.ttf", weight: "800", style: "italic" },
-    { path: "../../fonts/fonts/Montserrat-Black.ttf", weight: "900", style: "normal" },
-    { path: "../../fonts/fonts/Montserrat-BlackItalic.ttf", weight: "900", style: "italic" },
-  ],
+const montserrat = Montserrat({
+  subsets: ["latin"],
   variable: "--font-montserrat",
   display: "swap",
 });
@@ -60,13 +42,13 @@ export const metadata: Metadata = {
     description:
       "Independent EV sales, scheduled EV & ICE maintenance, fleet management, and charging infrastructure — one accountable team.",
     url: "https://vehicleservices.raymond-gray.org",
-    images: [{ url: "/images/redesign/og-default.png", width: 1200, height: 630, alt: "Raymond Gray EV & Automotive Services" }],
+    images: [{ url: "/images/redesign/webp/og-default.webp", width: 1200, height: 630, alt: "Raymond Gray EV & Automotive Services" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "EV & Automotive Services | Raymond Gray",
     description: "One team for every vehicle — EV sales, EV & ICE maintenance, fleet, and charging.",
-    images: ["/images/redesign/og-default.png"],
+    images: ["/images/redesign/webp/og-default.webp"],
   },
   icons: {
     icon: [
@@ -97,6 +79,9 @@ export default function RootLayout({
       className={`${gothamDisplay.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans text-(--rg-ink) bg-(--rg-bg)">
+        <a href="#main-content" className="sr-only focus:not-sr-only focus:absolute focus:z-[100] focus:p-4 focus:bg-white focus:text-rg-ink focus:ring-2 focus:ring-rg-accent font-bold">
+          Skip to main content
+        </a>
         <MotionProvider>
           <ScrollProgress />
           <TopNav />

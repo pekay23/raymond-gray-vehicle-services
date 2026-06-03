@@ -28,13 +28,16 @@ export const FormLabel = ({ children, label, required = false }: FormLabelProps)
 const FloatingLabel = ({ 
   label, 
   required, 
-  isActive 
+  isActive,
+  htmlFor
 }: { 
   label: string; 
   required?: boolean; 
-  isActive: boolean 
+  isActive: boolean;
+  htmlFor?: string;
 }) => (
   <label
+    htmlFor={htmlFor}
     className={cn(
       "absolute left-4 px-1.5 bg-white transition-all duration-200 pointer-events-none z-10 font-bold rounded",
       isActive
@@ -49,16 +52,19 @@ const FloatingLabel = ({
 
 // Modernized styled generic text input with floating label support
 export const Input = React.forwardRef<HTMLInputElement, React.InputHTMLAttributes<HTMLInputElement> & { _label?: string, _required?: boolean, endAdornment?: React.ReactNode }>(
-  ({ className = "", value, onChange, _label, _required, endAdornment, ...props }, ref) => {
+  ({ className = "", value, onChange, _label, _required, endAdornment, id, ...props }, ref) => {
+    const defaultId = React.useId();
+    const inputId = id || defaultId;
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value !== undefined && value !== null && value.toString().length > 0;
     const isActive = isFocused || hasValue;
 
     return (
       <div className="relative w-full group">
-        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} />}
+        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} htmlFor={inputId} />}
         <input
           ref={ref}
+          id={inputId}
           value={value}
           onChange={onChange}
           onFocus={() => setIsFocused(true)}
@@ -82,16 +88,19 @@ Input.displayName = "Input";
 
 // Textarea variation with floating label
 export const Textarea = React.forwardRef<HTMLTextAreaElement, React.TextareaHTMLAttributes<HTMLTextAreaElement> & { _label?: string, _required?: boolean }>(
-  ({ className = "", value, onChange, _label, _required, ...props }, ref) => {
+  ({ className = "", value, onChange, _label, _required, id, ...props }, ref) => {
+    const defaultId = React.useId();
+    const inputId = id || defaultId;
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value !== undefined && value !== null && value.toString().length > 0;
     const isActive = isFocused || hasValue;
 
     return (
       <div className="relative w-full group">
-        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} />}
+        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} htmlFor={inputId} />}
         <textarea
           ref={ref}
+          id={inputId}
           value={value}
           onChange={onChange}
           onFocus={() => setIsFocused(true)}
@@ -114,16 +123,19 @@ Textarea.displayName = "Textarea";
 
 // Modern styled select box drop component
 export const Select = React.forwardRef<HTMLSelectElement, React.SelectHTMLAttributes<HTMLSelectElement> & { options: {label: string, value: string}[], _label?: string, _required?: boolean }>(
-  ({ className = "", options, value, onChange, _label, _required, ...props }, ref) => {
+  ({ className = "", options, value, onChange, _label, _required, id, ...props }, ref) => {
+    const defaultId = React.useId();
+    const inputId = id || defaultId;
     const [isFocused, setIsFocused] = useState(false);
     const hasValue = value !== undefined && value !== null && value.toString().length > 0;
     const isActive = isFocused || hasValue;
 
     return (
       <div className="relative w-full group">
-        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} />}
+        {_label && <FloatingLabel label={_label} required={_required} isActive={isActive} htmlFor={inputId} />}
         <select
           ref={ref}
+          id={inputId}
           value={value}
           onChange={onChange}
           onFocus={() => setIsFocused(true)}

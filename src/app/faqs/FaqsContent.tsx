@@ -96,7 +96,7 @@ export function FaqsContent() {
         <div className="rg-hero-media" aria-hidden="true">
           <Reveal variant="img" className="h-full w-full">
             <Image
-              src="/images/redesign/faq-hero.png"
+              src="/images/redesign/webp/faq-hero.webp"
               alt=""
               fill
               priority

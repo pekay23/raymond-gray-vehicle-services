@@ -6,7 +6,7 @@
 - Initialize a Git repository for this project and push to GitHub.
 - Import the repository into Vercel as a Next.js project.
 - Configure Environment Variables in Vercel:
-  - set `NEXT_PUBLIC_API_URL` to `https://raymond-gray.org` (the production API endpoint for the main platform).
+  - set `NEXT_PUBLIC_API_URL` to `https://www.raymond-gray.org` (the production API endpoint for the main platform — note the `www`; the apex redirects and can drop POST bodies).
 
 ### 2. DNS & Custom Domain Configuration
 - In Vercel, assign the custom domain `vehicleservices.raymond-gray.org` to the project.

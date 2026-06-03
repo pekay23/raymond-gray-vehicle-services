@@ -49,7 +49,7 @@ export function AdvancedFormContainer({
 
         {/* Success Overlay with same styles */}
         {status === "success" ? (
-          <div className="text-center py-20 min-h-[400px] flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-500">
+          <div className="text-center py-20 min-h-[400px] flex flex-col items-center justify-center animate-in fade-in zoom-in-95 duration-500" aria-live="polite">
             <div className="w-24 h-24 rounded-full flex items-center justify-center mx-auto mb-6 bg-linear-to-br from-rg-accent-subtle to-rg-accent/10 ring-1 ring-rg-accent/20 shadow-[0_12px_30px_-12px_var(--rg-accent)]">
               <CheckCircle className="w-11 h-11 text-rg-accent" />
             </div>
@@ -124,7 +124,7 @@ export function AdvancedFormContainer({
             {/* Dynamic Footer Bar */}
             <div className="flex flex-col gap-4">
               {status === "error" && (
-                <div className="p-4 bg-rg-destructive/5 border border-rg-destructive/20 text-rg-destructive text-xs font-medium rounded-lg flex items-start gap-2.5">
+                <div className="p-4 bg-rg-destructive/5 border border-rg-destructive/20 text-rg-destructive text-xs font-medium rounded-lg flex items-start gap-2.5" aria-live="polite">
                   <AlertTriangle className="w-4 h-4 shrink-0 mt-px" /> <span>{errorText}</span>
                 </div>
               )}

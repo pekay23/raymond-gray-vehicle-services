@@ -70,52 +70,52 @@ export function DatePicker({ value, onChange, label = "Preferred Date/Time", min
 
   return (
     <div className="w-full">
-      <label className="block text-sm font-bold text-slate-700 mb-2 uppercase tracking-wide">
+      <label className="block text-sm font-bold text-rg-ink mb-2 uppercase tracking-wide">
         {label}
       </label>
       <Popover open={isOpen} onOpenChange={setIsOpen}>
         <PopoverTrigger asChild>
           <button
             type="button"
-            className={`w-full min-w-0 flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 bg-slate-50 text-left transition-all ${
+            className={`w-full min-w-0 flex items-center gap-3 px-4 py-3.5 rounded-xl border-2 bg-rg-bg-2 text-left transition-all ${
               selectedDate
-                ? "border-blue-600 focus:border-blue-600 ring-4 ring-blue-600/10"
-                : "border-slate-200 hover:border-slate-300 focus:border-blue-600 focus:ring-4 focus:ring-blue-600/10"
+                ? "border-rg-accent focus:border-rg-accent ring-4 ring-rg-accent/10"
+                : "border-rg-line hover:border-rg-ink-mute focus:border-rg-accent focus:ring-4 focus:ring-rg-accent/10"
             }`}
           >
-            <CalendarIcon className={`w-5 h-5 shrink-0 ${selectedDate ? "text-blue-600" : "text-slate-400"}`} />
-            <span className={`min-w-0 font-medium leading-snug ${selectedDate ? "text-slate-900" : "text-slate-400"}`}>
+            <CalendarIcon className={`w-5 h-5 shrink-0 ${selectedDate ? "text-rg-accent" : "text-rg-ink-mute/70"}`} />
+            <span className={`min-w-0 font-medium leading-snug ${selectedDate ? "text-rg-ink" : "text-rg-ink-mute/70"}`}>
               {displayValue || "Select preferred date & time"}
             </span>
           </button>
         </PopoverTrigger>
-        <PopoverContent className="w-[calc(100vw-2rem)] max-w-[24rem] p-0" align="start" sideOffset={8}>
-          <div className="p-3 sm:p-4 bg-white rounded-xl shadow-xl border border-slate-200">
+        <PopoverContent className="w-[calc(100vw-2rem)] max-w-sm p-0" align="start" sideOffset={8}>
+          <div className="p-3 sm:p-4 bg-white rounded-xl shadow-xl border border-rg-line">
             {/* Month Navigation */}
             <div className="flex items-center justify-between mb-4">
               <button
                 type="button"
                 onClick={() => setCurrentMonth(subMonths(currentMonth, 1))}
-                className="p-2 hover:bg-slate-100 rounded-lg transition"
+                className="p-2 hover:bg-rg-bg-2 rounded-lg transition"
               >
-                <ChevronLeft className="w-5 h-5 text-slate-600" />
+                <ChevronLeft className="w-5 h-5 text-rg-ink-soft" />
               </button>
-              <span className="font-bold text-slate-900">
+              <span className="font-bold text-rg-ink">
                 {format(currentMonth, "MMMM yyyy")}
               </span>
               <button
                 type="button"
                 onClick={() => setCurrentMonth(addMonths(currentMonth, 1))}
-                className="p-2 hover:bg-slate-100 rounded-lg transition"
+                className="p-2 hover:bg-rg-bg-2 rounded-lg transition"
               >
-                <ChevronRight className="w-5 h-5 text-slate-600" />
+                <ChevronRight className="w-5 h-5 text-rg-ink-soft" />
               </button>
             </div>
 
             {/* Week Days Header */}
             <div className="grid grid-cols-7 mb-2">
               {weekDays.map((day) => (
-                <div key={day} className="text-center text-xs font-bold text-slate-500 uppercase py-2">
+                <div key={day} className="text-center text-xs font-bold text-rg-ink-mute uppercase py-2">
                   {day}
                 </div>
               ))}
@@ -137,14 +137,14 @@ export function DatePicker({ value, onChange, label = "Preferred Date/Time", min
                     onClick={() => handleDateSelect(day)}
                     className={`size-9 sm:size-10 rounded-lg text-sm font-medium transition-all ${
                       !isCurrentMonth
-                        ? "text-slate-300"
+                        ? "text-rg-ink-mute/40"
                         : isDisabled
-                        ? "text-slate-300 cursor-not-allowed"
+                        ? "text-rg-ink-mute/40 cursor-not-allowed"
                         : isSelected
-                        ? "bg-blue-600 text-white shadow-md"
+                        ? "bg-rg-accent text-white shadow-md"
                         : isTodayDate
-                        ? "bg-blue-100 text-blue-700 font-bold hover:bg-blue-200"
-                        : "text-slate-700 hover:bg-slate-100"
+                        ? "bg-rg-accent-subtle text-rg-accent-ink font-bold hover:bg-rg-accent-subtle/80"
+                        : "text-rg-ink hover:bg-rg-bg-2"
                     }`}
                   >
                     {format(day, "d")}
@@ -155,10 +155,10 @@ export function DatePicker({ value, onChange, label = "Preferred Date/Time", min
 
             {/* Time Slots */}
             {selectedDate && (
-              <div className="mt-4 pt-4 border-t border-slate-200">
+              <div className="mt-4 pt-4 border-t border-rg-line">
                 <div className="flex items-center gap-2 mb-3">
-                  <Clock className="w-4 h-4 text-slate-500" />
-                  <span className="text-sm font-bold text-slate-700 uppercase tracking-wide">
+                  <Clock className="w-4 h-4 text-rg-ink-mute" />
+                  <span className="text-sm font-bold text-rg-ink uppercase tracking-wide">
                     Select Time Slot
                   </span>
                 </div>
@@ -170,8 +170,8 @@ export function DatePicker({ value, onChange, label = "Preferred Date/Time", min
                       onClick={() => handleTimeSelect(time.split(" - ")[0])}
                       className={`px-3 py-2 rounded-lg text-sm font-medium transition-all ${
                         selectedTime === time.split(" - ")[0]
-                          ? "bg-blue-600 text-white shadow-md"
-                          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                          ? "bg-rg-accent text-white shadow-md"
+                          : "bg-rg-bg-2 text-rg-ink hover:bg-rg-line"
                       }`}
                     >
                       {time}
