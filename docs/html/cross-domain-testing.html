@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Testing cross-domain booking submissions · Raymond Gray Vehicle Services</title>
+<link rel="stylesheet" href="./design-tokens.css">
+<link rel="stylesheet" href="./docs.css">
+</head>
+<body>
+<div class="he-shell he-shell--wide">
+
+<nav class="he-nav">
+  <a class="he-nav__brand" href="./index.html">Raymond Gray Vehicle Services <small>docs</small></a>
+  <div class="he-nav__links">
+    <a href="./index.html">Index</a>
+    <a href="./index.html#overview">Overview</a>
+  </div>
+</nav>
+<div class="he-layout">
+<main class="he-main">
+<header>
+  <p class="he-eyebrow">Overview</p>
+  <h1 class="he-title">Testing cross-domain booking submissions</h1>
+  <p class="he-deck">The booking form posts <strong>same-origin</strong> to <code>/api/booking</code>, which proxies <strong>server-to-server</strong> to <code>${NEXT_PUBLIC_API_URL}/api/vehicle-bookings</code> on the main platform.</p>
+</header>
+
+<section class="he-section" id="environments">
+  <div class="he-section__num">01 · Environments</div>
+  <h2 class="he-section__title">Environments</h2><table>
+<thead>
+<tr>
+<th>Where you test</th>
+<th><code>NEXT_PUBLIC_API_URL</code></th>
+<th>Notes</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><strong>Localhost → live platform</strong> (default)</td>
+<td><code>https://www.raymond-gray.org</code></td>
+<td>Full chain, no 2nd server. Writes to the <strong>production</strong> DB — use test data.</td>
+</tr>
+<tr>
+<td><strong>Localhost → local platform</strong></td>
+<td><code>http://localhost:3000</code></td>
+<td>Fully offline. Run platform on <code>:3000</code>, run this site on another port: <code>bun run dev -- -p 3100</code>.</td>
+</tr>
+<tr>
+<td><strong>Live site</strong></td>
+<td>set in Vercel to <code>https://www.raymond-gray.org</code></td>
+<td>Real users.</td>
+</tr>
+</tbody></table>
+<p>Both apps default to port <code>:3000</code>, so if you run both locally, move this one.</p>
+
+<section class="he-section" id="quick-test-powershell">
+  <div class="he-section__num">02 · Quick test (PowerShell)</div>
+  <h2 class="he-section__title">Quick test (PowerShell)</h2><p>The platform rejects submissions made &lt;3s after <code>formLoadedAt</code>, so set it ~10s in
+the past. <code>serviceType</code> must be one of <code>A1 A2 B1 B2 Repairs Diagnostics</code>.</p>
+<pre><code class="language-powershell"># 1) Local site (bun run dev) — exercises the proxy + whatever NEXT_PUBLIC_API_URL points at
+$base = &quot;http://localhost:3000&quot;      # or your -p port
+
+# 2) ...or hit the live site directly:
+# $base = &quot;https://vehicleservices.raymond-gray.org&quot;
+
+$body = @{
+  fullName       = &quot;TEST Booking&quot;
+  whatsappNumber = &quot;+233551010108&quot;
+  email          = &quot;test@example.com&quot;
+  vehicleMake    = &quot;Toyota&quot;
+  vehicleModel   = &quot;Camry&quot;
+  regNumber      = &quot;TEST-0000&quot;
+  odometer       = &quot;45000&quot;
+  serviceType    = &quot;Diagnostics&quot;
+  description    = &quot;Automated cross-domain test — please ignore.&quot;
+  bookingOption  = &quot;dropoff&quot;
+  location       = &quot;&quot;
+  preferredDate  = &quot;&quot;
+  formLoadedAt   = [DateTimeOffset]::UtcNow.ToUnixTimeMilliseconds() - 10000
+} | ConvertTo-Json
+
+Invoke-RestMethod -Uri &quot;$base/api/booking&quot; -Method Post -ContentType &quot;application/json&quot; -Body $body
+</code></pre>
+<p><strong>Expected success:</strong> <code>{ success = True; jobId = RGV-00042 }</code> (a sequential
+<code>RGV-#####</code> id). Confirm it appears in the platform admin at
+<code>/admin/vehicle-bookings</code>.</p>
+
+<section class="he-section" id="quick-test-curl-bash">
+  <div class="he-section__num">03 · Quick test (curl / bash)</div>
+  <h2 class="he-section__title">Quick test (curl / bash)</h2><pre><code class="language-bash">BASE=&quot;http://localhost:3000&quot;   # or https://vehicleservices.raymond-gray.org
+LOADED=$(( $(date +%s%3N) - 10000 ))
+
+curl -sS -X POST &quot;$BASE/api/booking&quot; \
+  -H &quot;Content-Type: application/json&quot; \
+  -d &quot;{
+    \&quot;fullName\&quot;:\&quot;TEST Booking\&quot;,
+    \&quot;whatsappNumber\&quot;:\&quot;+233551010108\&quot;,
+    \&quot;email\&quot;:\&quot;test@example.com\&quot;,
+    \&quot;vehicleMake\&quot;:\&quot;Toyota\&quot;,\&quot;vehicleModel\&quot;:\&quot;Camry\&quot;,\&quot;regNumber\&quot;:\&quot;TEST-0000\&quot;,
+    \&quot;odometer\&quot;:\&quot;45000\&quot;,\&quot;serviceType\&quot;:\&quot;Diagnostics\&quot;,
+    \&quot;description\&quot;:\&quot;Automated cross-domain test\&quot;,
+    \&quot;bookingOption\&quot;:\&quot;dropoff\&quot;,\&quot;location\&quot;:\&quot;\&quot;,\&quot;preferredDate\&quot;:\&quot;\&quot;,
+    \&quot;formLoadedAt\&quot;: $LOADED
+  }&quot;
+</code></pre>
+
+<section class="he-section" id="interpreting-results">
+  <div class="he-section__num">04 · Interpreting results</div>
+  <h2 class="he-section__title">Interpreting results</h2><table>
+<thead>
+<tr>
+<th>Response</th>
+<th>Meaning</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>{ success: true, jobId: &quot;RGV-...&quot; }</code></td>
+<td>✅ End-to-end works.</td>
+</tr>
+<tr>
+<td><code>{ success: true, jobId: &quot;RGV-...&quot; }</code> but no admin row</td>
+<td>The platform&#39;s bot/timing/honeypot check absorbed it — make <code>formLoadedAt</code> older and retry.</td>
+</tr>
+<tr>
+<td><code>502 Booking service is unavailable</code></td>
+<td>Proxy reached a non-JSON response — <code>NEXT_PUBLIC_API_URL</code> or the <code>/api/vehicle-bookings</code> path is wrong/unreachable.</td>
+</tr>
+<tr>
+<td><code>400 { error: &quot;Validation Failed&quot; }</code></td>
+<td>Payload shape rejected by the platform schema (check <code>serviceType</code> enum, <code>whatsappNumber</code> format, non-empty <code>description</code>).</td>
+</tr>
+<tr>
+<td><code>429</code></td>
+<td>Platform per-IP rate limit (5/window). Wait and retry.</td>
+</tr>
+</tbody></table>
+<p>The browser UI also degrades gracefully: any failure on the page surfaces the
+&quot;Book via WhatsApp&quot; fallback, so a misconfigured upstream never strands a lead.</p>
+
+</main>
+
+<aside class="he-toc" aria-label="On this page">
+  <p class="he-toc__label">On this page</p>
+  <ul>
+    <li class="he-toc__l2"><a href="#environments">Environments</a></li>
+    <li class="he-toc__l2"><a href="#quick-test-powershell">Quick test (PowerShell)</a></li>
+    <li class="he-toc__l2"><a href="#quick-test-curl-bash">Quick test (curl / bash)</a></li>
+    <li class="he-toc__l2"><a href="#interpreting-results">Interpreting results</a></li>
+  </ul>
+</aside>
+</div>
+<footer class="he-foot">
+  Source · <a href="./../">browse the markdown</a> · rebuild with <code>bun run docs:html</code>
+</footer>
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Future Plans · Raymond Gray Vehicle Services</title>
+<link rel="stylesheet" href="./design-tokens.css">
+<link rel="stylesheet" href="./docs.css">
+</head>
+<body>
+<div class="he-shell he-shell--wide">
+
+<nav class="he-nav">
+  <a class="he-nav__brand" href="./index.html">Raymond Gray Vehicle Services <small>docs</small></a>
+  <div class="he-nav__links">
+    <a href="./index.html">Index</a>
+    <a href="./index.html#overview">Overview</a>
+  </div>
+</nav>
+<div class="he-layout">
+<main class="he-main">
+<header>
+  <p class="he-eyebrow">Overview</p>
+  <h1 class="he-title">Future Plans</h1>
+  
+</header>
+<p>﻿# Future Plans: Raymond Gray Vehicle Services Subdomain</p>
+
+<section class="he-section" id="phase-3-deployment-infrastructure-setup">
+  <div class="he-section__num">01 · Phase 3: Deployment &amp; Infrastructure Setup</div>
+  <h2 class="he-section__title">Phase 3: Deployment &amp; Infrastructure Setup</h2><h3 id="1-vercel-deployment">1. Vercel Deployment</h3><ul>
+<li>Initialize a Git repository for this project and push to GitHub.</li>
+<li>Import the repository into Vercel as a Next.js project.</li>
+<li>Configure Environment Variables in Vercel:<ul>
+<li>set <code>NEXT_PUBLIC_API_URL</code> to <code>https://www.raymond-gray.org</code> (the production API endpoint for the main platform — note the <code>www</code>; the apex redirects and can drop POST bodies).</li>
+</ul>
+</li>
+</ul>
+<h3 id="2-dns-custom-domain-configuration">2. DNS &amp; Custom Domain Configuration</h3><ul>
+<li>In Vercel, assign the custom domain <code>vehicleservices.raymond-gray.org</code> to the project.</li>
+<li>In your DNS provider, configure the necessary CNAME/A records pointing to Vercel.</li>
+</ul>
+<h3 id="3-api-security-cors-tightening-main-platform">3. API Security &amp; CORS Tightening (Main Platform)</h3><ul>
+<li>Once the subdomain is live, update the CORS configuration in the main platform&#39;s API route (<code>src/app/api/vehicle-bookings/route.ts</code>).</li>
+<li>Change the wildcard <code>*</code> origin to strictly allow only <code>https://vehicleservices.raymond-gray.org</code> to prevent unauthorized form submissions.</li>
+</ul>
+
+<section class="he-section" id="phase-4-final-cleanup-main-platform">
+  <div class="he-section__num">02 · Phase 4: Final Cleanup (Main Platform)</div>
+  <h2 class="he-section__title">Phase 4: Final Cleanup (Main Platform)</h2><h3 id="1-permanent-seo-redirects">1. Permanent SEO Redirects</h3><ul>
+<li>Remove the temporary <code>redirect()</code> component inside <code>src/app/(public)/services/vehicle-repairs/page.tsx</code>.</li>
+<li>Configure a permanent HTTP 301 redirect in the main platform&#39;s <code>next.config.ts</code> to point <code>/services/vehicle-repairs</code> directly to <code>https://vehicleservices.raymond-gray.org</code>.</li>
+</ul>
+<h3 id="2-legal-documentation-updates">2. Legal &amp; Documentation Updates</h3><ul>
+<li>Update the Privacy Policy and Terms &amp; Conditions on the main platform to clarify that vehicle service data and processing are handled via the dedicated subdomain.</li>
+</ul>
+<h3 id="3-continuous-integration">3. Continuous Integration</h3><ul>
+<li>Ensure that any future changes to the Shared Admin Portal (Main Platform) APIs consider backwards compatibility with the data structures submitted by the satellite form.</li>
+</ul>
+
+</main>
+
+<aside class="he-toc" aria-label="On this page">
+  <p class="he-toc__label">On this page</p>
+  <ul>
+    <li class="he-toc__l2"><a href="#phase-3-deployment-infrastructure-setup">Phase 3: Deployment &amp; Infrastructure Setup</a></li>
+    <li class="he-toc__l3"><a href="#1-vercel-deployment">1. Vercel Deployment</a></li>
+    <li class="he-toc__l3"><a href="#2-dns-custom-domain-configuration">2. DNS &amp; Custom Domain Configuration</a></li>
+    <li class="he-toc__l3"><a href="#3-api-security-cors-tightening-main-platform">3. API Security &amp; CORS Tightening (Main Platform)</a></li>
+    <li class="he-toc__l2"><a href="#phase-4-final-cleanup-main-platform">Phase 4: Final Cleanup (Main Platform)</a></li>
+    <li class="he-toc__l3"><a href="#1-permanent-seo-redirects">1. Permanent SEO Redirects</a></li>
+    <li class="he-toc__l3"><a href="#2-legal-documentation-updates">2. Legal &amp; Documentation Updates</a></li>
+    <li class="he-toc__l3"><a href="#3-continuous-integration">3. Continuous Integration</a></li>
+  </ul>
+</aside>
+</div>
+<footer class="he-foot">
+  Source · <a href="./../">browse the markdown</a> · rebuild with <code>bun run docs:html</code>
+</footer>
+</div>
+</body>
+</html>

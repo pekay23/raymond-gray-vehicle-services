@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Advanced Booking System · Raymond Gray Vehicle Services</title>
+<link rel="stylesheet" href="./design-tokens.css">
+<link rel="stylesheet" href="./docs.css">
+</head>
+<body>
+<div class="he-shell he-shell--wide">
+
+<nav class="he-nav">
+  <a class="he-nav__brand" href="./index.html">Raymond Gray Vehicle Services <small>docs</small></a>
+  <div class="he-nav__links">
+    <a href="./index.html">Index</a>
+    <a href="./index.html#overview">Overview</a>
+  </div>
+</nav>
+<div class="he-layout">
+<main class="he-main">
+<header>
+  <p class="he-eyebrow">Overview</p>
+  <h1 class="he-title">Advanced Booking System</h1>
+  <p class="he-deck">The application features a robust, multi-step booking wizard located at <code>/book</code>.</p>
+</header>
+
+<section class="he-section" id="booking-wizard-steps">
+  <div class="he-section__num">01 · Booking Wizard Steps</div>
+  <h2 class="he-section__title">Booking Wizard Steps</h2><h3 id="1-vehicle-details">1. Vehicle Details</h3><p>Captures essential vehicle information to prime the workshop.</p>
+<ul>
+<li><strong>Fields:</strong> Make, Model, Registration Number, and current Odometer reading.</li>
+</ul>
+<h3 id="2-maintenance-type">2. Maintenance Type</h3><p>Allows users to select from structured service tiers.</p>
+<ul>
+<li><strong>Tiers:</strong> A1 (Minor), A2 (Intermediate), B1 (Major), B2 (Complete Plan), General Repairs, or Diagnostics.</li>
+<li><strong>Custom Inputs:</strong> Includes a free-text area for specific fault descriptions or unusual noises.</li>
+</ul>
+<h3 id="3-service-logistics">3. Service Logistics</h3><p>Determines how the vehicle reaches the service team.</p>
+<ul>
+<li><strong>Workshop Drop-off:</strong> Standard facility visit.</li>
+<li><strong>Home Call / Towing:</strong> Triggers an interactive <strong>Location Picker</strong> component that captures precise geographic coordinates (latitude/longitude) and street addresses.</li>
+<li><strong>Scheduling:</strong> Integrated date picker for preferred service dates.</li>
+</ul>
+<h3 id="4-contact-confirmation">4. Contact &amp; Confirmation</h3><p>Finalizes the booking and collects authorization.</p>
+<ul>
+<li><strong>Fields:</strong> Captures user contact details including a WhatsApp number and Email.</li>
+<li><strong>Review Summary:</strong> Displays a dynamic summary of the selected vehicle, service, and logistics strategy.</li>
+<li><strong>Authorization:</strong> Requires explicit agreement to terms regarding quotes, itemized parts, and repair authorizations.</li>
+</ul>
+
+<section class="he-section" id="submission-fallbacks">
+  <div class="he-section__num">02 · Submission &amp; Fallbacks</div>
+  <h2 class="he-section__title">Submission &amp; Fallbacks</h2><ul>
+<li><strong>API Submission:</strong> The form attempts a direct secure JSON submission to the backend API.</li>
+<li><strong>WhatsApp Fallback &amp; Integration:</strong> If the API is unavailable, or if the user explicitly prefers direct contact, the system generates a pre-filled WhatsApp message containing the full booking summary, ensuring the lead is never lost.</li>
+<li><strong>Bot Protection:</strong> Measures the exact time taken to complete the form. Submissions occurring in under 3 seconds are silently dropped as bot traffic to protect backend resources.</li>
+</ul>
+
+</main>
+
+<aside class="he-toc" aria-label="On this page">
+  <p class="he-toc__label">On this page</p>
+  <ul>
+    <li class="he-toc__l2"><a href="#booking-wizard-steps">Booking Wizard Steps</a></li>
+    <li class="he-toc__l3"><a href="#1-vehicle-details">1. Vehicle Details</a></li>
+    <li class="he-toc__l3"><a href="#2-maintenance-type">2. Maintenance Type</a></li>
+    <li class="he-toc__l3"><a href="#3-service-logistics">3. Service Logistics</a></li>
+    <li class="he-toc__l3"><a href="#4-contact-confirmation">4. Contact &amp; Confirmation</a></li>
+    <li class="he-toc__l2"><a href="#submission-fallbacks">Submission &amp; Fallbacks</a></li>
+  </ul>
+</aside>
+</div>
+<footer class="he-foot">
+  Source · <a href="./../">browse the markdown</a> · rebuild with <code>bun run docs:html</code>
+</footer>
+</div>
+</body>
+</html>

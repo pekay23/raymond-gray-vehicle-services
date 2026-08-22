@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Raymond Gray Vehicle Services — Portfolio Summary · Raymond Gray Vehicle Services</title>
+<link rel="stylesheet" href="./design-tokens.css">
+<link rel="stylesheet" href="./docs.css">
+</head>
+<body>
+<div class="he-shell he-shell--wide">
+
+<nav class="he-nav">
+  <a class="he-nav__brand" href="./index.html">Raymond Gray Vehicle Services <small>docs</small></a>
+  <div class="he-nav__links">
+    <a href="./index.html">Index</a>
+    <a href="./index.html#overview">Overview</a>
+  </div>
+</nav>
+<div class="he-layout">
+<main class="he-main">
+<header>
+  <p class="he-eyebrow">Overview</p>
+  <h1 class="he-title">Raymond Gray Vehicle Services — Portfolio Summary</h1>
+  <p class="he-deck">Drop-in copy for your portfolio site.</p>
+</header>
+<hr>
+
+<section class="he-section" id="short-pitch-23-sentences-hero-card">
+  <div class="he-section__num">01 · Short pitch (2–3 sentences, hero card)</div>
+  <h2 class="he-section__title">Short pitch (2–3 sentences, hero card)</h2><p>Raymond Gray Vehicle Services is a standalone marketing microsite I extracted, redesigned, and built end-to-end: a public-facing Next.js application at <code>vehicleservices.raymond-gray.org</code> that serves as the dedicated digital face for Raymond Gray&#39;s EV &amp; Automotive division. It features a four-step, anti-spam booking wizard with an interactive location picker and WhatsApp fallback, a full premium component kit — carousels, animated stat strips, scroll-driven reveals, and a sticky in-page section navigator — and a brand-aligned design system built on Gotham + Montserrat with ~200 CSS custom properties. The site was extracted from the main Raymond Gray Platform monorepo and lives as an independent, Vercel-deployed Next.js project that POSTs bookings to the platform&#39;s API.</p>
+<hr>
+
+<section class="he-section" id="long-description-case-study-body-250-words">
+  <div class="he-section__num">02 · Long description (case study body, ~250 words)</div>
+  <h2 class="he-section__title">Long description (case study body, ~250 words)</h2><p><strong>Raymond Gray&#39;s vehicle services division needed its own identity.</strong> The service offering — independent EV sales and advisory, structured EV &amp; ICE maintenance, fleet management, and charging infrastructure — was buried inside the main Raymond Gray Platform site under <code>/services/vehicle-repairs</code>. It shared a page with the rest of the IFM platform and had no dedicated booking flow, no standalone brand surface, and no way to reach corporate fleet clients or individual EV owners without sending them through the full company site.</p>
+<p>I built <strong>Raymond Gray Vehicle Services</strong> as a standalone Next.js 16 (App Router) + React 19 + TypeScript microsite, extracted from the main platform and deployed at its own subdomain. The site is <strong>public marketing pages only</strong> — no auth, no database — with six routes: <code>/</code> (home), <code>/book</code>, <code>/faqs</code>, <code>/privacy</code>, <code>/terms</code>, plus generated <code>/sitemap.xml</code> and <code>/robots.txt</code>.</p>
+<p>The non-obvious work is in the <strong>booking wizard and component architecture</strong>. The four-step <code>/book</code> wizard collects vehicle details (make, model, reg, odometer), a structured maintenance tier (A1 Minor → B2 Complete Plan, General Repairs, or Diagnostics with free-text fault description), service logistics (workshop drop-off, home call, or towing — the latter triggering an interactive Leaflet-powered location picker that captures precise lat/long and street address), and contact &amp; confirmation (WhatsApp + email, dynamic review summary, authorization checkbox). Bot submissions under three seconds are silently dropped. The form POSTs to the main platform&#39;s <code>/api/vehicle-bookings</code> endpoint and falls back to a pre-filled WhatsApp message if the API is unavailable, ensuring the lead is never lost.</p>
+<p>The <strong>component kit</strong> is a reusable section primitive library (<code>PageHero</code>, <code>SplitFeature</code>, <code>PillarRows</code>, <code>CalloutSlab</code>, <code>StatStrip</code>, <code>ProcessTimeline</code>, <code>ImageBand</code>, <code>CarouselSection</code>, <code>CapabilityIndex</code>) assembled on a Tailwind v4 design system of ~200 <code>--rg-*</code> brand tokens. Two animation engines run in separate lanes: Framer Motion for component-level enter/exit and layout animations, and GSAP + ScrollTrigger for scroll-driven scrubs, pinning, and parallax — both respecting <code>prefers-reduced-motion</code>. Navigation includes a scroll-reactive <code>TopNav</code>, a sticky <code>SectionNav</code> that auto-discovers sections via <code>data-screen-label</code> and collapses to a dropdown on mobile, and a floating &quot;Back to Top&quot; button that appears past 500px scroll.</p>
+<p><strong>Outcome:</strong> the vehicle services offering now has a standalone brand surface with a structured booking flow, independent deployment, and a clear separation of concerns from the main IFM platform — with the old <code>/services/vehicle-repairs</code> page redirecting permanently to the subdomain.</p>
+<hr>
+
+<section class="he-section" id="bulleted-feature-list-for-the-project-page-sidebar-tags">
+  <div class="he-section__num">03 · Bulleted feature list (for the project page sidebar / tags)</div>
+  <h2 class="he-section__title">Bulleted feature list (for the project page sidebar / tags)</h2><ul>
+<li>Standalone Next.js microsite extracted from a monorepo — deployed at its own Vercel subdomain (<code>vehicleservices.raymond-gray.org</code>)</li>
+<li>6 routes: Home, Booking Wizard, FAQs, Privacy, Terms + generated Sitemap / Robots</li>
+<li>4-step booking wizard: Vehicle Details → Maintenance Tier → Service Logistics → Contact &amp; Confirmation</li>
+<li>Structured maintenance tiers: A1 (Minor), A2 (Intermediate), B1 (Major), B2 (Complete Plan), Diagnostics, General Repairs + free-text fault description</li>
+<li>Interactive location picker (Leaflet + React Leaflet) with lat/long capture and street address for home-call and towing requests</li>
+<li>WhatsApp fallback: pre-filled booking summary message guarantees zero lost leads if API is unavailable</li>
+<li>Bot-protection: silent drop for form submissions completed in under 3 seconds</li>
+<li>API cross-domain POST to main platform&#39;s <code>/api/vehicle-bookings</code> with CORS-tightened origin allowlist</li>
+<li>Reusable marketing component kit: <code>PageHero</code>, <code>SplitFeature</code>, <code>PillarRows</code>, <code>CalloutSlab</code>, <code>StatStrip</code>, <code>ProcessTimeline</code>, <code>ImageBand</code>, <code>CarouselSection</code>, <code>CapabilityIndex</code></li>
+<li>Dual animation engines in separate lanes: Framer Motion (component enter/exit, layout) + GSAP + ScrollTrigger (scroll-driven scrubs, pinning, parallax)</li>
+<li>Scroll-reactive <code>TopNav</code> with scroll progress indicator</li>
+<li>Sticky <code>SectionNav</code> auto-discovers sections via <code>data-screen-label</code>; collapses to dropdown on mobile</li>
+<li>Floating &quot;Back to Top&quot; FAB appears past 500px scroll — mobile and desktop</li>
+<li>Tailwind v4 design system: ~200 <code>--rg-*</code> brand custom properties (<code>--rg-ink</code>, <code>--rg-accent</code>, <code>--rg-invert-bg</code>, …) exposed as utility classes</li>
+<li>Gotham (display) + Montserrat (body) self-hosted font stack with CSS variable wiring</li>
+<li><code>prefers-reduced-motion</code> compliance across both animation engines</li>
+<li>Full SEO surface: metadata, OG tags, canonical <code>sitemap.xml</code>, <code>robots.ts</code>, favicon (Raymond Gray mark)</li>
+<li>Mobile-first responsive design: touch-optimized targets, horizontal carousels, safe-area insets for iOS notches</li>
+<li>Optical cap-height alignment in footer: precise typographic offsets to align small headings with large branded display text on wide screens</li>
+<li>Raymond Gray subdomain branding format (&quot;Raymond Gray | Vehicle Services&quot;) in TopNav and Footer</li>
+</ul>
+<hr>
+
+<section class="he-section" id="tech-stack-one-liner-tag-chips">
+  <div class="he-section__num">04 · Tech stack (one-liner + tag chips)</div>
+  <h2 class="he-section__title">Tech stack (one-liner + tag chips)</h2><p><strong>Next.js 16 (App Router, Turbopack) · React 19 · TypeScript · Tailwind CSS 4 · shadcn/ui · Radix · Framer Motion · GSAP + ScrollTrigger · Leaflet / React Leaflet · react-day-picker · date-fns · Zod · lucide-react · Bun</strong></p>
+<hr>
+
+<section class="he-section" id="the-answered-template">
+  <div class="he-section__num">05 · The answered template</div>
+  <h2 class="he-section__title">The answered template</h2><blockquote class="he-pull"><p><strong>PROJECT:</strong> Raymond Gray Vehicle Services Microsite
+<strong>INDUSTRY:</strong> Automotive / EV Services / Field Services Marketing
+<strong>WHAT IT DOES:</strong> A standalone public marketing and booking microsite for Raymond Gray&#39;s EV &amp; Automotive division — covering independent EV sales &amp; advisory, structured EV &amp; ICE maintenance, fleet management, and charging infrastructure — with a four-step booking wizard, interactive location picker, and WhatsApp fallback.
+<strong>THE PROBLEM:</strong> Raymond Gray&#39;s vehicle services offering was buried inside the main IFM platform site with no dedicated brand surface, no structured booking flow, and no way to serve corporate fleet clients or individual EV owners without sending them through the entire facilities management site. Bookings came in over WhatsApp with no structure, no vehicle details, and no maintenance-tier selection, making them hard to triage before the first call.
+<strong>WHAT YOU BUILT:</strong> A standalone Next.js 16 + React 19 + TypeScript microsite extracted from the main platform monorepo and deployed at <code>vehicleservices.raymond-gray.org</code>. Core pieces: a four-step booking wizard (vehicle details, maintenance tier, service logistics with Leaflet location picker, contact + review summary) with WhatsApp fallback and 3-second bot protection; a POST to the main platform&#39;s cross-domain API; and a full reusable marketing component kit assembled on a Tailwind v4 design system (~200 <code>--rg-*</code> brand tokens, Gotham + Montserrat fonts). Animation in two lanes: Framer Motion for component enter/exit and GSAP + ScrollTrigger for scroll-driven work, both <code>prefers-reduced-motion</code>-aware. Navigation includes a scroll-reactive TopNav, a sticky section-navigator that collapses to dropdown on mobile, and a floating Back-to-Top FAB.
+<strong>THE RESULT:</strong> The vehicle services division now has an independent brand presence and a structured intake flow. The old platform page at <code>/services/vehicle-repairs</code> redirects permanently to the subdomain. Bookings arrive with full vehicle details, a selected maintenance tier, service logistics preference (including precise GPS coordinates for home-call/towing), and WhatsApp contact — ready to triage before the first client call.
+<strong>PERMISSION:</strong> It&#39;s mine — I designed and built it as a freelance/contract project for Raymond Gray. The codebase and design system are mine; the brand, pricing, and service content belong to the client. For portfolio use, <strong>anonymize</strong> any live booking data or client contact details, and <strong>do not</strong> show any real submitted booking records.
+<strong>LINKS:</strong></p>
+<ul>
+<li><strong>Live:</strong> <code>https://vehicleservices.raymond-gray.org</code> <em>(public marketing site — safe for portfolio)</em></li>
+<li><strong>GitHub:</strong> <code>https://github.com/pekay23/raymond-gray-vehicle-services</code> <em>(consider a public sanitized mirror or a private repo with a screenshot tour)</em></li>
+<li><strong>Screenshots / case study:</strong> <em>[link to a Notion / Framer / read.cv case study with the visuals you control]</em></li>
+<li><strong>Parent platform docs:</strong> <code>raymond-gray-platform/docs/</code> — architecture and handoff notes for the API this site posts to</li>
+</ul>
+</blockquote><hr>
+
+<section class="he-section" id="variants-you-can-swap-in">
+  <div class="he-section__num">06 · Variants you can swap in</div>
+  <h2 class="he-section__title">Variants you can swap in</h2><h3 id="1-line-tagline">1-line tagline</h3><blockquote><p>A standalone Next.js marketing microsite for Raymond Gray&#39;s EV &amp; Automotive division — four-step booking wizard, Leaflet location picker, and WhatsApp fallback — extracted from a platform monorepo and deployed at its own subdomain.</p>
+</blockquote><h3 id="2-line-tagline-for-cards">2-line tagline (for cards)</h3><blockquote><p>Next.js 16 public microsite for Raymond Gray&#39;s EV &amp; Automotive Services. Replaces an ad-hoc WhatsApp booking flow with a structured four-step wizard (vehicle details, maintenance tier, location picker, confirmation), a premium scroll-animated marketing surface, and cross-domain API integration with a WhatsApp fallback guarantee.</p>
+</blockquote><h3 id="twitter-x-280">Twitter / X (≤280)</h3><blockquote><p>Built Raymond Gray Vehicle Services: a standalone Next.js microsite with a 4-step booking wizard (vehicle details, maintenance tiers, Leaflet location picker, WhatsApp fallback), scroll-driven animations in two engine lanes, and a 200-token brand design system. Extracted from a monorepo, deployed on its own subdomain. 🔋🚗</p>
+</blockquote><h3 id="linkedin-post-opener">LinkedIn post opener</h3><blockquote><p>Most &quot;marketing microsites&quot; are static pages with a contact form. Raymond Gray Vehicle Services is a structured booking and brand surface extracted from a full IFM platform monorepo: a 4-step wizard that captures vehicle details, maintenance tier (A1→B2), service logistics with a Leaflet GPS location picker, and contact — with WhatsApp fallback and 3-second bot protection. Built on Next.js 16 + Tailwind v4 with Framer Motion + GSAP running in separate animation lanes. 🏎️⚡</p>
+</blockquote><hr>
+
+<section class="he-section" id="portfolio-page-section-order-suggestion">
+  <div class="he-section__num">07 · Portfolio-page section order suggestion</div>
+  <h2 class="he-section__title">Portfolio-page section order suggestion</h2><ol>
+<li><strong>Hero</strong> — short pitch + 1 screenshot of the home page or booking wizard</li>
+<li><strong>The problem</strong> — 2–3 bullets: no dedicated brand surface, WhatsApp-only bookings, buried inside the IFM platform</li>
+<li><strong>What I built</strong> — route walkthrough: Home marketing surface · Booking wizard steps · FAQs</li>
+<li><strong>The hard parts</strong> — 3 deep-dive cards: 4-step booking wizard + WhatsApp fallback · Leaflet GPS location picker · dual animation engine architecture (Framer Motion vs. GSAP lanes)</li>
+<li><strong>Result</strong> — standalone subdomain live, structured intake, permanent redirect from old platform page</li>
+<li><strong>Stack</strong> — tag chips</li>
+<li><strong>Links</strong> — live site (safe — public only), GitHub, case study</li>
+</ol>
+<hr>
+
+<section class="he-section" id="things-to-add-once-you-have-them">
+  <div class="he-section__num">08 · Things to add once you have them</div>
+  <h2 class="he-section__title">Things to add once you have them</h2><ul>
+<li><input disabled="" type="checkbox"> A client testimonial quote (even one line — &quot;Operations Manager&quot; or &quot;Director&quot; is fine)</li>
+<li><input disabled="" type="checkbox"> A confirmed live URL for the subdomain once DNS and CORS are tightened to <code>vehicleservices.raymond-gray.org</code></li>
+<li><input disabled="" type="checkbox"> A sanitized screenshot tour — home hero, service pillars section, booking wizard step 3 (location picker map), booking confirmation summary</li>
+<li><input disabled="" type="checkbox"> A short Loom walkthrough of the full booking wizard including the Leaflet location picker (the most visually distinctive interaction)</li>
+<li><input disabled="" type="checkbox"> Booking volume data once the API is live (even as &quot;X bookings in first month&quot; or &quot;zero lost leads via WhatsApp fallback&quot;)</li>
+<li><input disabled="" type="checkbox"> A &quot;lessons learned&quot; line for the bottom of the case study (e.g. &quot;Why I split the GSAP ScrollTrigger work from Framer Motion into strict lanes, and how <code>prefers-reduced-motion</code> compliance differs between the two engines&quot;)</li>
+</ul>
+
+</main>
+
+<aside class="he-toc" aria-label="On this page">
+  <p class="he-toc__label">On this page</p>
+  <ul>
+    <li class="he-toc__l2"><a href="#short-pitch-23-sentences-hero-card">Short pitch (2–3 sentences, hero card)</a></li>
+    <li class="he-toc__l2"><a href="#long-description-case-study-body-250-words">Long description (case study body, ~250 words)</a></li>
+    <li class="he-toc__l2"><a href="#bulleted-feature-list-for-the-project-page-sidebar-tags">Bulleted feature list (for the project page sidebar / tags)</a></li>
+    <li class="he-toc__l2"><a href="#tech-stack-one-liner-tag-chips">Tech stack (one-liner + tag chips)</a></li>
+    <li class="he-toc__l2"><a href="#the-answered-template">The answered template</a></li>
+    <li class="he-toc__l2"><a href="#variants-you-can-swap-in">Variants you can swap in</a></li>
+    <li class="he-toc__l3"><a href="#1-line-tagline">1-line tagline</a></li>
+    <li class="he-toc__l3"><a href="#2-line-tagline-for-cards">2-line tagline (for cards)</a></li>
+    <li class="he-toc__l3"><a href="#twitter-x-280">Twitter / X (≤280)</a></li>
+    <li class="he-toc__l3"><a href="#linkedin-post-opener">LinkedIn post opener</a></li>
+    <li class="he-toc__l2"><a href="#portfolio-page-section-order-suggestion">Portfolio-page section order suggestion</a></li>
+    <li class="he-toc__l2"><a href="#things-to-add-once-you-have-them">Things to add once you have them</a></li>
+  </ul>
+</aside>
+</div>
+<footer class="he-foot">
+  Source · <a href="./../">browse the markdown</a> · rebuild with <code>bun run docs:html</code>
+</footer>
+</div>
+</body>
+</html>

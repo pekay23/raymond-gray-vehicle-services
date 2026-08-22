@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Mobile Safe Area + TopNav Pattern · Raymond Gray Vehicle Services</title>
+<link rel="stylesheet" href="./design-tokens.css">
+<link rel="stylesheet" href="./docs.css">
+</head>
+<body>
+<div class="he-shell he-shell--wide">
+
+<nav class="he-nav">
+  <a class="he-nav__brand" href="./index.html">Raymond Gray Vehicle Services <small>docs</small></a>
+  <div class="he-nav__links">
+    <a href="./index.html">Index</a>
+    <a href="./index.html#overview">Overview</a>
+  </div>
+</nav>
+<div class="he-layout">
+<main class="he-main">
+<header>
+  <p class="he-eyebrow">Overview</p>
+  <h1 class="he-title">Mobile Safe Area + TopNav Pattern</h1>
+  <p class="he-deck">Use this pattern when the mobile top navigation should sit below the iPhone notch and the physical safe area should stay clean/white instead of showing page content behind it.</p>
+</header>
+
+<section class="he-section" id="required-viewport-setting">
+  <div class="he-section__num">01 · Required viewport setting</div>
+  <h2 class="he-section__title">Required viewport setting</h2><p>In <code>src/app/layout.tsx</code>, keep:</p>
+<pre><code class="language-ts">export const viewport = {
+  width: &quot;device-width&quot;,
+  initialScale: 1,
+  viewportFit: &quot;cover&quot;,
+};
+</code></pre>
+<p><code>viewportFit: &quot;cover&quot;</code> lets the app draw into the physical screen area. After enabling it, the app must explicitly protect the top safe area.</p>
+
+<section class="he-section" id="topnav-structure">
+  <div class="he-section__num">02 · TopNav structure</div>
+  <h2 class="he-section__title">TopNav structure</h2><p>Render a fixed safe-area fill outside the header:</p>
+<pre><code class="language-tsx">&lt;div
+  aria-hidden=&quot;true&quot;
+  className=&quot;rg-safe-fill&quot;
+  data-scrolled={isScrolled}
+  data-legal={isLegalPage}
+  data-menu-open={isMenuOpen}
+/&gt;
+</code></pre>
+<p>Then render the topnav below it:</p>
+<pre><code class="language-tsx">&lt;header
+  className=&quot;rg-public rg-topnav-safe&quot;
+  data-scrolled={isScrolled}
+&gt;
+  ...
+&lt;/header&gt;
+</code></pre>
+<p>For this project, <code>isScrolled</code> switches at <code>scrollY &gt; 12</code> so the safe area and header become solid at the same moment.</p>
+
+<section class="he-section" id="safe-area-css">
+  <div class="he-section__num">03 · Safe-area CSS</div>
+  <h2 class="he-section__title">Safe-area CSS</h2><pre><code class="language-css">:root {
+  --rg-safe-top: env(safe-area-inset-top, 0px);
+  --rg-safe-top: env(safe-area-max-inset-top, env(safe-area-inset-top, 0px));
+  --rg-topnav-pad-top: calc(20px + var(--rg-safe-top));
+  --rg-topnav-pad-top-scrolled: calc(12px + var(--rg-safe-top));
+  --rg-nav-anchor-offset: calc(96px + var(--rg-safe-top));
+}
+
+.rg-safe-fill {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: var(--rg-safe-top);
+  z-index: 101;
+  pointer-events: none;
+  background-color: transparent;
+  transition: background-color 500ms cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.rg-safe-fill[data-scrolled=&quot;true&quot;],
+.rg-safe-fill[data-legal=&quot;true&quot;] {
+  background-color: var(--rg-bg);
+}
+
+.rg-safe-fill[data-menu-open=&quot;true&quot;] {
+  background-color: var(--rg-invert-bg);
+}
+
+.rg-topnav-safe {
+  padding-top: var(--rg-topnav-pad-top);
+}
+
+.rg-topnav-safe[data-scrolled=&quot;true&quot;] {
+  padding-top: var(--rg-topnav-pad-top-scrolled);
+}
+</code></pre>
+
+<section class="he-section" id="if-mobile-topnav-should-stay-visible">
+  <div class="he-section__num">04 · If mobile topnav should stay visible</div>
+  <h2 class="he-section__title">If mobile topnav should stay visible</h2><p>Do not hide the topnav on mobile. Keep the header visible across breakpoints and keep the safe fill visible too:</p>
+<pre><code class="language-tsx">&lt;div className=&quot;rg-safe-fill&quot; ... /&gt;
+&lt;header className=&quot;rg-public rg-topnav-safe flex&quot; ... /&gt;
+</code></pre>
+<p>Avoid putting <code>rg-public</code> on any separate mobile-only action bar unless you want its <code>background: var(--rg-bg)</code> to paint a white rectangle.</p>
+
+<section class="he-section" id="why-this-works">
+  <div class="he-section__num">05 · Why this works</div>
+  <h2 class="he-section__title">Why this works</h2><p>The safe area is a fixed layer that sits above the page and outside the nav. When the nav becomes white/opaque, the safe area becomes white/opaque with it. That prevents hero images or page sections from leaking behind the iPhone notch while keeping the topnav visually attached to the physical top of the screen.</p>
+
+</main>
+
+<aside class="he-toc" aria-label="On this page">
+  <p class="he-toc__label">On this page</p>
+  <ul>
+    <li class="he-toc__l2"><a href="#required-viewport-setting">Required viewport setting</a></li>
+    <li class="he-toc__l2"><a href="#topnav-structure">TopNav structure</a></li>
+    <li class="he-toc__l2"><a href="#safe-area-css">Safe-area CSS</a></li>
+    <li class="he-toc__l2"><a href="#if-mobile-topnav-should-stay-visible">If mobile topnav should stay visible</a></li>
+    <li class="he-toc__l2"><a href="#why-this-works">Why this works</a></li>
+  </ul>
+</aside>
+</div>
+<footer class="he-foot">
+  Source · <a href="./../">browse the markdown</a> · rebuild with <code>bun run docs:html</code>
+</footer>
+</div>
+</body>
+</html>

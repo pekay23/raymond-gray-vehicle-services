@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Frontend UI / UX Enhancements · Raymond Gray Vehicle Services</title>
+<link rel="stylesheet" href="./design-tokens.css">
+<link rel="stylesheet" href="./docs.css">
+</head>
+<body>
+<div class="he-shell he-shell--wide">
+
+<nav class="he-nav">
+  <a class="he-nav__brand" href="./index.html">Raymond Gray Vehicle Services <small>docs</small></a>
+  <div class="he-nav__links">
+    <a href="./index.html">Index</a>
+    <a href="./index.html#overview">Overview</a>
+  </div>
+</nav>
+<div class="he-layout">
+<main class="he-main">
+<header>
+  <p class="he-eyebrow">Overview</p>
+  <h1 class="he-title">Frontend UI / UX Enhancements</h1>
+  <p class="he-deck">The frontend is built for a highly immersive, premium user experience that aligns strictly with the Raymond Gray brand identity and engineering discipline.</p>
+</header>
+
+<section class="he-section" id="branding-typography">
+  <div class="he-section__num">01 · Branding &amp; Typography</div>
+  <h2 class="he-section__title">Branding &amp; Typography</h2><ul>
+<li><strong>Subdomain Branding Style:</strong> Implements the distinct &quot;Raymond Gray | Vehicle Services&quot; branding format next to the logo in both the <code>TopNav</code> and <code>Footer</code>, ensuring visual consistency across the organization&#39;s properties.</li>
+<li><strong>Premium Typography:</strong> Advanced CSS grids tailored for premium readability, utilizing custom fonts (Gotham and Montserrat).</li>
+</ul>
+
+<section class="he-section" id="responsive-navigation-mobile-first-developments">
+  <div class="he-section__num">02 · Responsive Navigation &amp; Mobile-First Developments</div>
+  <h2 class="he-section__title">Responsive Navigation &amp; Mobile-First Developments</h2><ul>
+<li><strong>Dynamic <code>TopNav</code>:</strong> An interactive top navigation bar that responds to scroll progress.</li>
+<li><strong>Section Navigation:</strong> A sticky <code>SectionNav</code> for in-page jumping. On mobile devices, the <code>SectionNav</code> automatically collapses into a sleek dropdown menu to preserve screen real estate.</li>
+<li><strong>&quot;Back to Top&quot; Action:</strong> A globally accessible floating action button appears seamlessly on mobile and desktop views when scrolled past 500px, allowing instant return to the top of the page.</li>
+<li><strong>Mobile Optimizations:</strong> Touch-optimized targets, horizontal mobile carousels, and responsive padding adjustments ensuring safe areas (e.g., iPhone notches) are respected on modern mobile browsers.</li>
+</ul>
+
+<section class="he-section" id="footer-design-layout">
+  <div class="he-section__num">03 · Footer Design &amp; Layout</div>
+  <h2 class="he-section__title">Footer Design &amp; Layout</h2><ul>
+<li><strong>Custom Grid Architecture:</strong> Features a heavily customized, responsive multi-column CSS grid.</li>
+<li><strong>Optical Cap-Height Alignment:</strong> Includes precise typographical adjustments—such as utilizing an 80px top margin on desktop non-primary columns—to ensure that small UI headings perfectly optical-align with the large branded typography and logos on wide screens.</li>
+</ul>
+
+<section class="he-section" id="interactive-elements">
+  <div class="he-section__num">04 · Interactive Elements</div>
+  <h2 class="he-section__title">Interactive Elements</h2><ul>
+<li><strong>Galleries &amp; Carousels:</strong> Visual showcases of workshop standards and infrastructure setups using drag-friendly carousels.</li>
+<li><strong>Animated Data Reveals:</strong> Smooth entrance animations (via <code>MotionProvider</code>) are applied to headings, statistics strips, and feature blocks as the user scrolls, creating a dynamic storytelling experience.</li>
+</ul>
+
+</main>
+
+<aside class="he-toc" aria-label="On this page">
+  <p class="he-toc__label">On this page</p>
+  <ul>
+    <li class="he-toc__l2"><a href="#branding-typography">Branding &amp; Typography</a></li>
+    <li class="he-toc__l2"><a href="#responsive-navigation-mobile-first-developments">Responsive Navigation &amp; Mobile-First Developments</a></li>
+    <li class="he-toc__l2"><a href="#footer-design-layout">Footer Design &amp; Layout</a></li>
+    <li class="he-toc__l2"><a href="#interactive-elements">Interactive Elements</a></li>
+  </ul>
+</aside>
+</div>
+<footer class="he-foot">
+  Source · <a href="./../">browse the markdown</a> · rebuild with <code>bun run docs:html</code>
+</footer>
+</div>
+</body>
+</html>
