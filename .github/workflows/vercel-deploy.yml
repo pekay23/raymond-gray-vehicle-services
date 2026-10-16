@@ -1,0 +1,17 @@
+﻿name: Vercel Deploy
+
+on:
+  workflow_run:
+    workflows: ['CI']
+    types:
+      - completed
+    branches: [main, preview]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    if: \$\{\{ github.event.workflow_run.conclusion == 'success' \}\}
+    steps:
+      - name: Deploy to Vercel
+        run: echo 'Deployment would proceed only if CI succeeded'
+

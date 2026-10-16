@@ -1,0 +1,1 @@
+﻿{"$schema":"https://docs.renovatebot.com/renovate-schema.json","extends":["config:base"],"labels":["dependencies"],"packageRules":[{"matchUpdateTypes":["minor","patch"],"automerge":false},{"matchUpdateTypes":["major"],"automerge":false,"dependencyDashboardApproval":true}],"prConcurrentLimit":3}
