@@ -42,3 +42,8 @@ next-env.d.ts
 
 # Local image backups — never deploy
 public/images/old section images/
+
+# Environment files
+.env.local
+.env
+.env.*.local
