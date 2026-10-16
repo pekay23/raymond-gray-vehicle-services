@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import localFont from "next/font/local";
 import { Montserrat } from "next/font/google";
 import "./globals.css";
+import "./security.css";
+import SecurityShield from "@/components/public/SecurityShield";
 import { TopNav } from "@/components/public/TopNav";
 import { Footer } from "@/components/Footer";
 import { ScrollProgress } from "@/components/public/ScrollProgress";
@@ -83,6 +85,7 @@ export default function RootLayout({
           Skip to main content
         </a>
         <MotionProvider>
+          <SecurityShield />
           <ScrollProgress />
           <TopNav />
           {children}
