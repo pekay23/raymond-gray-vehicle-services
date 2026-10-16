@@ -22,13 +22,12 @@ jobs:
         run: bun run --bun tsc --noEmit
       - name: Build
         run: bun run build
-      - name: Cache build artifacts
+      - name: Cache Next.js build output
         uses: actions/cache@v4
         with:
           path: |
             .next/cache
             .next/static
-          key: \$\{\{ runner.os \}\}-next-\$\{\{ hashFiles('bun.lockb', 'package.json') \}\}-\$\{\{ github.sha \}\}
+          key: ${{ runner.os }}-next-${{ hashFiles('bun.lock', 'package.json') }}-${{ github.sha }}
           restore-keys: |
-            \$\{\{ runner.os \}\}-next-\$\{\{ hashFiles('bun.lockb', 'package.json') \}\}-
-  
+            ${{ runner.os }}-next-${{ hashFiles('bun.lock', 'package.json') }}-
