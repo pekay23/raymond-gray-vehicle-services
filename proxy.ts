@@ -26,7 +26,7 @@ const SENSITIVE_PATHS = [
   "/next.config.ts",
   "/next.config.mjs",
   "/next.config.js",
-  "/middleware.ts",
+  "/proxy.ts",
   "/.next/",
   "/Dockerfile",
   "/docker-compose.yml",
@@ -37,7 +37,7 @@ const SENSITIVE_PATHS = [
 const isSensitivePath = (pathname: string) =>
   SENSITIVE_PATHS.some((p) => pathname === p || pathname.startsWith(p + "/"));
 
-export function middleware(request: NextRequest) {
+export function proxy(request: NextRequest) {
   const path = request.nextUrl.pathname;
 
   // Block sensitive files/config from being fetched directly.
