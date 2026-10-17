@@ -2,11 +2,11 @@ import type { NextConfig } from "next";
 
 const cspHeader = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://www.google-analytics.com",
-  "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+  "script-src 'self'",
+  "style-src 'self' https://fonts.googleapis.com",
   "img-src 'self' data: https: blob:",
   "font-src 'self' https://fonts.gstatic.com",
-  "connect-src 'self' https://www.raymond-gray.org https://www.google-analytics.com https://www.googletagmanager.com wss:",
+  "connect-src 'self' https://www.raymond-gray.org",
   "frame-ancestors 'none'",
   "base-uri 'self'",
   "form-action 'self'",

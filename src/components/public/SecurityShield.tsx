@@ -93,8 +93,8 @@ export default function SecurityShield() {
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         (console as any)[method] = noop;
       });
-      // Keep error so genuine crashes are still visible to the operator.
-      console.error = noop;
+      // console.error is intentionally NOT silenced so genuine crashes remain
+      // visible to the operator.
     }
 
     return () => {

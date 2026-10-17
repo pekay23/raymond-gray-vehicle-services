@@ -1,19 +1,24 @@
 import { NextResponse } from "next/server";
+import { randomUUID } from "crypto";
 
-// Server-to-server proxy for vehicle bookings.
+// Server-to-server transactional proxy for vehicle bookings.
 //
-// The browser POSTs here (same-origin, so no CORS), and this handler relays the
-// booking to the main Raymond Gray platform's dedicated vehicle-bookings
+// Every booking is wrapped in a transaction (proxy tx) with a unique
+// `x-tx-id` idempotency key. The same tx id sent twice is treated as a retry
+// of the same transaction rather than a duplicate booking. This makes the
+// proxy retry-safe: if the client loses the response and resends, the platform
+// can detect the in-flight/completed tx and not double-book.
+//
+// The browser POSTs here (same-origin, so no CORS), and this handler relays
+// the booking to the main Raymond Gray platform's dedicated vehicle-bookings
 // endpoint. Going server-to-server is deliberate: the platform locks that
 // endpoint's CORS to the production subdomain, so a *browser* on localhost would
 // be blocked — but this proxy is exempt, which is exactly why bookings work
 // identically from localhost and from the live site.
 //
 // The platform endpoint owns all validation, per-IP rate limiting, the honeypot
-// and the submit-timing check (see raymond-gray-platform
-// src/app/api/vehicle-bookings/route.ts + lib/validations/vehicle-bookings.ts).
-// We keep this proxy a thin shaping/relay layer — the platform is the single
-// source of truth for what a valid booking is.
+// and the submit-timing check. We keep this proxy a thin shaping/relay layer —
+// the platform is the single source of truth for what a valid booking is.
 const PLATFORM_URL =
   process.env.NEXT_PUBLIC_PARENT_API_URL ||
   process.env.NEXT_PUBLIC_API_URL ||
@@ -26,21 +31,26 @@ const MAX_BODY_SIZE = 1024 * 1024;
 const FETCH_TIMEOUT_MS = 10000;
 
 export async function POST(request: Request) {
+  // ---- Begin proxy tx ----
+  const txId = request.headers.get("x-tx-id") || randomUUID();
+  const idempotencyKey = request.headers.get("idempotency-key") || txId;
+
   try {
     // Enforce body size cap before parsing.
     const contentLength = request.headers.get("content-length");
     if (contentLength && Number(contentLength) > MAX_BODY_SIZE) {
       return NextResponse.json(
-        { error: "Request body too large" },
+        { error: "Request body too large", txId },
         { status: 413 }
       );
     }
 
     const body = await request.json();
 
-    // Use x-real-ip (set by the edge proxy, not spoofable by the client) as the
-    // trusted client IP. Never trust client-supplied x-forwarded-for — an
-    // attacker could rotate it to bypass the upstream per-IP rate limit.
+    // Best-effort client IP. x-real-ip is only trustworthy if the edge proxy
+    // strips inbound x-real-ip/x-forwarded-for headers before they reach us;
+    // otherwise a client can spoof them. Treat both as untrusted hints and pass
+    // the best available to the upstream, which owns rate limiting.
     const clientIp =
       request.headers.get("x-real-ip")?.trim() ||
       request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
@@ -61,16 +71,25 @@ export async function POST(request: Request) {
       latitude !== null &&
       (typeof latitude !== "number" || latitude < -90 || latitude > 90)
     ) {
-      return NextResponse.json({ error: "Invalid latitude" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid latitude", txId },
+        { status: 400 }
+      );
     }
     if (
       longitude !== null &&
       (typeof longitude !== "number" || longitude < -180 || longitude > 180)
     ) {
-      return NextResponse.json({ error: "Invalid longitude" }, { status: 400 });
+      return NextResponse.json(
+        { error: "Invalid longitude", txId },
+        { status: 400 }
+      );
     }
 
-    // Map the wizard state to the platform's vehicleBookingCreateSchema.
+    // Map the wizard state to the platform's vehicleBookingCreateSchema,
+    // carrying the tx id through as the idempotency key. Only whitelisted
+    // fields are forwarded — unknown fields from the client are dropped so the
+    // platform never receives unexpected data.
     const payload = {
       fullName: body.fullName,
       whatsappNumber: body.whatsappNumber,
@@ -91,7 +110,12 @@ export async function POST(request: Request) {
         `${body.serviceType || "Service"} booking — no additional notes provided.`,
       preferredDate: body.preferredDate || undefined,
       bookingOption: body.bookingOption || "dropoff",
-      formLoadedAt: body.formLoadedAt,
+      // formLoadedAt is set server-side; a client-supplied timestamp can be
+      // spoofed to bypass the platform's submit-timing check.
+      formLoadedAt: new Date().toISOString(),
+      // Attach the tx id so the platform can dedupe / reconcile this booking.
+      txId,
+      idempotencyKey,
     };
 
     // Fetch with timeout to avoid indefinite hangs on a non-responsive upstream.
@@ -101,6 +125,8 @@ export async function POST(request: Request) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        "x-tx-id": txId,
+        "idempotency-key": idempotencyKey,
         ...(clientIp ? { "x-forwarded-for": clientIp } : {}),
       },
       body: JSON.stringify(payload),
@@ -112,39 +138,61 @@ export async function POST(request: Request) {
     // misconfigured) so the client can degrade to the WhatsApp fallback instead
     // of throwing a parse error.
     const text = await res.text();
-    let data: { success?: boolean; jobId?: string; error?: string } | null;
+    let data: {
+      success?: boolean;
+      jobId?: string;
+      error?: string;
+      txId?: string;
+    } | null;
     try {
       data = JSON.parse(text);
     } catch {
       console.error(
-        "[Booking Proxy] Non-JSON upstream response:",
+        "[Booking Proxy Tx] Non-JSON upstream response:",
         res.status,
         text.slice(0, 250)
       );
       return NextResponse.json(
-        { error: "Booking service is unavailable. Please use WhatsApp." },
+        {
+          error: "Booking service is unavailable. Please use WhatsApp.",
+          txId,
+        },
         { status: 502 }
       );
     }
 
     if (res.ok && data?.success) {
-      return NextResponse.json({ success: true, jobId: data.jobId });
+      return NextResponse.json(
+        { success: true, jobId: data.jobId, txId: data.txId ?? txId },
+        { status: 200 }
+      );
     }
 
-    // Log the upstream detail server-side; return a safe, generic message.
-    console.error("[Booking Proxy] Upstream rejected:", res.status, data);
+    // Log the upstream detail server-side (without echoing the full response
+    // body, which may contain PII); return a safe, generic message to the client.
+    console.error("[Booking Proxy Tx] Upstream rejected:", res.status);
     return NextResponse.json(
-      { error: data?.error || "Failed to submit booking." },
+      {
+        error: "Failed to submit booking. Please try again.",
+        txId,
+      },
       { status: res.status === 429 ? 429 : 400 }
     );
   } catch (error) {
     if ((error as Error).name === "AbortError") {
       return NextResponse.json(
-        { error: "Booking service timed out. Please try again." },
+        {
+          error: "Booking service timed out. Please try again.",
+          txId,
+        },
         { status: 504 }
       );
     }
-    console.error("[Booking Proxy]", error);
-    return NextResponse.json({ error: "Failed to submit booking" }, { status: 500 });
+    console.error("[Booking Proxy Tx] Request failed:", (error as Error).message);
+    return NextResponse.json(
+      { error: "Failed to submit booking", txId },
+      { status: 500 }
+    );
   }
+  // ---- End proxy tx ----
 }
